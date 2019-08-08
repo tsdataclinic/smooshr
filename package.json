@@ -3,15 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@inlet/react-pixi": "^1.0.2",
+    "@reach/router": "^1.2.1",
+    "@rehooks/component-size": "^1.0.3",
+    "@storybook/addon-knobs": "^5.1.9",
+    "clusterfck": "^1.0.0",
+    "faker": "^4.1.0",
+    "fast-levenshtein": "^2.0.6",
+    "ml": "^4.0.0",
+    "natural": "^0.6.3",
+    "node-kmeans": "^1.1.9",
+    "papaparse": "^5.0.1",
     "react": "^16.8.6",
+    "react-data-grid": "^6.1.0",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-dropzone": "^10.1.7",
+    "react-modal": "^3.9.1",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "resize-observer-polyfill": "^1.5.1",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +46,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^5.1.9",
+    "@storybook/addon-links": "^5.1.9",
+    "@storybook/addons": "^5.1.9",
+    "@storybook/react": "^5.1.9"
   }
 }
