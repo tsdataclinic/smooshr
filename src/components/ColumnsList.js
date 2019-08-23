@@ -8,10 +8,10 @@ export default function ColumnList({match}) {
   const columnsForDataset = columns.filter(c => c.dataset_id === datasetID)
 
   return (
-    <React.Fragment>
+    <div style={{display:'flex', flexDirection:'column', height:'100%'}}>
       <h2>Columns list</h2>
       {columnsForDataset && (
-        <ul>
+        <ul style={{flex:1}}>
             {columnsForDataset.filter(c=>c.focusCol).map(column => (
             <Link to={`/dataset/${datasetID}/column/${column.id}`}>
               <li>
@@ -21,6 +21,7 @@ export default function ColumnList({match}) {
           ))}
         </ul>
       )}
-    </React.Fragment>
+      <Link to={`/dataset/${datasetID}`}><p>Back to dataset</p></Link>
+  </div>
   );
 }
