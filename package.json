@@ -7,9 +7,12 @@
     "@reach/router": "^1.2.1",
     "@rehooks/component-size": "^1.0.3",
     "@storybook/addon-knobs": "^5.1.9",
+    "@tensorflow/tfjs-core": "0.14.1",
+    "@tensorflow/tfjs-tsne": "^0.2.0",
     "clusterfck": "^1.0.0",
     "faker": "^4.1.0",
     "fast-levenshtein": "^2.0.6",
+    "file-saver": "^2.0.2",
     "ml": "^4.0.0",
     "natural": "^0.6.3",
     "node-kmeans": "^1.1.9",
@@ -21,7 +24,10 @@
     "react-modal": "^3.9.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-use-fuse": "^0.5.2",
+    "react-vis": "^1.11.7",
     "resize-observer-polyfill": "^1.5.1",
+    "streamsaver": "^2.0.3",
     "uuid": "^3.3.2"
   },
   "scripts": {

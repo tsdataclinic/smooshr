@@ -8,6 +8,7 @@ const initalState = {
   entries: [],
   mappings: [],
   showUploadModal: false,
+  showApplyMappingsModal: false,
   cache_loaded: false,
 };
 
@@ -20,8 +21,14 @@ const reducer = (state, action) => {
     case 'SHOW_UPLOAD_MODAL':
       return {...state, showUploadModal: true};
 
+    case 'SHOW_APPLY_MAPPINGS_MODAL':
+      return {...state, showApplyMappingsModal: true};
+
     case 'HIDE_UPLOAD_MODAL':
       return {...state, showUploadModal: false};
+
+    case 'HIDE_APPLY_MAPPINGS_MODAL':
+      return {...state, showApplyMappingsModal: false};
 
     case 'ADD_DATASETS':
       return {...state, datasets: [...state.datasets, ...action.payload]};
@@ -35,7 +42,7 @@ const reducer = (state, action) => {
 
     case 'ADD_COLUMNS':
       return {...state, columns: [...state.columns, ...action.payload]};
-      
+
     case 'REMOVE COLUMN':
       return {
         ...state,
@@ -50,10 +57,10 @@ const reducer = (state, action) => {
         ...state,
         entries: state.entries.filter(e => e.id !== action.payload),
       };
-      
+
     case 'ADD_MAPPINGS':
       return {...state, mappings: [...state.mappings, ...action.payload]};
-      
+
     case 'REMOVE MAPPING':
       return {
         ...state,
@@ -128,3 +135,12 @@ export const StateProvider = ({children}) => {
   );
 };
 export const useStateValue = () => useContext(StateContext);
+
+export const useDataset= (datasetID) =>{
+   const [state, dispatch] = useStateValue()
+   const dataset = state.datasets.find(d=>d.id === datasetID)
+   const columns= state.columns.filter(d=>d.dataset_id === datasetID)
+   const columnIDs = columns.map(c=>c.id)
+   const mappings = state.mappings.filter((m)=> columnIDs.includes(m.columnID))
+   return {dataset,columns,mappings}
+}
