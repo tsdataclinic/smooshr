@@ -9,14 +9,13 @@ export default function FileLoader(props) {
   const [columnSelections, setColumnSelections] = useState([]);
   const {onClose} = props;
 
-
   const onDrop = useCallback(files => {
     if (files.every(file => file.name.split('.').includes('csv'))) {
       setFilesPreview(files);
       setColumnSelections({...columnSelections, [files[0].name]: {}});
       setError(null);
     } else {
-      setError('Soem files are not CSVs, We only support CSVs for now');
+      setError('Some files are not CSVs, We only support CSVs for now');
     }
   });
 
@@ -24,11 +23,9 @@ export default function FileLoader(props) {
 
   return filesPreview ? (
     <div>
-      {filesPreview.map(file => 
-        <FileSnapshot
-          file= {file} 
-        />
-      )}
+      {filesPreview.map(file => (
+        <FileSnapshot file={file} />
+      ))}
     </div>
   ) : (
     <div className="fileUploader">
