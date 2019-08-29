@@ -1,4 +1,5 @@
 import React, {createContext, useContext, useReducer, useEffect} from 'react';
+const uuidv1 = require('uuid/v1');
 
 export const StateContext = createContext();
 
@@ -6,7 +7,9 @@ const initalState = {
   datasets: [],
   columns: [],
   entries: [],
+  projects: [],
   mappings: [],
+  col_mappings: [],
   showUploadModal: false,
   showApplyMappingsModal: false,
   cache_loaded: false,
@@ -17,18 +20,6 @@ const reducer = (state, action) => {
 
     case 'LOAD_CACHED_STATE':
       return action.payload;
-
-    case 'SHOW_UPLOAD_MODAL':
-      return {...state, showUploadModal: true};
-
-    case 'SHOW_APPLY_MAPPINGS_MODAL':
-      return {...state, showApplyMappingsModal: true};
-
-    case 'HIDE_UPLOAD_MODAL':
-      return {...state, showUploadModal: false};
-
-    case 'HIDE_APPLY_MAPPINGS_MODAL':
-      return {...state, showApplyMappingsModal: false};
 
     case 'ADD_DATASETS':
       return {...state, datasets: [...state.datasets, ...action.payload]};
@@ -72,6 +63,27 @@ const reducer = (state, action) => {
       return{
         ...state,
         mappings: [...state.mappings, action.payload]
+      }
+
+    case "ADD_PROJECT":
+      return{
+        ...state,
+        projects: [...state.projects, {id: uuidv1() ,  ...action.payload}]
+      }
+
+    case 'REMOVE_PROJECT':
+      return {
+        ...state,
+        projects: state.mappings.filter(p => p.id !== action.payload),
+      };
+
+    case "UPDATE_PROJECT":
+      return{
+        ...state,
+        projects: state.projects.map((p)=> p.id == action.payload.id ? 
+        {...p,...action.payload} :
+        p
+        ) 
       }
 
     case "ADD ENTRY TO MAPPING":
@@ -135,6 +147,21 @@ export const StateProvider = ({children}) => {
   );
 };
 export const useStateValue = () => useContext(StateContext);
+
+export const useProject= (projectID)=>{
+   const [state,dispatch] = useStateValue()
+   const project = state.projects.find(p=>p.id===projectID) 
+   const datasets = state.datasets.filter(d=>d.project_id === projectID)
+   return {project,datasets}
+}
+
+export const useColumn = (columnID)=>{
+   const [state, dispatch] = useStateValue()
+   const column= state.columns.find(c=>c.id === columnID)
+   const entries = state.entries.filter(e=>e.column_id == columnID)
+   const mappings = state.mappings.filter(m=>m.columnID === columnID)
+   return {column,entries,mappings} 
+}
 
 export const useDataset= (datasetID) =>{
    const [state, dispatch] = useStateValue()
