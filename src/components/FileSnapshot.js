@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useMemo} from 'react';
 import {parse_file_for_preview} from '../utils/file_parsing';
-import {useStateValue } from '../contexts/app_context';
+import {useStateValue} from '../contexts/app_context';
 
-export default function FileSnapshot({file}) {
+export default function FileSnapshot({file, onAddDataset}) {
   const [columns, setColumns] = useState([]);
   const [dataset, setDataset] = useState([]);
   const [entries, setEntries] = useState([]);
@@ -13,23 +13,13 @@ export default function FileSnapshot({file}) {
   const [_, dispatch] = useStateValue();
 
   const submit = () => {
-    dispatch({
-      type: 'ADD_DATASETS',
-      payload: [dataset],
-    });
+    const cols = columns.map(c => ({
+      ...c,
+      focusCol: includedCols.includes(c.id),
+    }));
+    const ents = entries.filter(e => includedCols.includes(e.column_id));
 
-    dispatch({
-      type: 'ADD_COLUMNS',
-      payload: columns.map(c => ({
-        ...c,
-        focusCol: includedCols.includes(c.id),
-      })),
-    });
-
-    dispatch({
-      type: 'ADD_ENTRIES',
-      payload: entries.filter(e => includedCols.includes(e.column_id)),
-    });
+    onAddDataset(dataset, cols, ents);
 
     setStatus('saved');
   };
@@ -60,8 +50,7 @@ export default function FileSnapshot({file}) {
     [entries, columns],
   );
 
-
-  console.log("display Entries ", displayEntries)
+  console.log('display Entries ', displayEntries);
 
   useEffect(() => {
     parse_file_for_preview(file, no_parsed => setProgress(no_parsed)).then(
@@ -108,9 +97,14 @@ export default function FileSnapshot({file}) {
             ))}
           </ul>
 
-          <div style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
-              <button onClick={submit}>Load</button>
-              <button onClick={skip}>Skip</button>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+            }}>
+            <button onClick={submit}>Load</button>
+            <button onClick={skip}>Skip</button>
           </div>
         </React.Fragment>
       )}

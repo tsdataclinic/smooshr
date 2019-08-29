@@ -1,27 +1,39 @@
-import React from 'react'
-import ReactModal from 'react-modal'
-import FileLoader from './FileLoader'
+import React from 'react';
+import ReactModal from 'react-modal';
+import FileLoader from './FileLoader';
+import {useStateValue} from '../contexts/app_context';
 
-export default function UploadModal({visible, onClose, onDatasets, onGotDatasets}){
+export default function UploadModal({match, history}) {
+  const {projectID} = match.params;
+  const onClose = () => history.goBack();
+  const [_, dispatch]= useStateValue();
 
-  const addDatasetsToStore = (datasets)=>{
-    console.log('datasets', datasets)
-  }
+  const addDatasetToStore = (newDataset,columns,entries) => {
 
-  return(
-     <ReactModal
-         isOpen={visible}
-         onRequestClose= {onClose}
-     >
-         <FileLoader 
-            onSubmit={fileDeffs=>{
-                console.log('File deffs are ',fileDeffs)
-                onClose();
-                onGotDatasets(addDatasetsToStore);
-         }} 
-            onCancel ={onClose}
-         />
+    dispatch({
+      type: 'ADD_DATASETS',
+      payload: [{...newDataset,project_id: projectID}],
+    });
 
-     </ReactModal>
-  )
+    dispatch({
+      type: 'ADD_COLUMNS',
+      payload: columns
+    });
+
+    dispatch({
+      type: 'ADD_ENTRIES',
+      payload: entries,
+    });
+
+    onClose();
+  };
+
+  return (
+    <ReactModal isOpen={true} onRequestClose={onClose}>
+      <FileLoader
+        onAddDataset= {addDatasetToStore}
+        onClose={onClose}
+      />
+    </ReactModal>
+  );
 }

@@ -24,7 +24,7 @@ export default function FileLoader(props) {
   return filesPreview ? (
     <div>
       {filesPreview.map(file => (
-        <FileSnapshot file={file} />
+        <FileSnapshot file={file} onAddDataset={props.onAddDataset} />
       ))}
     </div>
   ) : (
