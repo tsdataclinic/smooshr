@@ -9,14 +9,16 @@ export default function AutoClusterModal({match, history}) {
   const {columnID} = match.params;
   const onClose = () => history.goBack();
   const [mappings, setMappings] = useState([]);
+  const [clusters, setClusters] = useState([]);
 
   const [noClusters, setNoClusters] = useState(10);
 
   const {column, entries} = useColumn(columnID);
 
   const calcCategories = () => {
-    calc_embedings(entries).then(result => {
-       console.log('getting embedings ', result)
+    calc_embedings(entries).then(embeds => {
+      const clusters = calcEmbedingClusters(embeds, noClusters);
+      setClusters(clusters);
     });
   };
 
@@ -60,7 +62,19 @@ export default function AutoClusterModal({match, history}) {
           />
         )}
       />
-
+      {clusters.length > 0 &&
+        [...Array(noClusters)].map((_, i) => (
+          <div key={i}>
+            <h3>Cluster {i+1}</h3>
+            <p>
+              {' '}
+              {clusters
+                .filter(c => c.cluster === i)
+                .map(c => c.entry)
+                .join(', ')}
+            </p>
+          </div>
+        ))}
       <button onClick={calcCategories}>Calc categories</button>
     </ReactModal>
   );

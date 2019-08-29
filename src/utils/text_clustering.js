@@ -10,14 +10,17 @@ export const suggestForMapping = (mapping, entries) => {
     entries.forEach(entry => {
       const cacheKey = [mapping_entry, entry.name].join('_');
 
-      if( !mapping.includes(entry)  ){
-          if (cacheSimilarities[cacheKey]) {
-            res.push({suggestion: entry.name, score: cacheSimilarities[cacheKey]});
-          } else {
-            const dist = lev.get(mapping_entry, entry.name);
-            cacheSimilarities[cacheKey] = dist;
-            res.push({suggestion: entry.name, score: dist});
-          }
+      if (!mapping.includes(entry)) {
+        if (cacheSimilarities[cacheKey]) {
+          res.push({
+            suggestion: entry.name,
+            score: cacheSimilarities[cacheKey],
+          });
+        } else {
+          const dist = lev.get(mapping_entry, entry.name);
+          cacheSimilarities[cacheKey] = dist;
+          res.push({suggestion: entry.name, score: dist});
+        }
       }
     });
   });
@@ -56,10 +59,15 @@ export const guessGroupingsLevenshteinKNN = (entries, no) => {
   return result;
 };
 
+export const calcEmbedingClusters = (embedings, noClusters) => {
+  const coords = embedings.map(e =>
+    e.embed.length === 300 ? e.embed : [...Array(300)].map(a => 0),
+  );
+  let result = KMeans(coords, noClusters);
 
-export const calcEmbedingClusters = (embedings, noClusters)=>{
-
-}
+  result = embedings.map((e, i) => ({...e, cluster: result.clusters[i]}));
+  return result;
+};
 
 export const guessGroupingsLevenshteinHClust = entries => {
   const validEntries = entries.filter(e => e !== 'undefined');
