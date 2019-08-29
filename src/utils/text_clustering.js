@@ -56,6 +56,11 @@ export const guessGroupingsLevenshteinKNN = (entries, no) => {
   return result;
 };
 
+
+export const calcEmbedingClusters = (embedings, noClusters)=>{
+
+}
+
 export const guessGroupingsLevenshteinHClust = entries => {
   const validEntries = entries.filter(e => e !== 'undefined');
   let ans = agnes(validEntries.map((a, i) => [i]), {
