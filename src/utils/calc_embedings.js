@@ -12,7 +12,7 @@ const get_embedings_from_server = entries => {
   return Promise.all(
     Array.from(unique_words).map(entry =>
       fetch(
-        `http://localhost:5000/word2vec/model?word=${entry
+        `http://localhost:5001/word2vec/model?word=${entry
           .toLowerCase()
           .replace(/[\W_]+/g, '')}`,
       ).then(r => r.json()),
@@ -53,7 +53,7 @@ export const most_similar_to_category_mean = (entries, search_entries, embedding
 
   const distances = search_entries.map(entry => {
     const embeding = embeddings.find(e => e.entry == entry.name).embed
-    const dist = vec_dist2(embeding, mean);
+    const dist = vec_dist2(norm_vec(embeding), mean);
     return {suggestion: entry.name, dist: dist};
   });
 
