@@ -6,6 +6,8 @@ import TSNEPlot from '../components/TSNEPlot';
 import {suggestForMapping} from '../utils/text_clustering';
 import {calc_embedings, tsne_coords, most_similar_to_category_mean} from '../utils/calc_embedings';
 import useFuse from 'react-use-fuse';
+import {Link} from 'react-router-dom'
+
 const uuidv1 = require('uuid/v1');
 
 export default function ColumnPage({match}) {
@@ -22,7 +24,7 @@ export default function ColumnPage({match}) {
   const [hideMapped, setHideMapped] = useState(true);
   const [activeMappingID, setActiveMappingID] = useState(null);
 
-  const {datasetID, columnID} = match.params;
+  const {projectID,datasetID, columnID} = match.params;
   const dataset = datasets.find(d => d.id === datasetID);
   const column = columns.find(c => c.id === columnID);
 
@@ -137,7 +139,6 @@ export default function ColumnPage({match}) {
       },
     });
   };
-  console.log('selection is ', selection);
 
   const inMappings = mappingsForColumn.reduce(
     (r, map) => r + map.entries.length,
@@ -154,7 +155,7 @@ export default function ColumnPage({match}) {
       <div classname="entites" style={{flex: 1}}>
         <h3 style={{marginBottom: '20px'}}>
           Entries for {column.name}. You have mapped of {inMappings} of{' '}
-          {entriesForColumn.length} entries
+          {entriesForColumnAll.length} entries. 
         </h3>
         <div className="search">
           <input
@@ -190,6 +191,10 @@ export default function ColumnPage({match}) {
         <h2>Mappings</h2>
         <div className="buttons">
           <button onClick={calcEmbedings}> Calc Embedings</button>
+          <Link to={`/project/${projectID}/dataset/${datasetID}/column/${columnID}/guess_categories`}
+          >
+            <button> Guess Clusters</button>
+          </Link>
           <button
             onClick={() => addEntitiesToMapping(selection, activeMappingID)}>
             Add Selection To Mapping

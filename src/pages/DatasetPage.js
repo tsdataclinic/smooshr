@@ -3,7 +3,7 @@ import TablePreview from '../components/TablePreview';
 import EmbedingsViz from '../components/EmbedingsViz';
 import ColumnInfo from '../components/ColumnInfo';
 import {useStateValue} from '../contexts/app_context';
-import {saveMappingsJSON, saveMappingsCSV} from '../utils/file_parsing';
+import SideList from '../components/SideList'
 import {Link} from 'react-router-dom';
 
 export default function DatasetPage({match}) {
@@ -23,26 +23,31 @@ export default function DatasetPage({match}) {
             justifyContent: 'space-around',
             marginTop: '20px',
           }}>
-          <button
-            onClick={() =>
-              saveMappingsJSON(columns, mappings, dataset.name + '.json')
-            }>
-            Export mappings as JSON
-          </button>
-          <button
-            onClick={() =>
-              saveMappingsCSV(columns, mappings, dataset.name + '.csv')
-            }>
-            Export mappings as CSV
-          </button>
-          <button>Export mapped data</button>
-          <Link to={`/dataset/${datasetID}/apply`}>
-            <button>Apply mapping to file</button>
-          </Link>
         </div>
       </div>
     </React.Fragment>
   ) : (
     <h2>Could not find dataset</h2>
+  );
+}
+
+export function DatasetPageSidebar({match}){
+
+  const {projectID, datasetID, columnID} = match.params;
+  const [{datasets, columns}, dispatch] = useStateValue();
+  const columnsForDataset = columns.filter(c => c.dataset_id === datasetID)
+
+  return (
+    <SideList 
+        title ={'Columns'}
+        entries = 
+            {columnsForDataset.filter(c=>c.focusCol).map(column => (
+            <Link to={`/project/${projectID}/dataset/${datasetID}/column/${column.id}`}>
+                {column.name} ({column.unique})
+            </Link>
+          ))}
+        actionPrompt={'Back to project'}
+        actionLink = {`/project/${projectID}`}
+    /> 
   );
 }

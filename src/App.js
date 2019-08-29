@@ -1,22 +1,22 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
-import DatasetPicker from './components/DatasetPicker';
+import SideList from './components/SideList';
 import UploadModal from './components/UploadModal';
+import ProjectModal from './components/ProjectModal';
 import ShowApplyMappingsModal from './components/ApplyMappingsModal';
-import ColumnsList from './components/ColumnsList';
-import DatasetPage from './pages/DatasetPage';
+import AutoClusterModal from './components/AutoClusterModal';
+import DatasetPage, {DatasetPageSidebar} from './pages/DatasetPage';
 import ColumnPage from './pages/ColumnPage';
 import WelcomePage from './pages/WelcomePage';
+import ProjectPage, {ProjectPageSidebar} from './pages/ProjectPage';
+
 import {useStateValue} from './contexts/app_context';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 
 import './App.css';
 
 function App() {
-  const [
-    {datasets, showUploadModal, showApplyMappingsModal},
-    dispatch,
-  ] = useStateValue();
+  const [{projects}, dispatch] = useStateValue();
 
   return (
     <Router>
@@ -31,13 +31,18 @@ function App() {
 
         <div className="main">
           <Route
-            path="/dataset/:datasetID"
+            path="/project/:projectID/dataset/:datasetID"
             exact={true}
             component={DatasetPage}
           />
           <Route
-            path="/dataset/:datasetID/column/:columnID"
+              path="/project/:projectID/dataset/:datasetID/column/:columnID"
             component={ColumnPage}
+          />
+          <Route
+            path="/project/:projectID"
+            exact={true}
+            component={ProjectPage}
           />
           <Route path="/" exact={true} component={WelcomePage} />
         </div>
@@ -47,34 +52,43 @@ function App() {
             path="/"
             exact={true}
             render={() => (
-              <DatasetPicker
-                datasets={datasets}
-                onShowUploadModal={() => dispatch({type: 'SHOW_UPLOAD_MODAL'})}
+              <SideList
+                entries={projects.map(project => (
+                  <Link to={`/project/${project.id}`}>{project.name}</Link>
+                ))}
+                actionPrompt="New Project"
+                actionLink="/new_project"
+                title="Projects"
               />
             )}
           />
 
-          <Route path="/dataset/:datasetID" component={ColumnsList} />
+          <Route
+            path="/project/:projectID/dataset/:datasetID"
+            exact={true}
+            component={DatasetPageSidebar}
+          />
+          <Route path="/project/:projectID" component={ProjectPageSidebar} />
         </div>
 
         <footer className="footer">
           <h3>Footer</h3>
         </footer>
 
-        <UploadModal
-          visible={showUploadModal}
-          onClose={() => dispatch({type: 'HIDE_UPLOAD_MODAL'})}
-          onGotDatasets={newDatasets =>
-            dispatch({
-              type: 'ADD_DATASETS',
-              payload: [newDatasets],
-            })
-          }
+        <Route path="/new_project" component={ProjectModal} />
+
+        <Route
+          path="/project/:projectID/add_datasets"
+          component={UploadModal}
         />
 
         <Route
           path="/dataset/:datasetID/apply"
           component={ShowApplyMappingsModal}
+        />
+        <Route
+            path="/project/:projectID/dataset/:datasetID/column/:columnID/guess_categories"
+          component={AutoClusterModal}
         />
       </div>
     </Router>
