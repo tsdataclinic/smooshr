@@ -38,9 +38,11 @@
   box-sizing: border-box;
 }
 
-.sidenav .dataset_picker{
-  display: flex;
-  flex-direction: column;
+
+.sidenav .sidebarlist{
+  display:flex;
+  flex-direction:column;
+  height:100%;
 }
 
 .sidenav a {
