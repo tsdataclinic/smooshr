@@ -12,6 +12,9 @@ services:
      - "5001:500"
     depends_on:
       - redis
+      - postgres
+    networks:
+      - smoosher
   worker:
     build:
       context: workers 
@@ -20,6 +23,8 @@ services:
       - ./workers:/queue
     depends_on:
       - redis
+    networks:
+      - smoosher
   monitor:
     build:
       context: workers
@@ -30,7 +35,23 @@ services:
     command:  -A tasks --port=5555 --broker=redis://redis:6379/0
     depends_on:
       - redis
+    networks:
+      - smoosher
+  postgres:
+    image: postgres
+    networks:
+      - smoosher
+    environment:
+      - POSTGRES_USER="smoosher"
+      - POSTGRES_PASSWORD="smoosher"
+      - POSTGRES_DB="smoosher"
+
+    
   redis:
     image: redis
     volumes: 
       - ./redis_data:/data
+    networks:
+      - smoosher
+networks:
+  smoosher:
