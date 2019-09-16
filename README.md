@@ -22,6 +22,15 @@ yarn
 
 This will install all of the javascript packages requried to run the application 
 
+Setup
+-----
+
+To load the embeding data in to the database run 
+
+```bash
+docker-compose run api load_data_into_postgres.py
+```
+
 Running
 -------
 

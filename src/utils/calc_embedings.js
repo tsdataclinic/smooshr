@@ -1,6 +1,8 @@
 import * as tsne from '@tensorflow/tfjs-tsne';
 import * as tf from '@tensorflow/tfjs-core';
 
+
+
 const get_embedings_from_server = entries => {
   let unique_words = new Set();
   entries.forEach(entry => {
@@ -12,12 +14,12 @@ const get_embedings_from_server = entries => {
   return Promise.all(
     Array.from(unique_words).map(entry =>
       fetch(
-        `http://localhost:5001/word2vec/model?word=${entry
+        `http://localhost:5000/embedding/${entry
           .toLowerCase()
           .replace(/[\W_]+/g, '')}`,
-      ).then(r => r.json()),
-    ),
-  );
+      ).then(r => r.json())
+      .then(r=>r[0])
+   ))
 };
 
 const vec_mag = vec => Math.sqrt(vec.reduce((mag, v) => mag + v * v, 0));
@@ -67,11 +69,14 @@ const combined_word_embedings_for_entry = (
   norm = false,
 ) =>
   entry.name.split(' ').reduce((full_embed, word) => {
-    const word_embed = word_embedings.find(
-      we => we.word == word.toLocaleLowerCase(),
+  
+    const word_embed = word_embedings.filter(embed=> embed).find(
+      we => we.key == word.toLocaleLowerCase(),
     );
+
+    console.log('word emebed is ', word_embed)
     if (word_embed) {
-      let rep = word_embed.rep;
+      let rep = word_embed.embedding;
       if (norm) {
         rep = norm_vec(rep);
       }
