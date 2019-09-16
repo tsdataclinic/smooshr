@@ -11,12 +11,18 @@ db = SQLAlchemy(app)
 def hello():
     return "Use me to get embedings!!!!!!"
 
+@app.route('/embedding/')
+def empty_embed():
+    return jsonify([])
+
 @app.route('/embedding/<words>')
 def embeding(words):
-    fmt_words = ','.join(["'{}'".format(word) for word in words.split(',')])
-    result = db.engine.execute("select * from embeddings where key in ({}) ".format(fmt_words))
-    return jsonify([dict(row) for row in result]) 
-
+    try:
+        fmt_words = ','.join(["'{}'".format(word) for word in words.split(',')])
+        result = db.engine.execute("select * from embeddings where key in ({}) ".format(fmt_words))
+        return jsonify([dict(row) for row in result]) 
+    except:
+        return jsonify([])
 if __name__=='__main__':
     print('starting up server')
     app.run(host='0.0.0.0', port=5000, debug=True)
