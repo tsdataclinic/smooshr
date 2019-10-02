@@ -1,8 +1,6 @@
 import * as tsne from '@tensorflow/tfjs-tsne';
 import * as tf from '@tensorflow/tfjs-core';
 
-
-
 const get_embedings_from_server = entries => {
   let unique_words = new Set();
   entries.forEach(entry => {
@@ -17,9 +15,11 @@ const get_embedings_from_server = entries => {
         `http://localhost:5000/embedding/${entry
           .toLowerCase()
           .replace(/[\W_]+/g, '')}`,
-      ).then(r => r.json())
-      .then(r=>r[0])
-   ))
+      )
+        .then(r => r.json())
+        .then(r => r[0]),
+    ),
+  );
 };
 
 const vec_mag = vec => Math.sqrt(vec.reduce((mag, v) => mag + v * v, 0));
@@ -29,17 +29,27 @@ const norm_vec = vec => {
   return vec.map(v => v / mag);
 };
 
-const category_mean = (entries, embeddings) => {
+const category_mean = (entries, negativeEntries, embeddings) => {
   const entry_embeddings = entries
     .map(entry => embeddings.find(emb => entry === emb.entry))
-    .filter(a => a);
+    .filter(a => a)
+    .map(embed => [embed.embed, 1]);
 
-  const total_vec = entry_embeddings.reduce((total, embed) => {
-    const vec = embed.embed;
+  const negative_embeddings = negativeEntries
+    .map(entry => embeddings.find(emb => entry === emb.entry))
+    .filter(a => a)
+    .map(embed => [embed.embed, -1]);
+
+  const all_entry_contributions = entry_embeddings.concat(negative_embeddings);
+
+  const total_vec = all_entry_contributions.reduce((total, embed) => {
+    const weight = embed[1];
+    const vec = embed[0].map(v => v * weight);
+
     if (total.length == 0) {
       total = vec;
     } else {
-      total = vec.map((v, i) => v + vec[i]);
+      total = vec.map((v, i) => v + total[i]);
     }
     return total;
   }, []);
@@ -50,17 +60,25 @@ const category_mean = (entries, embeddings) => {
 const vec_dist2 = (v1, v2) =>
   v1.reduce((total, v, index) => total + (v - v2[index]) * (v - v2[index]), 0);
 
-export const most_similar_to_category_mean = (entries, search_entries, embeddings) => {
-  const mean = category_mean(entries, embeddings);
+export const most_similar_to_category_mean = (
+  entries,
+  negativeEntries,
+  search_entries,
+  embeddings,
+) => {
+  const mean = category_mean(entries, negativeEntries, embeddings);
 
   const distances = search_entries.map(entry => {
-    const embeding = embeddings.find(e => e.entry == entry.name).embed
+    const embeding = embeddings.find(e => e.entry == entry.name).embed;
     const dist = vec_dist2(norm_vec(embeding), mean);
     return {suggestion: entry.name, dist: dist};
   });
-
-
-  return distances.filter(a=> a.dist > 0).sort((a, b) => (a.dist > b.dist ? 1 : -1)).slice(0, 5);
+  return distances
+    .filter(a => a.dist > 0)
+    .filter(a => !entries.includes(a.suggestion))
+    .filter(a => !negativeEntries.includes(a.suggestion))
+    .sort((a, b) => (a.dist > b.dist ? 1 : -1))
+    .slice(0, 8);
 };
 
 const combined_word_embedings_for_entry = (
@@ -69,12 +87,11 @@ const combined_word_embedings_for_entry = (
   norm = false,
 ) =>
   entry.name.split(' ').reduce((full_embed, word) => {
-  
-    const word_embed = word_embedings.filter(embed=> embed).find(
-      we => we.key == word.toLocaleLowerCase(),
-    );
+    const word_embed = word_embedings
+      .filter(embed => embed)
+      .find(we => we.key == word.toLocaleLowerCase());
 
-    console.log('word emebed is ', word_embed)
+    console.log('word emebed is ', word_embed);
     if (word_embed) {
       let rep = word_embed.embedding;
       if (norm) {
