@@ -1,14 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactModal from 'react-modal';
 import FileLoader from './FileLoader';
 import {useStateValue} from '../contexts/app_context';
+const uuidv1 = require('uuid/v1');
+
 
 export default function UploadModal({match, history}) {
   const {projectID} = match.params;
   const onClose = () => history.goBack();
   const [_, dispatch]= useStateValue();
 
+  const [selectedTab, setSelectedTab] = useState('file')
+
   const addDatasetToStore = (newDataset,columns,entries) => {
+
+    const meta_columns = columns.filter(c=>c.focusCol).map((column)=>({
+      columns: [column.id],
+      name: column.name,
+      description: '',
+      project_id: projectID,
+      id: uuidv1()
+    }))
 
     dispatch({
       type: 'ADD_DATASETS',
@@ -24,6 +36,11 @@ export default function UploadModal({match, history}) {
       type: 'ADD_ENTRIES',
       payload: entries,
     });
+
+    dispatch({
+      type: 'ADD_META_COLUMNS',
+      payload: meta_columns
+    })
 
     onClose();
   };
