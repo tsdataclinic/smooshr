@@ -41,6 +41,14 @@ yarn start
 ```
 This should start a server on http://localhost:3000
 
+To run the embeddings / proxy server, you need to also run 
+
+``` 
+docker-compose up
+```
+
+from the server directory.
+
 You can also run the storybook server to inspect individual components using 
 
 ```bash
@@ -55,6 +63,7 @@ Data Model
 - Project - Describes one project that people will work on
 - Datasets - Represents a dataset, basically a single file that belongs to a project
 - Column - Represents one column from a dataset 
+- MetaColumn - A grouping of columns from mulitple files or in the future, potentially the concatination of some columns in the same dataset. 
 - Entry - A unique entry in a column 
 - Mapping - A mapping that converts a number of entries in a 1 or a  number of columns in one or a number of datasets to a new category.
 
