@@ -86,7 +86,6 @@ export const guessGroupingsLevenshteinHClust = entries => {
     },
   });
 
-  debugger;
   let assignments = validEntries.reduce((result, entry, index) => {
     result[entry] = ans.clusters[index];
     return result;

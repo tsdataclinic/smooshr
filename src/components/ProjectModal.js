@@ -19,12 +19,16 @@ export default function ProjectModal({match, history}) {
 
   return (
     <ReactModal isOpen={true} onRequestClose={onClose}>
-        <h1>New Project</h1>
-        <input value={name} onChange={e=>setName(e.target.value)} placeholder='name' />
-        <input value={description} onChange={e=>setDescription(e.target.value)} placeholder='description' />
-        <div className='buttons'>
-            <button onClick={createProject}>Submit</button>
-            <button onClick={onClose}>Cancel</button>
+        <div className='new-project-modal'>
+            <h1>new project</h1>
+            <p>Name</p>
+            <input value={name} onChange={e=>setName(e.target.value)} placeholder='name' />
+            <p>Description</p>
+            <textarea value={description} onChange={e=>setDescription(e.target.value)} placeholder='description' />
+            <div className='buttons'>
+                <button onClick={createProject}>Submit</button>
+                <button onClick={onClose}>Cancel</button>
+            </div>
         </div>
     </ReactModal>
   );

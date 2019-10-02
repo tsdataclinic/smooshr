@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
-import SideList from './components/SideList';
+import SideBar from './components/SideBar';
 import UploadModal from './components/UploadModal';
 import ProjectModal from './components/ProjectModal';
 import ShowApplyMappingsModal from './components/ApplyMappingsModal';
@@ -9,11 +9,14 @@ import DatasetPage, {DatasetPageSidebar} from './pages/DatasetPage';
 import ColumnPage from './pages/ColumnPage';
 import WelcomePage from './pages/WelcomePage';
 import ProjectPage, {ProjectPageSidebar} from './pages/ProjectPage';
+import ColumnPageNew from './pages/ColumnPageNew'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import "typeface-lato"
 
 import {useStateValue} from './contexts/app_context';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 
-import './App.css';
+import './App.scss';
 
 function App() {
   const [{projects}, dispatch] = useStateValue();
@@ -21,13 +24,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header className="header">
-          <Route
-            path="/dataset/:datasetID"
-            render={datasetID => <h3>Dataset</h3>}
-          />
-          <Route path="/" exact={true} render={() => <h3>Smoosher</h3>} />
-        </header>
 
         <div className="main">
           <Route
@@ -35,10 +31,11 @@ function App() {
             exact={true}
             component={DatasetPage}
           />
-          <Route
-              path="/project/:projectID/dataset/:datasetID/column/:columnID"
-            component={ColumnPage}
-          />
+            <Route
+                path='/project/:projectID/column/:columnID'
+                exact={true}
+                component= {ColumnPageNew}
+            />
           <Route
             path="/project/:projectID"
             exact={true}
@@ -47,33 +44,7 @@ function App() {
           <Route path="/" exact={true} component={WelcomePage} />
         </div>
 
-        <div className="sidenav">
-          <Route
-            path="/"
-            exact={true}
-            render={() => (
-              <SideList
-                entries={projects.map(project => (
-                  <Link to={`/project/${project.id}`}>{project.name}</Link>
-                ))}
-                actionPrompt="New Project"
-                actionLink="/new_project"
-                title="Projects"
-              />
-            )}
-          />
-
-          <Route
-            path="/project/:projectID/dataset/:datasetID"
-            exact={true}
-            component={DatasetPageSidebar}
-          />
-          <Route path="/project/:projectID" component={ProjectPageSidebar} />
-        </div>
-
-        <footer className="footer">
-          <h3>Footer</h3>
-        </footer>
+        <Route path='/' component={SideBar} />
 
         <Route path="/new_project" component={ProjectModal} />
 
@@ -86,6 +57,7 @@ function App() {
           path="/dataset/:datasetID/apply"
           component={ShowApplyMappingsModal}
         />
+
         <Route
             path="/project/:projectID/dataset/:datasetID/column/:columnID/guess_categories"
           component={AutoClusterModal}

@@ -63,20 +63,23 @@ export default function FileSnapshot({file, onAddDataset}) {
     );
   }, [file]);
 
+
   return (
     <div className="fileSnapshot">
-      <h3>{file.name}</h3>
-      {status == 'loading' && <p>Loading, parsed {progress} rows</p>}
-
-      {status == 'selecting' && (
-        <React.Fragment>
+      <div className='file-snapshot-header'>
+          <h3>{file.type ==='url' ? file.ref : file.ref.name}</h3>
+          {status == 'loading' && <p>Loading, parsed {progress} rows</p>}
+          {status == 'selecting' && 
           <p>
             Has a total of {dataset.row_count} rows and {columns.length}{' '}
             columns. Select the columns you want to work with
-          </p>
-          <ul className="columnSummaryList">
+          </p>}
+      </div>
+      {status == 'selecting' && (
+        <React.Fragment>
+          <ul className="column-summary-list ">
             {columns.map(column => (
-              <li key={column.id}>
+              <li className='column-preview-card card' key={column.id}>
                 <div>
                   <div class="summary_list_header">
                     <h3>
@@ -97,20 +100,13 @@ export default function FileSnapshot({file, onAddDataset}) {
             ))}
           </ul>
 
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-            }}>
+          <div className='column-summary-buttons'> 
             <button onClick={submit}>Load</button>
             <button onClick={skip}>Skip</button>
           </div>
         </React.Fragment>
       )}
 
-      {status == 'saved' && <p>Loaded!</p>}
-      {status == 'skipping' && <p>Skipping</p>}
     </div>
   );
 }

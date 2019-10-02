@@ -1,5 +1,6 @@
 import Papa from 'papaparse';
 import {saveAs} from 'file-saver';
+import slugify from 'slugify'
 const uuidv1 = require('uuid/v1');
 
 // Takes a file handle and returns the summary stats for that file
@@ -13,10 +14,17 @@ export function parse_file_for_preview(
     let no_rows = 0;
     let set_dict = {};
     let sample = [];
-    console.log('file is ', file);
-    Papa.parse(file, {
+
+    let ref = file.ref
+    if (file.type!=='file'){
+       ref = `http://localhost:5000/proxy?url=${ref}`
+    }
+    console.log('getting ref as ', ref, ' for file ', file)
+
+    Papa.parse(ref, {
       worker: true,
       header: true,
+      download: file.type!=='file',
       step: function(row) {
         if (no_rows < sample_rows) {
           sample.push(row.data);
@@ -47,6 +55,9 @@ export function parse_file_for_preview(
           }
         });
       },
+      error:(error)=>{
+        console.log("something bad happened")
+      },
       complete: () => {
         let columns = [];
         let entries = [];
@@ -70,7 +81,7 @@ export function parse_file_for_preview(
         resolve({
           dataset: {
             id: dataset_id,
-            name: file.name,
+            name: file.type==='url' ? file.ref : file.ref.name,
             file: file,
             row_count: no_rows,
             sample: sample,
@@ -83,21 +94,52 @@ export function parse_file_for_preview(
   });
 }
 
-export const saveMappingsJSON = (columns,mappings, output_name) => {
-  const jsonMapping = columns.reduce((result, column) => {
-    const column_mappings = mappings.filter(m => m.column_id == column.id);
-    if (column_mappings.length > 0) {
-      result[column.name] = column_mappings.reduce((result, mapping) => {
-        result[mapping.name] = mapping.entries;
-        return result;
-      }, {});
-    }
-    return result;
-  }, {});
-  var blob = new Blob([JSON.stringify(jsonMapping)], {
+export const saveMappingsJSON = (project,datasets,meta_columns,columns,mappings) => {
+  let projectJSON = {
+     name: project.name,
+     description: project.description,
+     id: project.id
+  }
+
+  const make_col_mappings = (d)=>{
+    const col_renames = {}
+    meta_columns.forEach(mc=>{
+      const resolved_columns = mc.columns.map(cID => columns.find(c => c.id===cID ))
+                                   .filter(c => c.dataset_id ===d.id)
+      resolved_columns.forEach(rc=>{
+        col_renames[rc.name] = mc.name
+      })
+    })
+    return col_renames
+  }
+
+  let datasetsJSON = datasets.map(d=>({
+     type: d.file.type,
+     ref : d.file.ref,
+     rows: d.rows,
+     column_renames: make_col_mappings(d) 
+  }))
+
+  const output_name = slugify(project.name) + '.json'
+  const mappingsJSON ={}
+  meta_columns.forEach( mc =>{
+     const applicableMappings = mappings.filter(m => m.column_id ===mc.id)
+     mappingsJSON[mc.name] = {} 
+     applicableMappings.forEach( (mapping)=>{
+       mappingsJSON[mc.name][mapping.name] = mapping.entries
+     })
+  })
+
+  const jsonOutput= {
+    project: projectJSON,
+    datasets: datasetsJSON,
+    mappings: mappingsJSON 
+  }
+
+  var blob = new Blob([JSON.stringify(jsonOutput)], {
     type: 'text/plain;charset=utf-8',
   });
-  saveAs(blob, `mappings_for_${output_name}.json`);
+  saveAs(blob, output_name);
 };
 
 export const saveMappingsCSV = (columns,mappings, output_name) => {
@@ -116,6 +158,9 @@ export const saveMappingsCSV = (columns,mappings, output_name) => {
   saveAs(blob, `mappings_for_${output_name}.csv`);
 };
 
+export const exportData = (project,outfile)=>{
+//   project.datasets.first.file
+}
 
 export const applyMappingToFile = (columns, mappings, file)=>{
     
