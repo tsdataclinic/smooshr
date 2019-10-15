@@ -71,6 +71,7 @@ export function parse_file_for_preview(
             name: field,
             key: field,
             dataset_id: dataset_id,
+            type: 'text'
           });
 
           Object.entries(set_dict[field]).forEach(([field, count]) =>
@@ -94,7 +95,23 @@ export function parse_file_for_preview(
   });
 }
 
-export const saveMappingsJSON = (project,datasets,meta_columns,columns,mappings) => {
+export const applyAndSave = (project, datasets,meta_columns,columns,mappings)=>{
+   console.log('datasets ', datasets)
+   datasets.forEach(d=>{
+      console.log()
+   })
+}
+
+
+export const exportPythonCode = (project,datasets,meta_columns,columns,mappings)=>{
+   var mapping = createJSONMapping(project,datasets,meta_columns,columns,mappings);
+   var json_file_name = `mappings_for_${output_name}.csv`
+   const output_name = slugify(project.name) + '.json'
+   //blob = new Blob([JSON.stringify(python_template)])
+}
+
+export const createJSONMapping = (project,datasets,meta_columns,columns,mappings)=>{
+
   let projectJSON = {
      name: project.name,
      description: project.description,
@@ -120,7 +137,6 @@ export const saveMappingsJSON = (project,datasets,meta_columns,columns,mappings)
      column_renames: make_col_mappings(d) 
   }))
 
-  const output_name = slugify(project.name) + '.json'
   const mappingsJSON ={}
   meta_columns.forEach( mc =>{
      const applicableMappings = mappings.filter(m => m.column_id ===mc.id)
@@ -139,6 +155,14 @@ export const saveMappingsJSON = (project,datasets,meta_columns,columns,mappings)
   var blob = new Blob([JSON.stringify(jsonOutput)], {
     type: 'text/plain;charset=utf-8',
   });
+
+  return blob;
+}
+
+export const saveMappingsJSON = (project,datasets,meta_columns,columns,mappings) => {
+
+  const output_name = slugify(project.name) + '.json'
+  var blob = createJSONMapping(project,datasets,meta_columns,columns,mappings)
   saveAs(blob, output_name);
 };
 

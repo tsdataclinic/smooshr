@@ -3,7 +3,7 @@ import {useStateValue, useProject} from '../contexts/app_context';
 import {Link} from 'react-router-dom';
 import ColumnCard from '../components/ColumnCard'
 import {mergeMetaColumns, updateMetaColumn} from '../contexts/actions'
-import {saveMappingsCSV, saveMappingsJSON} from '../utils/file_parsing'
+import {saveMappingsCSV, saveMappingsJSON ,applyAndSave } from '../utils/file_parsing'
 import OpenDataSearcher from '../components/OpenDataSearcher'
 
 import {
@@ -34,7 +34,7 @@ export default function ProjectPage(props) {
   }
 
   const exportData = ()=>{
-  
+     applyAndSave(project,datasets,meta_columns,columns,mappings);
   }
 
   const changeMCName =(mc,name)=>{
