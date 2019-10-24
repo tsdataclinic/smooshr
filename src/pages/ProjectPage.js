@@ -3,7 +3,7 @@ import {useStateValue, useProject} from '../contexts/app_context';
 import {Link} from 'react-router-dom';
 import ColumnCard from '../components/ColumnCard'
 import {mergeMetaColumns, updateMetaColumn} from '../contexts/actions'
-import {saveMappingsCSV, saveMappingsJSON ,applyAndSave } from '../utils/file_parsing'
+import {saveMappingsCSV, saveMappingsJSON ,applyAndSave, exportPythonCode} from '../utils/file_parsing'
 import OpenDataSearcher from '../components/OpenDataSearcher'
 
 import {
@@ -30,7 +30,8 @@ export default function ProjectPage(props) {
   }
 
   const exportPythonCode= ()=>{
-    alert('saving as JSON')
+     
+     exportPythonCode()
   }
 
   const exportData = ()=>{
@@ -114,7 +115,9 @@ export default function ProjectPage(props) {
               <div className='region-list action-list'>
                   {/*<button onClick={exportMappingsCSV}>Export Mappings (csv)</button>*/} 
                   <button onClick={exportMappingsJSON}>Export Project</button> 
-                  <button onClick={exportPythonCode}>Export Python code</button> 
+                  <Link to={`/project/${projectID}/export`} >
+                      <button>Export Python code</button>
+                  </Link> 
                   <button onClick={exportData}>Export Data</button> 
               </div>
           </div>
