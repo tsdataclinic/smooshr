@@ -1,6 +1,9 @@
 import Papa from 'papaparse';
 import {saveAs} from 'file-saver';
 import slugify from 'slugify'
+import python_template from './python_file'
+import JSZip from 'jszip'
+
 const uuidv1 = require('uuid/v1');
 
 // Takes a file handle and returns the summary stats for that file
@@ -17,7 +20,7 @@ export function parse_file_for_preview(
 
     let ref = file.ref
     if (file.type!=='file'){
-       ref = `http://localhost:5000/proxy?url=${ref}`
+       ref = `${process.env.REACT_APP_API_URL}/proxy?url=${ref}`
     }
     console.log('getting ref as ', ref, ' for file ', file)
 
@@ -103,19 +106,28 @@ export const applyAndSave = (project, datasets,meta_columns,columns,mappings)=>{
 }
 
 
-export const exportPythonCode = (project,datasets,meta_columns,columns,mappings)=>{
+export const exportPythonCode = (project,datasets,meta_columns,columns,mappings, settings)=>{
    var mapping = createJSONMapping(project,datasets,meta_columns,columns,mappings);
-   var json_file_name = `mappings_for_${output_name}.csv`
-   const output_name = slugify(project.name) + '.json'
-   //blob = new Blob([JSON.stringify(python_template)])
+   const recipe_name= slugify(project.name) + '.json';
+   const output_data_name = slugify(project.name) + 'csv';
+
+   const recipy= createJSONMapping(project,datasets,meta_columns,columns,mappings,settings);
+   const python_code = python_template(recipe_name, output_data_name);
+
+   var zip = new JSZip();
+   zip.file(recipe_name, recipy);
+   zip.file("process.py", python_code);
+   zip.generateAsync({type:"blob"}).then((content)=>{
+     saveAs(content,slugify(project.name)+'zip')
+   })
 }
 
-export const createJSONMapping = (project,datasets,meta_columns,columns,mappings)=>{
+export const createJSONMapping = (project,datasets,meta_columns,columns,mappings,settings)=>{
 
   let projectJSON = {
      name: project.name,
      description: project.description,
-     id: project.id
+     id: project.id,
   }
 
   const make_col_mappings = (d)=>{
@@ -146,23 +158,25 @@ export const createJSONMapping = (project,datasets,meta_columns,columns,mappings
      })
   })
 
+
   const jsonOutput= {
     project: projectJSON,
     datasets: datasetsJSON,
-    mappings: mappingsJSON 
+    mappings: mappingsJSON,
+    settings: settings ? settings : {}
   }
-
-  var blob = new Blob([JSON.stringify(jsonOutput)], {
-    type: 'text/plain;charset=utf-8',
-  });
-
-  return blob;
+  return jsonOutput
 }
 
 export const saveMappingsJSON = (project,datasets,meta_columns,columns,mappings) => {
 
   const output_name = slugify(project.name) + '.json'
-  var blob = createJSONMapping(project,datasets,meta_columns,columns,mappings)
+  var jsonOutput= createJSONMapping(project,datasets,meta_columns,columns,mappings)
+
+  var blob = new Blob([JSON.stringify(jsonOutput)], {
+    type: 'text/plain;charset=utf-8',
+  });
+
   saveAs(blob, output_name);
 };
 
