@@ -108,7 +108,7 @@ max_unique = 500
   });
 }
 
-export const saveMappingsJSON = (
+{/*export const saveMappingsJSON = (
   project,
   datasets,
   meta_columns,
@@ -119,7 +119,7 @@ export const saveMappingsJSON = (
   datasets.forEach(d => {
     console.log();
   });
-};
+};*/}
 
 export const exportPythonCode = (
   project,
@@ -256,4 +256,5 @@ export const exportData = (project, outfile) => {
   //   project.datasets.first.file
 };
 
+export const applyAndSave = ()=>{}
 export const applyMappingToFile = (columns, mappings, file) => {};
