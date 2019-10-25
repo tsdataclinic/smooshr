@@ -745,3 +745,18 @@ button:disabled{
   flex-direction:row;
   justify-content: space-around;
 }
+
+.export_instructions{
+    align-self: start;
+    flex: 1;
+    margin-top: 40px;
+  p{
+    text-transform:none;
+    margin-bottom:10px;
+  }
+  li{
+    margin-left:20px;
+    margin-bottom: 10px;
+  }
+}
+
