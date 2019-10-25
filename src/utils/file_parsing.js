@@ -1,7 +1,6 @@
 import Papa from 'papaparse';
 import {saveAs} from 'file-saver';
 import slugify from 'slugify';
-<<<<<<< HEAD
 import python_template from './python_file';
 import JSZip from 'jszip';
 
