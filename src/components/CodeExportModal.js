@@ -16,27 +16,33 @@ export default function CodeExportModal({match, history}) {
   const [combineDatasets, setCombineDatasets] = useState(true);
   const [valueForNonMapped, setValueForNonMapped] = useState('unknown');
 
-  
-  const doExport = ()=>{
-    const settings= { 
-       changeNonMapped,
-       createNewColumns,
-       combineDatasets,
-       valueForNonMapped
-    }
+  const doExport = () => {
+    const settings = {
+      changeNonMapped,
+      createNewColumns,
+      combineDatasets,
+      valueForNonMapped,
+    };
 
-    exportPythonCode(project,datasets,meta_columns,columns,mappings, settings)
-  }
+    exportPythonCode(
+      project,
+      datasets,
+      meta_columns,
+      columns,
+      mappings,
+      settings,
+    );
+  };
 
   return (
-    <ReactModal isOpen={true} onRequestClose={onClose}>
+    <ReactModal style={{content: {height:'40%', transform:'translate(0,40%)'}}} isOpen={true} onRequestClose={onClose}>
       <div className="code-export-modal">
-        <h1>Export Code</h1>
         {project && (
           <React.Fragment>
-            <p>{project.name}</p>
+            <h1>{project.name}</h1>
+            <p>Export Code</p>
 
-            <div>
+            <div className='code-export-options'>
               <span>
                 Change non mapped entries?
                 <input
@@ -73,13 +79,13 @@ export default function CodeExportModal({match, history}) {
               </span>
             </div>
 
-            <div className={'explanation'}>
+                {/*<div className={'explanation'}>
               <span>
                 The script will create these new columns on these datasets
               </span>
               <span>Map the old entries to the following</span>
               <span>Combine the datasets in to a single file</span>
-            </div>
+                  </div>*/}
 
             <div className="buttons">
               <button onClick={doExport}>Export</button>
