@@ -83,7 +83,7 @@ export default function FileSnapshot({file, onAddDataset}) {
                 <div>
                   <div class="summary_list_header">
                     <h3>
-                      {column.name} <span>({column.unique})</span>
+                        {column.name} <span>{`${column.exceded ? '>' : ''} ${column.unique}`}</span>
                     </h3>
                     <input
                       type="checkbox"
