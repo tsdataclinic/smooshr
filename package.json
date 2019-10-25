@@ -15,6 +15,7 @@
     "clusterfck": "^1.0.0",
     "fast-levenshtein": "^2.0.6",
     "file-saver": "^2.0.2",
+    "jszip": "^3.2.2",
     "ml": "^4.0.0",
     "natural": "^0.6.3",
     "node-kmeans": "^1.1.9",

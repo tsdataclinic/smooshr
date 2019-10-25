@@ -12,7 +12,7 @@ const get_embedings_from_server = entries => {
   return Promise.all(
     Array.from(unique_words).map(entry =>
       fetch(
-        `http://localhost:5000/embedding/${entry
+        `${process.env.REACT_APP_API_URL}/embedding/${entry
           .toLowerCase()
           .replace(/[\W_]+/g, '')}`,
       )
@@ -69,9 +69,16 @@ export const most_similar_to_category_mean = (
   const mean = category_mean(entries, negativeEntries, embeddings);
 
   const distances = search_entries.map(entry => {
-    const embeding = embeddings.find(e => e.entry == entry.name).embed;
-    const dist = vec_dist2(norm_vec(embeding), mean);
-    return {suggestion: entry.name, dist: dist};
+
+    const embeding = embeddings.find(e => e.entry == entry.name);
+    if(embeding){
+        const dist = vec_dist2(norm_vec(embeding.embed), mean);
+        return {suggestion: entry.name, dist: dist};
+    }
+    else{
+       console.log('failed to find ', entry)
+       return {suggestion:entry.name, dist:2000000}
+    }
   });
   return distances
     .filter(a => a.dist > 0)

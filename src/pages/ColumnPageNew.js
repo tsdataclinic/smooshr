@@ -91,7 +91,6 @@ export default function ColumnPage({match}) {
 
   //Remove any entries that are already in a mapping
 
-
   const updateSearch = text => {
     setSearchTerm(text);
     search(text);
