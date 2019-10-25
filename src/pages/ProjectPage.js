@@ -118,7 +118,7 @@ export default function ProjectPage(props) {
                   <Link to={`/project/${projectID}/export`} >
                       <button>Export Python code</button>
                   </Link> 
-                  <button onClick={exportData}>Export Data</button> 
+                      {/*<button onClick={exportData}>Export Data</button> */}
               </div>
           </div>
 
