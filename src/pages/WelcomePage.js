@@ -8,7 +8,8 @@ export default function WelcomePage() {
   return (
     <div className="welcome-page page">
       <h1 className='large-title-header'>smooshr</h1>
-      <p>Wrangle those messy datasets</p>
+          <p>Wrangle those messy datasets</p>
+              <p>We need your help to make smooshr better! Try out our <a href="https://docs.google.com/document/1ANrFqNZKCYR4LohOKPvYVHZAbp1iiK3gpknPINZF6Lw/">tutorial</a> and leave your thoughts on our <a href="https://airtable.com/shrMCZrvP7467LNG7">feedback form</a></p>
       {projects && (
         <div>
           <div className="">
