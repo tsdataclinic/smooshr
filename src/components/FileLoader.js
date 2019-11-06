@@ -20,9 +20,9 @@ export default function FileLoader(props) {
     setFilesPreview([{type: 'url', ref: url}]);
   };
 
-  const submitFromOpenData = (dataset)=>{
-     setFilesPreview([dataset])
-  }
+  const submitFromOpenData = dataset => {
+    setFilesPreview([dataset]);
+  };
 
   const onDrop = useCallback(files => {
     if (files.every(file => file.name.split('.').includes('csv'))) {
@@ -39,28 +39,30 @@ export default function FileLoader(props) {
   const renderURL = () => {
     return (
       <div className="url-tab">
-          <FontAwesomeIcon icon={faDownload}/>
-          <div>
-            <input
-              placeholder="dataseturl"
-              value={url}
-              onChange={e => setURL(e.target.value)}
-            />
-            <button disabled={!url} onClick={submitFromURL}>Submit</button>
+        <FontAwesomeIcon icon={faDownload} />
+        <div>
+          <input
+            placeholder="dataseturl"
+            value={url}
+            onChange={e => setURL(e.target.value)}
+          />
+          <button disabled={!url} onClick={submitFromURL}>
+            Submit
+          </button>
         </div>
       </div>
     );
   };
 
   const renderOpenDataPortal = () => {
-    return <OpenDataSearcher  onDataset={submitFromOpenData}/>;
+    return <OpenDataSearcher onDataset={submitFromOpenData} />;
   };
 
   const renderFile = () => {
     return (
-      <div className="file-tab">
-         <FontAwesomeIcon icon={faFile} />
-        <div {...getRootProps()}>
+      <div {...getRootProps()}>
+        <div className="file-tab" style={{ cursor: 'p' }}>
+          <FontAwesomeIcon icon={faFile} />
           <input
             {...getInputProps({
               accept: ['text/csv', 'application/vnd.ms-excel'],
@@ -69,7 +71,7 @@ export default function FileLoader(props) {
           {isDragActive ? (
             <p>Drop the files here ... </p>
           ) : (
-            <p>Drag 'n' drop files here to create dataset</p>
+            <p>Drag 'n' drop files here or click to load dataset</p>
           )}
         </div>
         {error && <p>{error}</p>}
@@ -103,9 +105,7 @@ export default function FileLoader(props) {
           ))}
         </div>
       ) : (
-        <div className='content'>
-            {tabContent()}
-        </div>
+        <div className="content">{tabContent()}</div>
       )}
     </div>
   );
