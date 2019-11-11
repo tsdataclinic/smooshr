@@ -1,8 +1,16 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { deleteProject } from './actions';
+import Dexie from "dexie"
+
 const uuidv1 = require('uuid/v1');
 
 export const StateContext = createContext();
+
+const db = new Dexie('state');
+
+db.version(1).stores({
+  state: 'id'
+});
 
 const initalState = {
   datasets: [],
@@ -15,9 +23,12 @@ const initalState = {
   showUploadModal: false,
   showApplyMappingsModal: false,
   cache_loaded: false,
+  storage_stats: null,
+  persisting: false
 };
 
 const reducer = (state, action) => {
+  console.log("DISPATCHING ", action.type)
   switch (action.type) {
     case 'LOAD_CACHED_STATE':
       return action.payload;
@@ -135,6 +146,17 @@ const reducer = (state, action) => {
           mc.id === action.payload.id ? { ...mc, ...action.payload.meta_column } : mc,
         ),
       };
+
+    case 'SET_PERSISTING':
+      return {
+        ...state,
+        persisting: action.payload
+      }
+    case 'UPDATE_STORAGE_QUOTA':
+      return {
+        ...state,
+        storage_stats: action.payload
+      }
     default:
       return state;
   }
@@ -142,23 +164,74 @@ const reducer = (state, action) => {
 
 export const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initalState);
+  const { datasets,
+    columns,
+    entries,
+    projects,
+    mappings,
+    metaColumns,
+    showUploadModal,
+    showApplyMappingsModal,
+  } = state;
+
   useEffect(() => {
     if (state.cache_loaded) {
-      localStorage.setItem('state', JSON.stringify(state));
+      db.state.put({ data: JSON.stringify(state), id: 1 });
+      // localStorage.setItem('state', JSON.stringify(state));
+      if (navigator.storage && navigator.storage.estimate) {
+        navigator.storage.estimate().then(estimation => {
+          const { quota, usage } = estimation;
+          dispatch({
+            type: "UPDATE_STORAGE_QUOTA",
+            payload: { quota, usage }
+          })
+        });
+      } else {
+        console.error("StorageManager not found");
+      }
     }
-  }, [state]);
+  }, [datasets,
+    columns,
+    entries,
+    projects,
+    mappings,
+    metaColumns,
+    showUploadModal,
+    showApplyMappingsModal]);
+
+  useEffect(() => {
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().then((persistResult) => {
+        dispatch({
+          type: 'SET_PERSISTING',
+          payload: persistResult
+        })
+      });
+    }
+  }, [])
 
   useEffect(() => {
     console.log('State update ', state);
   }, [state]);
 
   useEffect(() => {
-    const cachedState = JSON.parse(localStorage.getItem('state'));
-    console.log('ATTEMPTING TO HYDRATE STATE', cachedState);
+    db.state.get(1).then(result => {
+      if (result) {
 
-    dispatch({
-      type: 'LOAD_CACHED_STATE',
-      payload: { ...initalState, ...cachedState, cache_loaded: true },
+        const cachedState = JSON.parse(result.data);
+        console.log('ATTEMPTING TO HYDRATE STATE', cachedState);
+
+        dispatch({
+          type: 'LOAD_CACHED_STATE',
+          payload: { ...initalState, ...cachedState, cache_loaded: true },
+        });
+      }
+      else {
+        dispatch({
+          type: 'LOAD_CACHED_STATE',
+          payload: { ...initalState, cache_loaded: true }
+        })
+      }
     });
   }, []);
 
@@ -258,6 +331,18 @@ export const useMetaColumn = columnID => {
   );
   return { meta_column, entries: mergedEntry, mappings, embeddings, dispatch };
 };
+
+
+export const useStorage = () => {
+  const [{ storage_stats, persisting }, _] = useStateValue()
+  console.log("storage stats", storage_stats)
+  if (storage_stats) {
+    return { persisting, quota: storage_stats.quota / 1e6, usage: storage_stats.usage / 1e6 }
+  }
+  else {
+    return {}
+  }
+}
 
 export const useDataset = datasetID => {
   const [state, dispatch] = useStateValue();
