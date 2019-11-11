@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {faEdit, faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faEdit, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditableText from './EditableText';
 
 export default function MappingFocus({
@@ -47,9 +47,9 @@ export default function MappingFocus({
     }
   };
 
-  const addNegativeExampleToMapping = (entry)=>{
+  const addNegativeExampleToMapping = (entry) => {
 
-    if(onAddNegativeExampleToMapping){
+    if (onAddNegativeExampleToMapping) {
       onAddNegativeExampleToMapping(entry.suggestion)
     }
   }
@@ -80,8 +80,8 @@ export default function MappingFocus({
           <span
             style={
               suggestionType == 'text'
-                ? {fontWeight: 'bold'}
-                : {fontWeight: 'lighter'}
+                ? { fontWeight: 'bold' }
+                : { fontWeight: 'lighter' }
             }
             onClick={() => setSuggestionType('text')}>
             text
@@ -90,8 +90,8 @@ export default function MappingFocus({
           <span
             style={
               suggestionType == 'meaning'
-                ? {fontWeight: 'bold'}
-                : {fontWeight: 'lighter'}
+                ? { fontWeight: 'bold' }
+                : { fontWeight: 'lighter' }
             }
             onClick={() => setSuggestionType('meaning')}>
             meaning
@@ -107,9 +107,11 @@ export default function MappingFocus({
                   onClick={() => addSuggestionToMapping(entry)}>
                   <FontAwesomeIcon icon={faCheck} />
                 </button>
-                <button className={'SmallButton RoundButton'}>
-                    <FontAwesomeIcon onClick={()=>addNegativeExampleToMapping(entry)} 
-                        icon={faTimes} />
+                <button className={'SmallButton RoundButton'}
+                  onClick={() => addNegativeExampleToMapping(entry)}
+                >
+                  <FontAwesomeIcon
+                    icon={faTimes} />
                 </button>
               </div>
             </li>
