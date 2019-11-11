@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import EntryTable from '../components/EntryTable';
 import MappingsArea from '../components/MappingsArea';
 import useFuse from 'react-use-fuse';
-import {suggestForMapping} from '../utils/text_clustering';
-import {most_similar_to_category_mean} from '../utils/calc_embedings';
+import { suggestForMapping } from '../utils/text_clustering';
+import { most_similar_to_category_mean } from '../utils/calc_embedings';
 
 import {
   createMapping,
@@ -16,15 +16,15 @@ import {
   clearMapping,
   requestEmbedingsForEntries,
 } from '../contexts/actions';
-import {useStateValue, useMetaColumn} from '../contexts/app_context';
+import { useStateValue, useMetaColumn } from '../contexts/app_context';
 
-export default function ColumnPage({match}) {
+export default function ColumnPage({ match }) {
   const [searchTerm, setSearchTerm] = useState(null);
   const [selectedMappingID, setSelectedMappingID] = useState(null);
-  const [entrySelection, setEntrySelection] = useState([]); 
-  const {projectID, datasetID, columnID} = match.params;
+  const [entrySelection, setEntrySelection] = useState([]);
+  const { projectID, datasetID, columnID } = match.params;
 
-  const {meta_column,column, entries, mappings, embeddings, dispatch} = useMetaColumn(columnID);
+  const { meta_column, column, entries, mappings, embeddings, dispatch } = useMetaColumn(columnID);
   const selectedMapping = mappings.find(m => m.id == selectedMappingID);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function ColumnPage({match}) {
     entry => !mappings.some(m => m.entries.includes(entry.name)),
   );
 
-  const {result, search, term, reset} = useFuse({
+  const { result, search, term, reset } = useFuse({
     data: non_mapped_entries,
     options: {
       shouldSort: true,
@@ -50,15 +50,18 @@ export default function ColumnPage({match}) {
   const filteredEntries = result;
 
   const toggleEnrtySelection = entry => {
-    if (entrySelection.includes(entry.name)) {
-      setEntrySelection(entrySelection.filter(s => s != entry.name));
+    const entryName = typeof (entry) == 'string' ? entry : entry.name;
+
+    if (entrySelection.includes(entryName)) {
+      setEntrySelection(entrySelection.filter(s => s != entryName));
     } else {
-      setEntrySelection([...entrySelection, entry.name]);
+      setEntrySelection([...entrySelection, entryName]);
     }
   };
 
+
   const onCreateMapping = () => {
-    createMapping(entrySelection, columnID,entrySelection[0],  dispatch);
+    createMapping(entrySelection, columnID, entrySelection[0], dispatch);
     setEntrySelection([]);
   };
 
@@ -78,10 +81,14 @@ export default function ColumnPage({match}) {
     deleteMapping(mapping, dispatch);
   };
 
+  const clearSelection = () => {
+    setEntrySelection([]);
+  }
+
   const onAddEntriesToMapping = (entriesToAdd, clearSelection = false) => {
     addEntriesToMapping(selectedMapping, entriesToAdd, dispatch);
     if (clearSelection) {
-      setEntrySelection([]);
+      clearSelection();
     }
   };
 
@@ -100,20 +107,20 @@ export default function ColumnPage({match}) {
 
   const meaningSuggestions = suggestionsAvaliable
     ? most_similar_to_category_mean(
-        selectedMapping.entries,
-        selectedMapping.negative_examples,
-        non_mapped_entries,
-        embeddings,
-      )
+      selectedMapping.entries,
+      selectedMapping.negative_examples,
+      non_mapped_entries,
+      embeddings,
+    )
     : [];
 
   const textSuggestions = suggestionsAvaliable
     ? suggestForMapping(selectedMapping.entries, non_mapped_entries)
     : [];
 
-  const suggestions = {text: textSuggestions, meaning: meaningSuggestions};
+  const suggestions = { text: textSuggestions, meaning: meaningSuggestions };
 
-  const {cache_loaded, _} = useStateValue();
+  const { cache_loaded, _ } = useStateValue();
 
   const stats = {
     mappings: mappings.length,
@@ -123,7 +130,7 @@ export default function ColumnPage({match}) {
         m =>
           m.entries.reduce(
             (total, entry) => total + entries.find(e => e.name === entry).count
-          ,0)
+            , 0)
       )
       .reduce((total, map) => total + map, 0),
     total_entries_in_mappings: mappings.reduce(
@@ -131,28 +138,28 @@ export default function ColumnPage({match}) {
       0,
     ),
   };
-   
-  console.log('stats is ', stats)
+
 
   if (!cache_loaded) {
     return (
       <div className="ColumnPage">
         <SearchBar
-          style={{gridArea: 'header', width: '50%', justifySelf: 'center'}}
+          style={{ gridArea: 'header', width: '50%', justifySelf: 'center' }}
           onChange={updateSearch}
-          onClear ={()=>updateSearch('')}
+          onClear={() => updateSearch('')}
           value={searchTerm}
         />
         <EntryTable
           entries={filteredEntries}
           style={{
             gridArea: 'table',
-            overflowY: 'scroll',
+            overflowY: 'hidden',
             width: '100%',
             height: '100%',
           }}
           onToggleSelection={toggleEnrtySelection}
           selection={entrySelection}
+          onClearSelection={clearSelection}
           {...entries}
         />
         <div className="StatsAndActions">
@@ -168,7 +175,6 @@ export default function ColumnPage({match}) {
               onClick={onCreateMapping}>
               New Mapping {entrySelection.length}
             </button>
-
             <button
               disabled={entrySelection.length == 0}
               onClick={() => onAddEntriesToMapping(entrySelection, true)}>
@@ -176,14 +182,14 @@ export default function ColumnPage({match}) {
             </button>
             <button
               onClick={() => createMapping(non_mapped_entries, columnID, 'Other', dispatch)}>
-              Map Remaining To Other 
+              Map Remaining To Other
             </button>
           </div>
         </div>
         <MappingsArea
           mappings={mappings}
           selection={mappings.find(m => m.id === selectedMappingID)}
-          style={{gridArea: 'mappings'}}
+          style={{ gridArea: 'mappings' }}
           onMappingSelected={s => setSelectedMappingID(s.id)}
           onRenameMapping={onRenameMapping}
           onRemoveEntryFromMapping={onRemoveEntryFromMapping}
@@ -195,7 +201,7 @@ export default function ColumnPage({match}) {
           }
           onAddNegativeExampleToMapping={onAddNegativeExampleToMapping}
           {...mappings}
-          syle={{height: '300px'}}
+          syle={{ height: '300px' }}
         />
       </div>
     );
