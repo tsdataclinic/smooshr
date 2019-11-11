@@ -59,10 +59,10 @@ export default function ColumnPage({ match }) {
     }
   };
 
-
   const onCreateMapping = () => {
-    createMapping(entrySelection, columnID, entrySelection[0], dispatch);
+    const id = createMapping(entrySelection, columnID, entrySelection[0], dispatch);
     setEntrySelection([]);
+    setSelectedMappingID(id);
   };
 
   const onRenameMapping = (mapping, name) => {
