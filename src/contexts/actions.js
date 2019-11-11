@@ -28,6 +28,7 @@ export function renameMapping(mapping, newName, dispatch) {
   });
 }
 
+
 export function removeEntryFromMapping(mapping, entry, dispatch) {
   console.log('mapping ', mapping, ' entry ', entry);
   dispatch({
