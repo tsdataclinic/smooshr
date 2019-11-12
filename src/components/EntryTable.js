@@ -7,11 +7,7 @@ import SelectedEntriesList from './SelectedEntriesList'
 
 export default function EntryTable({
   entries,
-  page,
-  perPage,
   style,
-  onCreateMapping,
-  onAddEntriesToMapping,
   onToggleSelection,
   onClearSelection,
   selection,
