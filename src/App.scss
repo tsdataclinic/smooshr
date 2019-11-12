@@ -430,7 +430,7 @@ button:hover{
    grid-template-columns: repeat( auto-fit, 400px );
    justify-content: space-around;
    cursor:pointer;
-   overflow-y:scroll;
+   overflow-y:auto;
    box-sizing:border-box;
    padding-top:20px;
 }
