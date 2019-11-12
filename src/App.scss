@@ -400,7 +400,7 @@ button:hover{
   }
   ul{
     display:flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     flex: 1;
     overflow-x: auto; 
     overflow-y: none;
@@ -534,6 +534,8 @@ button:hover{
   box-sizing:border-box;
   padding: 20px 15px;
   min-height: 0px;
+  display:flex;
+  flex-direction: column;
 }
 
 .MappingsMenu h3{
@@ -553,11 +555,12 @@ button:hover{
 }
 
 .MappingsMenu ul {
-  overflow-y:scroll;
+  overflow-y:auto;
   text-align:left;
   margin-top:20px;
   cursor:pointer;
-  max-height: 200px;
+  // max-height: 200px;
+  flex:1;
 }
 
 .MappingsMenu ul li {
