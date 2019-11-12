@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { faSearch, faTimes} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function SearchBar({value,onChange,onClear, prompt, style}){
+export default function SearchBar({value,onChange, prompt, style}){
 
    return(
    <div className='SearchBarContainer' style={style}>

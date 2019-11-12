@@ -22,9 +22,9 @@ export default function ColumnPage({ match }) {
   const [searchTerm, setSearchTerm] = useState(null);
   const [selectedMappingID, setSelectedMappingID] = useState(null);
   const [entrySelection, setEntrySelection] = useState([]);
-  const { projectID, datasetID, columnID } = match.params;
+  const { columnID } = match.params;
 
-  const { meta_column, column, entries, mappings, embeddings, dispatch } = useMetaColumn(columnID);
+  const { entries, mappings, embeddings, dispatch } = useMetaColumn(columnID);
   const selectedMapping = mappings.find(m => m.id == selectedMappingID);
 
   useEffect(() => {
@@ -148,6 +148,7 @@ export default function ColumnPage({ match }) {
           onChange={updateSearch}
           onClear={() => updateSearch('')}
           value={searchTerm}
+          prompt="Search for entries by typing here..."
         />
         <EntryTable
           entries={filteredEntries}
