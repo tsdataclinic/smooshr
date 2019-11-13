@@ -1,13 +1,14 @@
-import React, {useState, useEffect, useMemo} from 'react';
-import {parse_file_for_preview} from '../utils/file_parsing';
-import {useStateValue} from '../contexts/app_context';
+import React, { useState, useEffect, useMemo } from 'react';
+import { parse_file_for_preview } from '../utils/file_parsing';
+import { useStateValue } from '../contexts/app_context';
+import ProgressBar from './ProgressBar'
 
-export default function FileSnapshot({file, onAddDataset}) {
+export default function FileSnapshot({ file, onAddDataset }) {
   const [columns, setColumns] = useState([]);
   const [dataset, setDataset] = useState([]);
   const [entries, setEntries] = useState([]);
   const [includedCols, setIncludedCols] = useState([]);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState({});
   const [status, setStatus] = useState('loading');
 
   const [_, dispatch] = useStateValue();
@@ -50,10 +51,8 @@ export default function FileSnapshot({file, onAddDataset}) {
     [entries, columns],
   );
 
-  console.log('display Entries ', displayEntries);
-
   useEffect(() => {
-    parse_file_for_preview(file, no_parsed => setProgress(no_parsed)).then(
+    parse_file_for_preview(file, progress => setProgress(progress)).then(
       result => {
         setStatus('selecting');
         setDataset(result.dataset);
@@ -67,9 +66,14 @@ export default function FileSnapshot({file, onAddDataset}) {
   return (
     <div className="fileSnapshot">
       <div className='file-snapshot-header'>
-          <h3>{file.type ==='url' ? file.ref : file.ref.name}</h3>
-          {status == 'loading' && <p>Loading, parsed {progress} rows</p>}
-          {status == 'selecting' && 
+        <h3>{file.type === 'url' ? file.ref : file.ref.name}</h3>
+        {status == 'loading' &&
+          <React.Fragment>
+            <p>Loading, parsed {progress.rows_read ? progress.rows_read.toLocaleString() : 0} rows</p>
+            <ProgressBar total={progress.total_size ? progress.total_size : 0} value={progress.bytes_read} style={{ width: '500px' }} />
+          </React.Fragment>
+        }
+        {status == 'selecting' &&
           <p>
             Has a total of {dataset.row_count} rows and {columns.length}{' '}
             columns. Select the columns you want to work with
@@ -83,7 +87,7 @@ export default function FileSnapshot({file, onAddDataset}) {
                 <div>
                   <div class="summary_list_header">
                     <h3>
-                        {column.name} <span>{`${column.exceded ? '>' : ''} ${column.unique}`}</span>
+                      {column.name} <span>{`${column.exceded ? '>' : ''} ${column.unique}`}</span>
                     </h3>
                     <input
                       type="checkbox"
@@ -100,7 +104,7 @@ export default function FileSnapshot({file, onAddDataset}) {
             ))}
           </ul>
 
-          <div className='column-summary-buttons'> 
+          <div className='column-summary-buttons'>
             <button onClick={submit}>Load</button>
             <button onClick={skip}>Skip</button>
           </div>

@@ -826,3 +826,24 @@ button:disabled{
   }
 }
 
+.progress-bar{
+  display:flex;
+  flex-direction: row ;
+  align-items: center;
+}
+
+.progress-bar-outer{
+  height: 30px;
+  border:2px solid #796D9F;
+  box-sizing: border-box;
+  padding:5px;
+  flex:1;
+  margin-right:15px
+  
+}
+
+.progress-bar-inner{
+  background-color: #B3A0BB;
+  height:100%;
+  width:0%;
+}

@@ -94,7 +94,6 @@ export function addEntriesToMapping(mapping, entries, dispatch) {
   })
 }
 
-
 export function updateMetaColumn(id, changes, dispatch) {
   dispatch({
     type: "UPDATE_META_COLUMN",
