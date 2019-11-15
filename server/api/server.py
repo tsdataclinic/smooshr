@@ -1,12 +1,46 @@
-from flask import Flask, request,jsonify,Response
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request,jsonify,Response,g
 from flask_cors import CORS
 import requests
+import sqlite3 
+import numpy as np
+import io
 
 app = Flask(__name__)
-CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres@postgres/postgres'
-db = SQLAlchemy(app)
+
+def adapt_array(arr):
+    """
+    http://stackoverflow.com/a/31312102/190597 (SoulNibbler)
+    """
+    out = io.BytesIO()
+    np.save(out, arr)
+    out.seek(0)
+    return sqlite3.Binary(out.read())
+
+def convert_array(text):
+    out = io.BytesIO(text)
+    out.seek(0)
+    return np.load(out)
+
+sqlite3.register_adapter(np.ndarray, adapt_array)
+sqlite3.register_converter("array", convert_array)
+
+def connect_db():
+    conn = sqlite3.connect('embeddings.sqlite', detect_types=sqlite3.PARSE_DECLTYPES)
+    return conn
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        conn  = connect_db()
+        db = g._database = conn 
+    return db 
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
 CHUNK_SIZE = 1024
 
 @app.route('/')
@@ -30,10 +64,13 @@ def proxy():
 
 @app.route('/embedding/<words>')
 def embeding(words):
+    conn  = get_db() 
     try:
-        fmt_words = ','.join(["'{}'".format(word) for word in words.split(',')])
-        result = db.engine.execute("select * from embeddings where key in ({}) ".format(fmt_words))
-        return jsonify([dict(row) for row in result]) 
+        words = words.split(',')
+        sql = "select * from embeddings where key in ({seq})".format( seq=','.join(['?']*len(words))) 
+        result = conn.execute(sql, words)
+        result = [ [r[0], r[1].tolist()] for r in result ]
+        return jsonify(dict(result))
     except:
         return jsonify([])
 if __name__=='__main__':
