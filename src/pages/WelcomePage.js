@@ -49,7 +49,7 @@ export default function WelcomePage() {
         <p>smooshr processes and stores all data locally on your machine.</p>
         {quota && (
           <p>
-            It is currently using {usage.toLocaleString()} Mb of
+            It is currently using {usage.toLocaleString()} Mb of{' '}
             {quota.toLocaleString()} Mb.
           </p>
         )}
