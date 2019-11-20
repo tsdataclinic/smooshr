@@ -1,10 +1,10 @@
 import React from 'react';
 import ProjectCard from '../components/ProjectCard';
-import { useStateValue, useStorage } from '../contexts/app_context';
+import { useProjectStats, useStorage } from '../contexts/app_context';
 import { Link } from 'react-router-dom';
 
 export default function WelcomePage() {
-  const [{ projects }, dispatch] = useStateValue();
+  const projects = useProjectStats();
   const { persisting, quota, usage } = useStorage();
 
   return (
@@ -23,8 +23,8 @@ export default function WelcomePage() {
             </div>
             <div className="region-list">
               {projects.map(p => (
-                <Link to={`/project/${p.id}`}>
-                  <ProjectCard project={p} />
+                <Link to={`/project/${p.project.id}`}>
+                  <ProjectCard project={p.project} stats={p.stats} />
                 </Link>
               ))}
             </div>

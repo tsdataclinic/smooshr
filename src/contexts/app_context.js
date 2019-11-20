@@ -332,6 +332,25 @@ export const useMetaColumn = columnID => {
   return { meta_column, entries: mergedEntry, mappings, embeddings, dispatch };
 };
 
+export const useProjectStats = () => {
+  const [state, _] = useStateValue();
+  const { projects, datasets, columns, meta_columns } = state
+  const project_stats = projects.reduce((stats, project) => {
+    const project_datasets = datasets.filter(d => d.project_id === project.id).map(d => d.id);
+    const project_columns = columns.filter(c => project_datasets.includes(c.id))
+    const project_meta_columns = columns.filter(mc => mc.project_id == project.id)
+    return [...stats, {
+      project: project,
+      stats: {
+        datasets: datasets.length,
+        columns: project_columns.length,
+        meta_columns: project_meta_columns.length
+      }
+    }]
+  }, [])
+  return project_stats
+}
+
 
 export const useStorage = () => {
   const [{ storage_stats, persisting }, _] = useStateValue()

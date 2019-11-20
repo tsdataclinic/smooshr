@@ -9,7 +9,8 @@ import OpenDataSearcher from '../components/OpenDataSearcher'
 import {
   faColumns,
   faDatabase,
-  faFistRaised
+  faFistRaised,
+  faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -77,6 +78,16 @@ export default function ProjectPage(props) {
         <React.Fragment>
           <h1 className="large-title-header">{project.name}</h1>
           <p>{project.description}</p>
+
+          <div className="metadata region">
+            <div className="region-header">
+              <h2><FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '20px' }} />Metadata</h2>
+              <div className='metadata'>
+
+              </div>
+            </div>
+          </div>
+
           <div className="datasets region">
             <div className="region-header">
               <h2><FontAwesomeIcon icon={faDatabase} style={{ marginRight: '20px' }} />Datasets</h2>
