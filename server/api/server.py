@@ -6,6 +6,7 @@ import numpy as np
 import io
 
 app = Flask(__name__)
+CORS(app)
 
 def adapt_array(arr):
     """
@@ -70,7 +71,8 @@ def embeding(words):
         sql = "select * from embeddings where key in ({seq})".format( seq=','.join(['?']*len(words))) 
         result = conn.execute(sql, words)
         result = [ [r[0], r[1].tolist()] for r in result ]
-        return jsonify(dict(result))
+        result = [ {"key": key, "embedding": embed} for key,embed in dict(result).items() ]
+        return jsonify(result)
     except:
         return jsonify([])
 if __name__=='__main__':
