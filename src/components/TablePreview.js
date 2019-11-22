@@ -5,8 +5,6 @@ export default function TablePreview(props) {
   const {data} = props;
 
   const columns = Object.keys(data[0]).map(k => ({key: k, name: k}));
-  console.log('data ', data);
-  console.log('columns', columns);
   const [rows, setRows] = useState(data);
 
   const sortRows = (initalRows, sortColumn, sortDirection) => rows => {
@@ -29,7 +27,6 @@ export default function TablePreview(props) {
       columns={columns}
       rowGetter={i => rows[i]}
       rowsCount={data.length}
-      minHeight={500}
       onGridSort={(sortColumn, sortDirection) =>
         setRows(sortRows(data, sortColumn, sortDirection))
       }
