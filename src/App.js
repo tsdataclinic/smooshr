@@ -10,7 +10,6 @@ import DatasetPage, {DatasetPageSidebar} from './pages/DatasetPage';
 import ColumnPage from './pages/ColumnPage';
 import WelcomePage from './pages/WelcomePage';
 import ProjectPage, {ProjectPageSidebar} from './pages/ProjectPage';
-import ColumnPageNew from './pages/ColumnPageNew';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import 'typeface-lato';
 
@@ -34,7 +33,7 @@ function App() {
           <Route
             path="/project/:projectID/column/:columnID"
             exact={true}
-            component={ColumnPageNew}
+            component={ColumnPage}
           />
           <Route
             path="/project/:projectID"
