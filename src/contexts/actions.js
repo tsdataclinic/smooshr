@@ -28,6 +28,47 @@ export function renameMapping(mapping, newName, dispatch) {
   });
 }
 
+export function loadProject(projectDetails, dispatch) {
+  const {
+    project,
+    datasets,
+    entries,
+    columns,
+    mappings,
+    meta_columns,
+    settings,
+  } = projectDetails;
+  dispatch({
+    type: 'ADD_PROJECT',
+    payload: project,
+  });
+
+  dispatch({
+    type: 'ADD_DATASETS',
+    payload: datasets,
+  });
+
+  dispatch({
+    type: 'ADD_COLUMNS',
+    payload: columns,
+  });
+
+  dispatch({
+    type: 'ADD_ENTRIES',
+    payload: entries,
+  });
+
+  dispatch({
+    type: 'ADD_MAPPINGS',
+    payload: mappings,
+  });
+
+  dispatch({
+    type: 'ADD_META_COLUMNS',
+    payload: meta_columns,
+  });
+}
+
 export function removeEntryFromMapping(mapping, entry, dispatch) {
   console.log('mapping ', mapping, ' entry ', entry);
   dispatch({

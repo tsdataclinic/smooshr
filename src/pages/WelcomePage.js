@@ -40,6 +40,9 @@ export default function WelcomePage() {
               <Link to={'/new_project'}>
                 <NewProjectCard />
               </Link>
+              <Link to={'/load_project'}>
+                <NewProjectCard />
+              </Link>
             </div>
           </div>
         </div>

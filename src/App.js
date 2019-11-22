@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import SideBar from './components/SideBar';
 import UploadModal from './components/UploadModal';
 import ProjectModal from './components/ProjectModal';
+import LoadProjectModal from './components/LoadProjectModal';
 import ShowApplyMappingsModal from './components/ApplyMappingsModal';
 import CodeExportModal from './components/CodeExportModal';
 import AutoClusterModal from './components/AutoClusterModal';
@@ -46,6 +47,8 @@ function App() {
         <Route path="/" component={SideBar} />
 
         <Route path="/new_project" component={ProjectModal} />
+        <Route path="/load_project" component={LoadProjectModal} />
+
         <Route path="/project/:projectID/export" component={CodeExportModal} />
         <Route
           path="/project/:projectID/add_datasets"

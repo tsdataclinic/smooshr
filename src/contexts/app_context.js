@@ -108,6 +108,11 @@ const reducer = (state, action) => {
         mappings: state.mappings.filter(m => m.id !== payload),
       };
 
+    case 'ADD_MAPPINGS':
+      return {
+        ...state,
+        mappings: [...state.mappings, ...payload],
+      };
     case 'ADD_MAPPING':
       return {
         ...state,
@@ -281,6 +286,8 @@ export const useProject = projectID => {
     meta_column_ids.includes(m.column_id),
   );
   const columns = state.columns.filter(c => colIDs.includes(c.id));
+  const column_ids = columns.map(c => c.id);
+  const entries = state.entries.filter(e => column_ids.includes(e.column_id));
 
   const deleteProject = () => {
     columns.forEach(c => {
@@ -320,7 +327,15 @@ export const useProject = projectID => {
     });
   };
 
-  return {project, datasets, meta_columns, columns, mappings, deleteProject};
+  return {
+    project,
+    datasets,
+    meta_columns,
+    columns,
+    mappings,
+    deleteProject,
+    entries,
+  };
 };
 
 export const useColumn = columnID => {

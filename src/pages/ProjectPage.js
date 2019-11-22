@@ -12,6 +12,7 @@ import {
 import {
   saveMappingsCSV,
   saveMappingsJSON,
+  saveProject,
   applyAndSave,
   exportPythonCode,
 } from '../utils/file_parsing';
@@ -35,6 +36,7 @@ export default function ProjectPage(props) {
     meta_columns,
     columns,
     mappings,
+    entries,
     deleteProject,
   } = useProject(projectID);
 
@@ -60,6 +62,18 @@ export default function ProjectPage(props) {
 
   const exportMappingsJSON = () => {
     saveMappingsJSON(project, datasets, meta_columns, columns, mappings);
+  };
+
+  const onSaveProject = () => {
+    saveProject(
+      project,
+      datasets,
+      meta_columns,
+      columns,
+      mappings,
+      entries,
+      {},
+    );
   };
 
   const exportPythonCode = () => {
@@ -211,7 +225,7 @@ export default function ProjectPage(props) {
             </div>
             <div className="region-list action-list">
               {/*<button onClick={exportMappingsCSV}>Export Mappings (csv)</button>*/}
-              <button onClick={exportMappingsJSON}>Export Project</button>
+              <button onClick={onSaveProject}>Export Project</button>
               <Link to={`/project/${projectID}/export`}>
                 <button>Export Python code</button>
               </Link>
