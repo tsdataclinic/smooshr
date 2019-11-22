@@ -1,4 +1,4 @@
-import { calc_embedings } from '../utils/calc_embedings'
+import {calc_embedings} from '../utils/calc_embedings';
 const uuidv1 = require('uuid/v1');
 
 export function createMapping(selection, columnID, name, dispatch) {
@@ -13,7 +13,7 @@ export function createMapping(selection, columnID, name, dispatch) {
       id,
     },
   });
-  return id
+  return id;
 }
 
 export function renameMapping(mapping, newName, dispatch) {
@@ -27,7 +27,6 @@ export function renameMapping(mapping, newName, dispatch) {
     },
   });
 }
-
 
 export function removeEntryFromMapping(mapping, entry, dispatch) {
   console.log('mapping ', mapping, ' entry ', entry);
@@ -65,10 +64,9 @@ export function requestEmbedingsForEntries(entries, dispatch) {
   calc_embedings(entries).then(embeddings => {
     dispatch({
       type: 'ADD_EMBEDINGS',
-      payload: embeddings
-
-    })
-  })
+      payload: embeddings,
+    });
+  });
 }
 
 export function addNegativeExampleToMapping(mapping, entry, dispatch) {
@@ -77,10 +75,10 @@ export function addNegativeExampleToMapping(mapping, entry, dispatch) {
     payload: {
       id: mapping.id,
       mapping: {
-        negative_examples: [...mapping.negative_examples, entry]
-      }
-    }
-  })
+        negative_examples: [...mapping.negative_examples, entry],
+      },
+    },
+  });
 }
 export function addEntriesToMapping(mapping, entries, dispatch) {
   dispatch({
@@ -88,41 +86,61 @@ export function addEntriesToMapping(mapping, entries, dispatch) {
     payload: {
       id: mapping.id,
       mapping: {
-        entries: [...mapping.entries, ...entries]
-      }
-    }
-  })
+        entries: [...mapping.entries, ...entries],
+      },
+    },
+  });
 }
 
 export function updateMetaColumn(id, changes, dispatch) {
   dispatch({
-    type: "UPDATE_META_COLUMN",
+    type: 'UPDATE_META_COLUMN',
     payload: {
       id,
-      meta_column: changes
-    }
-  })
+      meta_column: changes,
+    },
+  });
 }
 
+export function unMergeMetaColumn(meta_column, dispatch) {
+  meta_column.columns.forEach(col_id => {
+    dispatch({
+      type: 'CREATE_META_COLUMN_FROM_COL_ID',
+      payload: {
+        col_id,
+        id: uuidv1(),
+        project_id: meta_column.project_id,
+      },
+    });
+  });
+
+  dispatch({
+    type: 'REMOVE_META_COLUMNS',
+    payload: [meta_column.id],
+  });
+
+  dispatch({
+    type: 'REMOVE_MAPPINGS_FOR_METACOLUMN',
+    payload: meta_column.id,
+  });
+}
 
 export function mergeMetaColumns(meta_columns, dispatch) {
-  const new_col = meta_columns[0]
-  const ids = meta_columns.map(mc => mc.id)
+  const new_col = meta_columns[0];
+  const ids = meta_columns.map(mc => mc.id);
 
-  const toDelete = []
+  const toDelete = [];
   meta_columns.slice(1).forEach(mc => {
-    new_col.columns = [...new_col.columns, ...mc.columns]
-  })
-  debugger
+    new_col.columns = [...new_col.columns, ...mc.columns];
+  });
 
   dispatch({
-    type: "REMOVE_META_COLUMNS",
-    payload: ids
-  })
+    type: 'REMOVE_META_COLUMNS',
+    payload: ids,
+  });
 
   dispatch({
-    type: "ADD_META_COLUMNS",
-    payload: [new_col]
-  })
-
+    type: 'ADD_META_COLUMNS',
+    payload: [new_col],
+  });
 }

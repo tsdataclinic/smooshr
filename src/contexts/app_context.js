@@ -29,87 +29,108 @@ const initalState = {
 
 const reducer = (state, action) => {
   console.log('DISPATCHING ', action.type);
-  switch (action.type) {
+  const {type, payload} = action;
+  switch (type) {
     case 'LOAD_CACHED_STATE':
-      return action.payload;
+      return payload;
 
     case 'ADD_DATASETS':
-      return {...state, datasets: [...state.datasets, ...action.payload]};
+      return {...state, datasets: [...state.datasets, ...payload]};
 
     case 'REMOVE DATASET':
       return {
         ...state,
-        datasets: state.datasets.filter(d => d.id !== action.payload),
+        datasets: state.datasets.filter(d => d.id !== payload),
       };
 
     case 'ADD_EMBEDINGS':
       return {
         ...state,
-        embeddings: action.payload,
+        embeddings: payload,
       };
     case 'ADD_COLUMNS':
-      return {...state, columns: [...state.columns, ...action.payload]};
+      return {...state, columns: [...state.columns, ...payload]};
 
     case 'REMOVE_COLUMN':
       return {
         ...state,
-        columns: state.datasets.filter(c => c.id !== action.payload),
+        columns: state.datasets.filter(c => c.id !== payload),
       };
 
     case 'ADD_ENTRIES':
-      return {...state, entries: [...state.entries, ...action.payload]};
+      return {...state, entries: [...state.entries, ...payload]};
 
     case 'REMOVE ENTRY':
       return {
         ...state,
-        entries: state.entries.filter(e => e.id !== action.payload),
+        entries: state.entries.filter(e => e.id !== payload),
+      };
+
+    case 'CREATE_META_COLUMN_FROM_COL_ID':
+      return {
+        ...state,
+        metaColumns: [
+          ...state.metaColumns,
+          {
+            id: payload.id,
+            name: state.columns.find(c => c.id === payload.col_id).name,
+            description: state.columns.find(c => c.id === payload.col_id)
+              .description,
+            project_id: payload.project_id,
+            columns: [payload.col_id],
+          },
+        ],
+      };
+
+    case 'REMOVE_MAPPINGS_FOR_METACOLUMN':
+      return {
+        ...state,
+        mappings: state.mappings.filter(m => m.column_id !== payload),
       };
 
     case 'REMOVE_META_COLUMNS':
       return {
         ...state,
-        metaColumns: state.metaColumns.filter(
-          mc => !action.payload.includes(mc.id),
-        ),
+        metaColumns: state.metaColumns.filter(mc => !payload.includes(mc.id)),
       };
     case 'ADD_META_COLUMNS':
       return {
         ...state,
-        metaColumns: [...state.metaColumns, ...action.payload],
+        metaColumns: [...state.metaColumns, ...payload],
       };
 
     case 'ADD_MAPPINGS':
-      return {...state, mappings: [...state.mappings, ...action.payload]};
+      return {...state, mappings: [...state.mappings, ...payload]};
 
     case 'REMOVE_MAPPING':
       return {
         ...state,
-        mappings: state.mappings.filter(m => m.id !== action.payload),
+        mappings: state.mappings.filter(m => m.id !== payload),
       };
 
     case 'ADD_MAPPING':
       return {
         ...state,
-        mappings: [...state.mappings, action.payload],
+        mappings: [...state.mappings, payload],
       };
 
     case 'ADD_PROJECT':
       return {
         ...state,
-        projects: [...state.projects, {id: uuidv1(), ...action.payload}],
+        projects: [...state.projects, {id: uuidv1(), ...payload}],
       };
 
     case 'REMOVE_PROJECT':
       return {
         ...state,
-        projects: state.projects.filter(p => p.id !== action.payload),
+        projects: state.projects.filter(p => p.id !== payload),
       };
 
     case 'UPDATE_PROJECT':
       return {
         ...state,
         projects: state.projects.map(p =>
-          p.id == action.payload.id ? {...p, ...action.payload} : p,
+          p.id == payload.id ? {...p, ...payload} : p,
         ),
       };
 
@@ -117,8 +138,8 @@ const reducer = (state, action) => {
       return {
         ...state,
         mappings: state.mappings.map(m =>
-          m.id === action.payload.id
-            ? {...m, entries: [...m.entries, action.payload.entry]}
+          m.id === payload.id
+            ? {...m, entries: [...m.entries, payload.entry]}
             : m,
         ),
       };
@@ -126,42 +147,38 @@ const reducer = (state, action) => {
       return {
         ...state,
         mappings: state.mappings.map(m =>
-          m.id === action.payload.id ? {...m, ...action.payload.mapping} : m,
+          m.id === payload.id ? {...m, ...payload.mapping} : m,
         ),
       };
     case 'REMOVE_ENTRIES_FOR_COLUMN':
       return {
         ...state,
-        entries: state.entries.filter(
-          entry => entry.columnID === action.payload,
-        ),
+        entries: state.entries.filter(entry => entry.columnID === payload),
       };
 
     case 'REMOVE_META_COLUMN':
       return {
         ...state,
-        meta_columns: state.metaColumns.filter(mc => mc.id !== action.payload),
+        meta_columns: state.metaColumns.filter(mc => mc.id !== payload),
       };
 
     case 'UPDATE_META_COLUMN':
       return {
         ...state,
         meta_columns: state.metaColumns.map(mc =>
-          mc.id === action.payload.id
-            ? {...mc, ...action.payload.meta_column}
-            : mc,
+          mc.id === payload.id ? {...mc, ...payload.meta_column} : mc,
         ),
       };
 
     case 'SET_PERSISTING':
       return {
         ...state,
-        persisting: action.payload,
+        persisting: payload,
       };
     case 'UPDATE_STORAGE_QUOTA':
       return {
         ...state,
-        storage_stats: action.payload,
+        storage_stats: payload,
       };
     default:
       return state;
