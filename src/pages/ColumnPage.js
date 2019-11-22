@@ -1,66 +1,44 @@
-import React, {useState} from 'react';
-import {useStateValue} from '../contexts/app_context';
-import {guessGroupingsLevenshteinHClust} from '../utils/text_clustering';
-import EditableText from '../components/EditableText';
-import TSNEPlot from '../components/TSNEPlot';
-import {suggestForMapping} from '../utils/text_clustering';
-import {calc_embedings, tsne_coords, most_similar_to_category_mean} from '../utils/calc_embedings';
+import React, { useState, useEffect } from 'react';
+import SearchBar from '../components/SearchBar';
+import EntryTable from '../components/EntryTable';
+import MappingsArea from '../components/MappingsArea';
 import useFuse from 'react-use-fuse';
-import {Link} from 'react-router-dom'
+import { suggestForMapping } from '../utils/text_clustering';
+import { most_similar_to_category_mean } from '../utils/calc_embedings';
 
-const uuidv1 = require('uuid/v1');
+import {
+  createMapping,
+  renameMapping,
+  addEntriesToMapping,
+  addNegativeExampleToMapping,
+  removeEntryFromMapping,
+  deleteMapping,
+  clearMapping,
+  requestEmbedingsForEntries,
+} from '../contexts/actions';
+import { useStateValue, useMetaColumn } from '../contexts/app_context';
 
-export default function ColumnPage({match}) {
-  const [
-    {datasets, cache_loaded, columns, mappings, entries},
-    dispatch,
-  ] = useStateValue();
-
+export default function ColumnPage({ match }) {
   const [searchTerm, setSearchTerm] = useState(null);
-  const [selection, setSelection] = useState([]);
+  const [selectedMappingID, setSelectedMappingID] = useState(null);
+  const [entrySelection, setEntrySelection] = useState([]);
+  const { columnID } = match.params;
 
-  const [mappingSuggestions, setMappingSuggestions] = useState([]);
+  const { entries, mappings, embeddings, dispatch } = useMetaColumn(columnID);
+  const selectedMapping = mappings.find(m => m.id == selectedMappingID);
 
-  const [hideMapped, setHideMapped] = useState(true);
-  const [activeMappingID, setActiveMappingID] = useState(null);
+  useEffect(() => {
+    if (entries) {
+      requestEmbedingsForEntries(entries, dispatch);
+    }
+  }, [JSON.stringify(entries)]);
 
-  const {projectID,datasetID, columnID} = match.params;
-  const dataset = datasets.find(d => d.id === datasetID);
-  const column = columns.find(c => c.id === columnID);
+  const non_mapped_entries = entries.filter(
+    entry => !mappings.some(m => m.entries.includes(entry.name)),
+  );
 
-  const [embedings, setEmbedings] = useState(null);
-
-  const mappingsForColumn = mappings.filter(m => m.column_id === columnID);
-
-  console.log('mappings ', mappingsForColumn);
-
-  const entriesForColumnAll = entries
-    .filter(e => e.column_id === columnID)
-
-  const entriesForColumn = entriesForColumnAll
-    .filter(e =>
-      hideMapped
-        ? !mappingsForColumn.some(m => m.entries.includes(e.name))
-        : true,
-    );
-
-  const guessGroupings = () => {
-    let {assignments, mappings} = guessGroupingsLevenshteinHClust(
-      Object.keys(column.entries),
-    );
-  };
-
-  const suggestForMappingWithEmbedings = (mapping_entries, all_entries,embeddings)=>{
-    return most_similar_to_category_mean(mapping_entries,all_entries,embeddings) 
-  }
-
-  const calcEmbedings = () => {
-    calc_embedings(entriesForColumnAll).then(result => {
-      setEmbedings(result)
-  })}
-
-  const {result, search, term, reset} = useFuse({
-    data: entriesForColumn,
+  const { result, search, term, reset } = useFuse({
+    data: non_mapped_entries,
     options: {
       shouldSort: true,
       findAllMatches: true,
@@ -69,201 +47,166 @@ export default function ColumnPage({match}) {
     },
   });
 
+  const filteredEntries = result;
+
+  const toggleEnrtySelection = entry => {
+    const entryName = typeof (entry) == 'string' ? entry : entry.name;
+
+    if (entrySelection.includes(entryName)) {
+      setEntrySelection(entrySelection.filter(s => s != entryName));
+    } else {
+      setEntrySelection([...entrySelection, entryName]);
+    }
+  };
+
+  const onCreateMapping = () => {
+    const id = createMapping(entrySelection, columnID, entrySelection[0], dispatch);
+    setEntrySelection([]);
+    setSelectedMappingID(id);
+  };
+
+  const onRenameMapping = (mapping, name) => {
+    renameMapping(mapping, name, dispatch);
+  };
+
+  const onRemoveEntryFromMapping = (entry, mapping) => {
+    removeEntryFromMapping(mapping, entry, dispatch);
+  };
+
+  const onClearMapping = mapping => {
+    clearMapping(mapping, dispatch);
+  };
+
+  const onDeleteMapping = mapping => {
+    deleteMapping(mapping, dispatch);
+  };
+
+  const clearSelection = () => {
+    setEntrySelection([]);
+  }
+
+  const onAddEntriesToMapping = (entriesToAdd, clearSelection = false) => {
+    addEntriesToMapping(selectedMapping, entriesToAdd, dispatch);
+    if (clearSelection) {
+      clearSelection();
+    }
+  };
+
+  const onAddNegativeExampleToMapping = entry => {
+    addNegativeExampleToMapping(selectedMapping, entry, dispatch);
+  };
+
+  //Remove any entries that are already in a mapping
+
   const updateSearch = text => {
     setSearchTerm(text);
     search(text);
   };
 
-  const toggleEntitySelection = entity => {
-    if (selection.includes(entity.name)) {
-      setSelection(selection.filter(eName => eName !== entity.name));
-    } else {
-      setSelection([...selection, entity.name]);
-    }
+  const suggestionsAvaliable = embeddings && selectedMapping;
+
+  const meaningSuggestions = suggestionsAvaliable
+    ? most_similar_to_category_mean(
+      selectedMapping.entries,
+      selectedMapping.negative_examples,
+      non_mapped_entries,
+      embeddings,
+    )
+    : [];
+
+  const textSuggestions = suggestionsAvaliable
+    ? suggestForMapping(selectedMapping.entries, non_mapped_entries)
+    : [];
+
+  const suggestions = { text: textSuggestions, meaning: meaningSuggestions };
+
+  const { cache_loaded, _ } = useStateValue();
+
+  const stats = {
+    mappings: mappings.length,
+    total_rows: entries.reduce((total, e) => total + e.count, 0),
+    total_mapped_rows: mappings
+      .map(
+        m =>
+          m.entries.reduce(
+            (total, entry) => total + entries.find(e => e.name === entry).count
+            , 0)
+      )
+      .reduce((total, map) => total + map, 0),
+    total_entries_in_mappings: mappings.reduce(
+      (total, m) => total + m.entries.length,
+      0,
+    ),
   };
 
-  const newMappingFromSelection = () => {
-    const id = uuidv1();
 
-    dispatch({
-      type: 'ADD_MAPPING',
-      payload: {
-        name: selection[0],
-        entries: selection,
-        column_id: columnID,
-        id,
-      },
-    });
-    setSelection([]);
-  };
-
-  const addEntitiesToMapping = (selectedEntities, mappingID) => {
-    const activeMapping = mappings.find(m => m.id === mappingID);
-    dispatch({
-      type: 'UPDATE_MAPPING',
-      payload: {
-        id: mappingID,
-        mapping: {entries: [...activeMapping.entries, ...selectedEntities]},
-      },
-    });
-    setSelection([]);
-  };
-
-  const updateMappingName = (mappingID, name) => {
-    console.log('updating mapping id ', mappingID, name);
-    dispatch({
-      type: 'UPDATE_MAPPING',
-      payload: {
-        id: mappingID,
-        mapping: {name},
-      },
-    });
-  };
-
-  const deleteMapping = mappingID => {
-    dispatch({
-      type: 'DELETE_MAPPING',
-      payload: mappingID,
-    });
-  };
-
-  const removeEntriesFromMapping = (mapping, entries) => {
-    console.log('mapping is ', mapping.id, entries, mapping);
-    dispatch({
-      type: 'UPDATE_MAPPING',
-      payload: {
-        id: mapping.id,
-        mapping: {
-          entries: mapping.entries.filter(e => !entries.includes(e)),
-        },
-      },
-    });
-  };
-
-  const inMappings = mappingsForColumn.reduce(
-    (r, map) => r + map.entries.length,
-    0,
-  );
-  return cache_loaded ? (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      }}>
-      <div classname="entites" style={{flex: 1}}>
-        <h3 style={{marginBottom: '20px'}}>
-          Entries for {column.name}. You have mapped of {inMappings} of{' '}
-          {entriesForColumnAll.length} entries. 
-        </h3>
-        <div className="search">
-          <input
-            placeholder={'filter'}
-            value={searchTerm}
-            onChange={e => updateSearch(e.target.value)}
-          />
-          <div>
-            Hide already mapped:{' '}
-            <input
-              checked={hideMapped}
-              onChange={e => setHideMapped(e.target.checked)}
-              type="checkbox"
-            />
+  if (!cache_loaded) {
+    return (
+      <div className="ColumnPage">
+        <SearchBar
+          style={{ gridArea: 'header', width: '50%', justifySelf: 'center' }}
+          onChange={updateSearch}
+          onClear={() => updateSearch('')}
+          value={searchTerm}
+          prompt="Search for entries by typing here..."
+        />
+        <EntryTable
+          entries={filteredEntries}
+          style={{
+            gridArea: 'table',
+            overflowY: 'hidden',
+            width: '100%',
+            height: '100%',
+          }}
+          onToggleSelection={toggleEnrtySelection}
+          selection={entrySelection}
+          onClearSelection={clearSelection}
+          {...entries}
+        />
+        <div className="StatsAndActions">
+          <div className="stats">
+            <p>
+              <span>{stats.total_entries_in_mappings}</span> / <span>{entries.length}</span> entries |{' '}
+              <span>{stats.total_mapped_rows}</span> / <span>{stats.total_rows}</span> rows
+            </p>
+          </div>
+          <div className="entryActionButtons">
+            <button
+              disabled={entrySelection.length == 0}
+              onClick={onCreateMapping}>
+              New Mapping {entrySelection.length}
+            </button>
+            <button
+              disabled={entrySelection.length == 0}
+              onClick={() => onAddEntriesToMapping(entrySelection, true)}>
+              Add to Mapping
+            </button>
+            <button
+              onClick={() => createMapping(non_mapped_entries, columnID, 'Other', dispatch)}>
+              Map Remaining To Other
+            </button>
           </div>
         </div>
-        <div className="entityGrid">
-          {result.map(e => (
-            <p
-              onClick={() => toggleEntitySelection(e)}
-              key={e.name}
-              style={{
-                fontWeight: selection.includes(e.name) ? 'bold' : 'normal',
-                cursor: 'pointer',
-              }}>
-              {e.name} : {e.count}
-            </p>
-          ))}
-        </div>
+        <MappingsArea
+          mappings={mappings}
+          selection={mappings.find(m => m.id === selectedMappingID)}
+          style={{ gridArea: 'mappings' }}
+          onMappingSelected={s => setSelectedMappingID(s.id)}
+          onRenameMapping={onRenameMapping}
+          onRemoveEntryFromMapping={onRemoveEntryFromMapping}
+          onDeleteMapping={onDeleteMapping}
+          onClearMapping={onClearMapping}
+          suggestions={suggestions}
+          onAddSuggestionToMapping={suggestion =>
+            onAddEntriesToMapping([suggestion])
+          }
+          onAddNegativeExampleToMapping={onAddNegativeExampleToMapping}
+          {...mappings}
+          syle={{ height: '300px' }}
+        />
       </div>
-
-      <div style={{flex: 1}}>
-        <h2>Mappings</h2>
-        <div className="buttons">
-          <button onClick={calcEmbedings}> Calc Embedings</button>
-          <Link to={`/project/${projectID}/dataset/${datasetID}/column/${columnID}/guess_categories`}
-          >
-            <button> Guess Clusters</button>
-          </Link>
-          <button
-            onClick={() => addEntitiesToMapping(selection, activeMappingID)}>
-            Add Selection To Mapping
-          </button>
-          <button onClick={newMappingFromSelection}>
-            Creat New Mapping from selection
-          </button>
-        </div>
-        <div className="mappings">
-          {mappingsForColumn.map(mapping => (
-            <div
-              onClick={() => setActiveMappingID(mapping.id)}
-              className={`mapping ${
-                mapping.id === activeMappingID ? 'active' : ''
-              }`}>
-              <span>
-                <EditableText
-                  text={mapping.name}
-                  onUpdate={text => updateMappingName(mapping.id, text)}
-                />
-                <span onClick={() => deleteMapping(mapping.id)}>X</span>
-              </span>
-              {mapping.entries.map(entry => (
-                <p>
-                  {entry}{' '}
-                  <span
-                    onClick={() => removeEntriesFromMapping(mapping, [entry])}
-                    className="RemoveEntry"
-                    style={{cursor: 'pointer'}}>
-                    X
-                  </span>
-                </p>
-              ))}
-              <hr />
-              <p style={{fontWeight: 'bold'}}>Similar Words</p>
-
-              {suggestForMapping(mapping.entries, entriesForColumn).map(
-                suggestion => (
-                  <p
-                    style={{cursor: 'pointer'}}
-                    onClick={() =>
-                      addEntitiesToMapping([suggestion.suggestion], mapping.id)
-                    }>
-                    {suggestion.suggestion}
-                  </p>
-                ),
-              )}
-              <p style={{fontWeight: 'bold'}}>Similar Meanings</p>
-
-              {embedings && 
-                  suggestForMappingWithEmbedings(mapping.entries, entriesForColumn, embedings).map(
-                    suggestion => (
-                      <p
-                        style={{cursor: 'pointer'}}
-                        onClick={() =>
-                          addEntitiesToMapping([suggestion.suggestion], mapping.id)
-                        }>
-                        {suggestion.suggestion}
-                      </p>
-                    )
-              )}
-              
-            </div>
-          ))}
-        </div>
-      </div>
-      {embedings && false && <TSNEPlot data={embedings} />}
-    </div>
-  ) : (
-    <h1>Loading </h1>
-  );
+    );
+  } else {
+    return <h1>Loading</h1>;
+  }
 }
