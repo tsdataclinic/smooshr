@@ -6,6 +6,7 @@ import TablePreview from '../components/TablePreview';
 import {
   mergeMetaColumns,
   updateMetaColumn,
+  unMergeMetaColumn,
   deleteProject,
 } from '../contexts/actions';
 import {
@@ -85,6 +86,10 @@ export default function ProjectPage(props) {
     }
   };
 
+  const seperateMetaDataColumn = id => {
+    unMergeMetaColumn(meta_columns.find(mc => mc.id == id), dispatch);
+  };
+
   const dereferenceColumn = colID => {
     const column = columns.find(c => c.id === colID);
     return {
@@ -147,6 +152,7 @@ export default function ProjectPage(props) {
                   selected={selectedColumns.includes(mc.id)}
                   onClick={() => toggleSelectedColumn(mc.id)}
                   onUpdate={newName => changeMCName(mc, newName)}
+                  onUnmerge={() => seperateMetaDataColumn(mc.id)}
                   link={`/project/${project.id}/column/${mc.id}`}
                 />
               ))}
