@@ -1,147 +1,192 @@
-import React, { useState, useEffect } from 'react';
-import { useStateValue, useProject } from '../contexts/app_context';
-import { Link } from 'react-router-dom';
-import ColumnCard from '../components/ColumnCard'
-import { mergeMetaColumns, updateMetaColumn, deleteProject } from '../contexts/actions'
-import { saveMappingsCSV, saveMappingsJSON, applyAndSave, exportPythonCode } from '../utils/file_parsing'
-import OpenDataSearcher from '../components/OpenDataSearcher'
+import React, {useState, useEffect} from 'react';
+import {useStateValue, useProject} from '../contexts/app_context';
+import {Link} from 'react-router-dom';
+import ColumnCard from '../components/ColumnCard';
+import TablePreview from '../components/TablePreview';
+import {
+  mergeMetaColumns,
+  updateMetaColumn,
+  deleteProject,
+} from '../contexts/actions';
+import {
+  saveMappingsCSV,
+  saveMappingsJSON,
+  applyAndSave,
+  exportPythonCode,
+} from '../utils/file_parsing';
+import OpenDataSearcher from '../components/OpenDataSearcher';
 
 import {
   faColumns,
   faDatabase,
   faFistRaised,
-  faInfoCircle
+  faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 export default function ProjectPage(props) {
-  const { match, history } = props;
-  const { projectID } = match.params;
-  const { project, datasets, meta_columns, columns, mappings, deleteProject } = useProject(projectID);
-  const [{ }, dispatch] = useStateValue()
-  const [selectedColumns, setSelectedColumns] = useState([])
-
+  const {match, history} = props;
+  const {projectID} = match.params;
+  const {
+    project,
+    datasets,
+    meta_columns,
+    columns,
+    mappings,
+    deleteProject,
+  } = useProject(projectID);
+  const [{}, dispatch] = useStateValue();
+  const [selectedColumns, setSelectedColumns] = useState([]);
 
   const exportMappingsCSV = () => {
-    saveMappingsCSV(project, datasets, meta_columns, columns, mappings)
-  }
+    saveMappingsCSV(project, datasets, meta_columns, columns, mappings);
+  };
 
   const exportMappingsJSON = () => {
-    saveMappingsJSON(project, datasets, meta_columns, columns, mappings)
-  }
+    saveMappingsJSON(project, datasets, meta_columns, columns, mappings);
+  };
 
   const exportPythonCode = () => {
-    exportPythonCode()
-  }
+    exportPythonCode();
+  };
 
   const exportData = () => {
     applyAndSave(project, datasets, meta_columns, columns, mappings);
-  }
+  };
 
   const changeMCName = (mc, name) => {
-    updateMetaColumn(mc.id, { name }, dispatch)
-  }
+    updateMetaColumn(mc.id, {name}, dispatch);
+  };
   const deleteThisProject = () => {
-    deleteProject()
-    history.push('/')
-  }
+    deleteProject();
+    history.push('/');
+  };
 
-  const toggleSelectedColumn = (id) => {
+  const toggleSelectedColumn = id => {
     if (selectedColumns.includes(id)) {
-      setSelectedColumns(selectedColumns.filter(cid => cid !== id))
+      setSelectedColumns(selectedColumns.filter(cid => cid !== id));
+    } else {
+      setSelectedColumns([...selectedColumns, id]);
     }
-    else {
-      setSelectedColumns([...selectedColumns, id])
-    }
-  }
+  };
 
-  const dereferenceColumn = (colID) => {
-    const column = columns.find(c => c.id === colID)
+  const dereferenceColumn = colID => {
+    const column = columns.find(c => c.id === colID);
     return {
       dataset: datasets.find(d => d.id === column.dataset_id),
       name: column.name,
       id: column.id,
-      unique: column.unique
-    }
-  }
+      unique: column.unique,
+    };
+  };
 
   const mergeColumns = () => {
-    const toMerge = meta_columns.filter(mc => selectedColumns.includes(mc.id))
-    mergeMetaColumns(toMerge, dispatch)
-    setSelectedColumns([])
-  }
-
+    const toMerge = meta_columns.filter(mc => selectedColumns.includes(mc.id));
+    mergeMetaColumns(toMerge, dispatch);
+    setSelectedColumns([]);
+  };
 
   return (
-    <div className='dataset-page page'>
+    <div className="dataset-page page">
       {project ? (
         <React.Fragment>
-          <h1 className="large-title-header">{project.name}</h1>
           <p>{project.description}</p>
 
           <div className="metadata region">
             <div className="region-header">
-              <h2><FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '20px' }} />Metadata</h2>
-              <div className='metadata'>
-
-              </div>
+              <h2>
+                <FontAwesomeIcon
+                  icon={faInfoCircle}
+                  style={{marginRight: '20px'}}
+                />
+                Metadata
+              </h2>
+              <div className="metadata"></div>
             </div>
           </div>
-
           <div className="datasets region">
             <div className="region-header">
-              <h2><FontAwesomeIcon icon={faDatabase} style={{ marginRight: '20px' }} />Datasets</h2>
+              <h2>
+                <FontAwesomeIcon
+                  icon={faDatabase}
+                  style={{marginRight: '20px'}}
+                />
+                Datasets
+              </h2>
               <Link to={`/project/${projectID}/add_datasets`}>
                 <button>Add Dataset</button>
               </Link>
             </div>
-            <div className='region-list'>
-              {datasets.map((dataset) =>
+            <div className="region-list">
+              {datasets.map(dataset => (
                 <p>{dataset.name}</p>
-              )}
+              ))}
             </div>
+            {datasets.length > 0 && (
+              <TablePreview
+                data={datasets[0].sample}
+                columns={datasets[0].columns}
+              />
+            )}
           </div>
 
           <div className="columns region">
             <div className="region-header">
-              <h2><FontAwesomeIcon icon={faColumns} style={{ marginRight: '20px' }} />Columns</h2>
-              {selectedColumns.length > 0 ? <button onClick={mergeColumns}>{`Merge ${selectedColumns.length} columns`}</button> : ''}
+              <h2>
+                <FontAwesomeIcon
+                  icon={faColumns}
+                  style={{marginRight: '20px'}}
+                />
+                Columns
+              </h2>
+              {selectedColumns.length > 0 ? (
+                <button
+                  onClick={
+                    mergeColumns
+                  }>{`Merge ${selectedColumns.length} columns`}</button>
+              ) : (
+                ''
+              )}
             </div>
-            <div className='region-list column-list'>
-              {meta_columns.map(mc =>
+            <div className="region-list column-list">
+              {meta_columns.map(mc => (
                 <ColumnCard
                   name={mc.name}
                   description={mc.description}
                   fromColumns={mc.columns.map(dereferenceColumn)}
                   selected={selectedColumns.includes(mc.id)}
                   onClick={() => toggleSelectedColumn(mc.id)}
-                  onUpdate={(newName) => changeMCName(mc, newName)}
+                  onUpdate={newName => changeMCName(mc, newName)}
                   link={`/project/${project.id}/column/${mc.id}`}
                 />
-              )}
+              ))}
             </div>
           </div>
 
           <div className="actions region">
             <div className="region-header">
-              <h2><FontAwesomeIcon icon={faFistRaised} style={{ marginRight: '20px' }} />Actions</h2>
+              <h2>
+                <FontAwesomeIcon
+                  icon={faFistRaised}
+                  style={{marginRight: '20px'}}
+                />
+                Actions
+              </h2>
             </div>
-            <div className='region-list action-list'>
+            <div className="region-list action-list">
               {/*<button onClick={exportMappingsCSV}>Export Mappings (csv)</button>*/}
               <button onClick={exportMappingsJSON}>Export Project</button>
-              <Link to={`/project/${projectID}/export`} >
+              <Link to={`/project/${projectID}/export`}>
                 <button>Export Python code</button>
               </Link>
               {/*<button onClick={exportData}>Export Data</button> */}
               <button onClick={deleteThisProject}>Delete Project</button>
             </div>
           </div>
-
         </React.Fragment>
       ) : (
-          <h1>Project not found</h1>
-        )}
+        <h1>Project not found</h1>
+      )}
     </div>
   );
 }
-

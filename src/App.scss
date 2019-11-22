@@ -1,8 +1,10 @@
 $base-color: #ffffff;
-$main-color: rgb(65, 68, 92);
+$main-color: rgb(30, 77, 94);
 $other-color: rgb(235, 238, 247);
 $other-text-color: rgb(145, 151, 193);
 $teal: rgb(24, 154, 167);
+$yellow: rgb(250, 235, 183);
+
 body {
   font-family: 'lato';
   font-size: 16px;
@@ -33,6 +35,10 @@ ul li {
   display: grid;
   grid-template-columns: 100px 1fr;
   grid-template-areas: 'sidenav main';
+
+  // For style commit
+  //  grid-template-rows: 70px 1fr;
+  //  grid-template-areas: 'sidenav' 'main';
 }
 
 .App-logo {
@@ -54,12 +60,49 @@ ul li {
 /* Side nav content */
 .sidenav {
   grid-area: sidenav;
-  background-color: $teal;
+  //background-color: $yellow;
+  background-color: #189aa7;
+  //padding: 0px 40px;
   padding: 40px 0px;
+  height: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  //For style commit
+  //flex-direction: row;
+}
+
+.sidenav img {
+  width: 60px;
+}
+
+.sidenav .back-button {
+  justify-self: flex-end;
+}
+
+.sidenav .data-clinic {
+  border-right: 1px solid;
+  padding-right: 20px;
+}
+.sidenav .social {
+  width: 394px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.sidenav .social svg {
+  margin-left: 20px;
+}
+
+.sidenav .content {
+  flex: 1;
+}
+
+.sidenav .project-name {
+  margin-left: 20px;
 }
 
 a {
@@ -151,15 +194,26 @@ a {
   justify-content: space-between;
 }
 
-.sidenav p {
-  margin-top: 10px;
-  color: white;
-}
-
 .sidenav svg {
   color: white;
   font-size: 2em;
 }
+
+// For style commit
+/*
+.sidenav .logos {
+  display: flex;
+  flex-direction: row;
+}
+.sidenav p {
+  color: $main-color;
+  font-size: 2rem;
+}
+
+.sidenav img {
+  width: 35px;
+  margin-right: 20px;
+}*/
 
 .spacer {
   flex-grow: 1;
@@ -172,6 +226,8 @@ a {
 
 .sidenav a {
   color: white;
+  //For style change
+  //color: $main-color;
   text-decoration: none;
 }
 .sidenav ul {
@@ -356,6 +412,7 @@ button:hover {
   display: grid;
   box-sizing: border-box;
   padding: 20px;
+  padding-bottom: 0px;
   grid-template-rows: 40px 1fr;
   width: 100%;
   height: 100%;
@@ -379,7 +436,7 @@ button:hover {
   background-color: $teal;
   border-radius: 20px;
   box-sizing: border-box;
-  padding: 5px 10px;
+  padding: 7px 10px;
   margin: 0px;
   font-size: 0.7rem;
   color: white;
@@ -404,7 +461,8 @@ button:hover {
   height: 40px;
   display: flex;
   flex-direction: row;
-  > span {
+  align-items: center;
+  span {
     margin-right: 20px;
   }
   a {
@@ -542,6 +600,8 @@ p {
 
 .MappingsMenu {
   background-color: $other-color;
+  // For style change
+  //background-color: $yellow;
   color: $main-color;
   box-sizing: border-box;
   padding: 20px 15px;
@@ -592,6 +652,8 @@ p {
 
 .MappingFocus {
   background-color: $other-color;
+  // For Style change
+  //background-color: rgba(179, 198, 106, 0.7);
   padding: 20px 15px;
   display: grid;
   grid-template-columns: minmax(353px, 50%) 1fr;
@@ -640,11 +702,12 @@ p {
 .MappingFocus ul {
   display: grid;
   grid-template-columns: repeat(auto-fit, 250px);
+  grid-template-rows: repeat(auto-fit, 25px);
   grid-column-gap: 30px;
-  grid-row-gap: 5px;
+  grid-row-gap: 20px;
   height: 215px;
-  overflow-y: scroll;
   overflow-x: hidden;
+  overflow-y: auto;
   justify-content: space-between;
 }
 .MappingFocus li {
@@ -671,6 +734,12 @@ p {
   max-height: 400px;
 }
 
+.empty-mapping-prompt {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
 .SmallButton {
   background-color: $other-text-color;
   font-size: 0.6rem;
@@ -685,7 +754,7 @@ p {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 70px 1fr 40px 400px;
+  grid-template-rows: 50px 1fr 60px 400px;
   grid-template-areas:
     'header'
     'table'
@@ -699,6 +768,7 @@ p {
   justify-content: space-between;
   box-sizing: border-box;
   padding: 0px 30px;
+  grid-area: stats_and_actions;
   align-items: center;
 }
 
