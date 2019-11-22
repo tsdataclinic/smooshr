@@ -119,6 +119,40 @@ export default function ProjectPage(props) {
               <div className="metadata"></div>
             </div>
           </div>
+
+          <div className="columns region">
+            <div className="region-header">
+              <h2>
+                <FontAwesomeIcon
+                  icon={faColumns}
+                  style={{marginRight: '20px'}}
+                />
+                Columns
+              </h2>
+              {selectedColumns.length > 0 ? (
+                <button
+                  onClick={
+                    mergeColumns
+                  }>{`Merge ${selectedColumns.length} columns`}</button>
+              ) : (
+                ''
+              )}
+            </div>
+            <div className="region-list column-list">
+              {meta_columns.map(mc => (
+                <ColumnCard
+                  name={mc.name}
+                  description={mc.description}
+                  fromColumns={mc.columns.map(dereferenceColumn)}
+                  selected={selectedColumns.includes(mc.id)}
+                  onClick={() => toggleSelectedColumn(mc.id)}
+                  onUpdate={newName => changeMCName(mc, newName)}
+                  link={`/project/${project.id}/column/${mc.id}`}
+                />
+              ))}
+            </div>
+          </div>
+
           <div className="datasets region">
             <div className="region-header">
               <h2>
@@ -157,39 +191,6 @@ export default function ProjectPage(props) {
                 columns={selectedDataset.columns}
               />
             )}
-          </div>
-
-          <div className="columns region">
-            <div className="region-header">
-              <h2>
-                <FontAwesomeIcon
-                  icon={faColumns}
-                  style={{marginRight: '20px'}}
-                />
-                Columns
-              </h2>
-              {selectedColumns.length > 0 ? (
-                <button
-                  onClick={
-                    mergeColumns
-                  }>{`Merge ${selectedColumns.length} columns`}</button>
-              ) : (
-                ''
-              )}
-            </div>
-            <div className="region-list column-list">
-              {meta_columns.map(mc => (
-                <ColumnCard
-                  name={mc.name}
-                  description={mc.description}
-                  fromColumns={mc.columns.map(dereferenceColumn)}
-                  selected={selectedColumns.includes(mc.id)}
-                  onClick={() => toggleSelectedColumn(mc.id)}
-                  onUpdate={newName => changeMCName(mc, newName)}
-                  link={`/project/${project.id}/column/${mc.id}`}
-                />
-              ))}
-            </div>
           </div>
 
           <div className="actions region">
