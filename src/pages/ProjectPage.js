@@ -21,6 +21,7 @@ import {
   faDatabase,
   faFistRaised,
   faInfoCircle,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
@@ -35,6 +36,20 @@ export default function ProjectPage(props) {
     mappings,
     deleteProject,
   } = useProject(projectID);
+
+  const [selectedDatasetName, setSelectedDatasetName] = useState(
+    datasets && datasets.length > 0 ? datasets[0].name : null,
+  );
+
+  // Used to set the selected dataset to the first one on inital load
+  useEffect(() => {
+    if (datasets.length > 0 && !selectedDatasetName) {
+      setSelectedDatasetName(datasets[0].name);
+    }
+  }, [datasets, selectedDatasetName]);
+
+  const selectedDataset = datasets.find(d => d.name === selectedDatasetName);
+
   const [{}, dispatch] = useStateValue();
   const [selectedColumns, setSelectedColumns] = useState([]);
 
@@ -113,19 +128,33 @@ export default function ProjectPage(props) {
                 />
                 Datasets
               </h2>
-              <Link to={`/project/${projectID}/add_datasets`}>
-                <button>Add Dataset</button>
+            </div>
+            <div className="dataset-tabs">
+              {datasets.map(dataset => (
+                <p
+                  className={
+                    selectedDatasetName == dataset.name
+                      ? 'selected-dataset dataset-tab'
+                      : 'dataset-tab'
+                  }
+                  onClick={() => setSelectedDatasetName(dataset.name)}>
+                  {dataset.name}
+                </p>
+              ))}
+              <p className="final-dataset dataset-tab">Final Dataset Preview</p>
+              <div class="spacer" />
+              <Link
+                to={`/project/${projectID}/add_datasets`}
+                className="add-dataset dataset-tab">
+                <FontAwesomeIcon icon={faPlus} />
+                <span>Add Dataset</span>
               </Link>
             </div>
-            <div className="region-list">
-              {datasets.map(dataset => (
-                <p>{dataset.name}</p>
-              ))}
-            </div>
-            {datasets.length > 0 && (
+
+            {datasets.length > 0 && selectedDataset && (
               <TablePreview
-                data={datasets[0].sample}
-                columns={datasets[0].columns}
+                data={selectedDataset.sample}
+                columns={selectedDataset.columns}
               />
             )}
           </div>
