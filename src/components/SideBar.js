@@ -17,13 +17,7 @@ export default function SideBar({history, match}) {
   };
   return (
     <div className="sidenav">
-      <Link to={'/'}>
-        <img src="/DataClinicLogo.png" />
-      </Link>
-      <div className="spacer" />
-      {/*
       <div className="logos">
-		
         <Link to={'/'}>
           <img src="/DataClinicLogo.png" />
         </Link>
@@ -32,7 +26,7 @@ export default function SideBar({history, match}) {
           <span className="project-name">smooshr</span>
         </p>
       </div>
-	  
+
       <div className="content">
         <Route
           path="/project/:projectID"
@@ -51,12 +45,6 @@ export default function SideBar({history, match}) {
         <FontAwesomeIcon icon={faMedium} />
         <FontAwesomeIcon icon={faGithub} />
       </p>
-		*/}
-      <FontAwesomeIcon
-        className="back-button"
-        icon={faChevronLeft}
-        onClick={goBack}
-      />
     </div>
   );
 }
