@@ -25,9 +25,9 @@ export function parse_file_for_preview(
     let fileSize = ref.size;
 
     if (file.type !== 'file') {
+      ref = ref.split("?")[0]
       ref = `${process.env.REACT_APP_API_URL}/proxy?url=${ref}`;
     }
-    console.log('getting ref as ', ref, ' for file ', file);
 
     Papa.parse(ref, {
       worker: true,
@@ -99,7 +99,7 @@ export function parse_file_for_preview(
         resolve({
           dataset: {
             id: dataset_id,
-            name: file.type === 'url' ? file.ref : file.ref.name,
+            name: file.type === 'url' ? file.ref.split('?')[0] : file.ref.name,
             file: file,
             row_count: no_rows,
             sample: sample,

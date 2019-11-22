@@ -71,13 +71,13 @@ export const most_similar_to_category_mean = (
   const distances = search_entries.map(entry => {
 
     const embeding = embeddings.find(e => e.entry == entry.name);
-    if(embeding){
-        const dist = vec_dist2(norm_vec(embeding.embed), mean);
-        return {suggestion: entry.name, dist: dist};
+    if (embeding) {
+      const dist = vec_dist2(norm_vec(embeding.embed), mean);
+      return { suggestion: entry.name, dist: dist };
     }
-    else{
-       console.log('failed to find ', entry)
-       return {suggestion:entry.name, dist:2000000}
+    else {
+      console.log('failed to find ', entry)
+      return { suggestion: entry.name, dist: 2000000 }
     }
   });
   return distances
