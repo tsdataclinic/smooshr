@@ -27,6 +27,18 @@ const initalState = {
   persisting: false,
 };
 
+const add_or_replace = (candidate, collection, id_col = 'id') => {
+  console.log('id col before default is ', id_col);
+  console.log('loading ', candidate, ' with id col ', id_col);
+  if (collection.find(item => item[id_col] === candidate[id_col])) {
+    return collection.map(item =>
+      item[id_col] === candidate[id_col] ? candidate : item,
+    );
+  } else {
+    return [...collection, candidate];
+  }
+};
+
 const reducer = (state, action) => {
   console.log('DISPATCHING ', action.type);
   const {type, payload} = action;
@@ -37,6 +49,36 @@ const reducer = (state, action) => {
     case 'ADD_DATASETS':
       return {...state, datasets: [...state.datasets, ...payload]};
 
+    case 'ADD_OR_REPLACE_DATASET':
+      return {
+        ...state,
+        datasets: add_or_replace(payload, state.datasets),
+      };
+    case 'ADD_OR_REPLACE_ENTRY':
+      return {
+        ...state,
+        entries: add_or_replace(payload, state.entries, 'name'),
+      };
+    case 'ADD_OR_REPLACE_MAPPING':
+      return {
+        ...state,
+        mappings: add_or_replace(payload, state.mappings),
+      };
+    case 'ADD_OR_REPLACE_METACOLUMN':
+      return {
+        ...state,
+        metaColumns: add_or_replace(payload, state.metaColumns),
+      };
+    case 'ADD_OR_REPLACE_PROJECT':
+      return {
+        ...state,
+        projects: add_or_replace(payload, state.projects),
+      };
+    case 'ADD_OR_REPLACE_COLUMN':
+      return {
+        ...state,
+        columns: add_or_replace(payload, state.columns),
+      };
     case 'REMOVE DATASET':
       return {
         ...state,

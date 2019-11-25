@@ -38,34 +38,46 @@ export function loadProject(projectDetails, dispatch) {
     meta_columns,
     settings,
   } = projectDetails;
+
   dispatch({
-    type: 'ADD_PROJECT',
+    type: 'ADD_OR_REPLACE_PROJECT',
     payload: project,
   });
 
-  dispatch({
-    type: 'ADD_DATASETS',
-    payload: datasets,
+  datasets.forEach(dataset => {
+    dispatch({
+      type: 'ADD_OR_REPLACE_DATASET',
+      payload: dataset,
+    });
   });
 
-  dispatch({
-    type: 'ADD_COLUMNS',
-    payload: columns,
+  columns.forEach(column => {
+    dispatch({
+      type: 'ADD_OR_REPLACE_COLUMN',
+      payload: column,
+    });
   });
 
-  dispatch({
-    type: 'ADD_ENTRIES',
-    payload: entries,
+  mappings.forEach(mapping => {
+    dispatch({
+      type: 'ADD_OR_REPLACE_MAPPING',
+      payload: mapping,
+    });
   });
 
-  dispatch({
-    type: 'ADD_MAPPINGS',
-    payload: mappings,
+  meta_columns.forEach(mc => {
+    dispatch({
+      type: 'ADD_OR_REPLACE_METACOLUMN',
+      payload: mc,
+    });
   });
 
-  dispatch({
-    type: 'ADD_META_COLUMNS',
-    payload: meta_columns,
+  entries.forEach(entry => {
+    console.log('entry ', entry);
+    dispatch({
+      type: 'ADD_OR_REPLACE_ENTRY',
+      payload: entry,
+    });
   });
 }
 
