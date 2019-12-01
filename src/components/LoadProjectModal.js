@@ -6,6 +6,12 @@ import {faFile, faDownload} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {loadProject} from '../contexts/actions';
 
+import {
+  faColumns,
+  faDatabase,
+  faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons';
+
 export default function ProjectModal({match, history}) {
   const onClose = () => history.goBack();
   const [_, dispatch] = useStateValue();
@@ -35,6 +41,41 @@ export default function ProjectModal({match, history}) {
         {project ? (
           <div>
             <h1>{project.project.name}</h1>
+            <section>
+              <header
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <FontAwesomeIcon
+                  icon={faDatabase}
+                  style={{marginRight: '20px'}}
+                />
+                <h2>Datasets</h2>
+              </header>
+              <p>{project.project.description}</p>
+              {project.datasets.map(d => (
+                <p>{d.name}</p>
+              ))}
+            </section>
+            <section>
+              <header
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <FontAwesomeIcon
+                  icon={faColumns}
+                  style={{marginRight: '20px'}}
+                />
+                <h2>Coumns</h2>
+              </header>
+              {project.meta_columns.map(mc => (
+                <p>{mc.name}</p>
+              ))}
+            </section>
             <button onClick={loadIt}>Load</button>
           </div>
         ) : (
