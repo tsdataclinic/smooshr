@@ -26,25 +26,12 @@ export default function SideBar({history, match}) {
           <span className="project-name">smooshr</span>
         </p>
       </div>
-
-      <div className="content">
-        <Route
-          path="/project/:projectID"
-          exact={true}
-          component={Breadcrumbs}
-        />
-        <Route
-          path="/project/:projectID/column/:columnID"
-          exact={true}
-          component={Breadcrumbs}
-        />
+      <div className="spacer" />
+      <div className="top-menu">
+        <Link to="/">Projects</Link>
+        <Link to="/about">About</Link>
+        <Link to="/feedback">Feedback</Link>
       </div>
-
-      <p className="social">
-        <FontAwesomeIcon icon={faTwitter} />
-        <FontAwesomeIcon icon={faMedium} />
-        <FontAwesomeIcon icon={faGithub} />
-      </p>
     </div>
   );
 }

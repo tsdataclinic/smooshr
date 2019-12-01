@@ -33,8 +33,8 @@ ul li {
   margin: 0px;
   padding: 0px;
   display: grid;
-  grid-template-rows: 70px 1fr;
-  grid-template-areas: 'sidenav' 'main';
+  grid-template-rows: 70px 1fr 40px;
+  grid-template-areas: 'sidenav' 'main' 'footer';
 }
 
 .App-logo {
@@ -201,6 +201,24 @@ a {
   justify-content: space-between;
 }
 
+footer {
+  display: flex;
+  color: white;
+  background-color: rgb(53, 54, 56);
+  flex-direction: row;
+  grid-area: footer;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0px 20px;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+footer .social svg {
+  color: white;
+  font-size: 1.5rem;
+  margin-left: 20px;
+}
 .sidenav svg {
   color: white;
   font-size: 2em;
@@ -213,6 +231,14 @@ a {
 .sidenav p {
   color: $main-color;
   font-size: 2rem;
+}
+
+.sidenav .top-menu {
+  font-weight: bold;
+}
+
+.sidenav .top-menu a {
+  margin-left: 20px;
 }
 
 .sidenav img {
