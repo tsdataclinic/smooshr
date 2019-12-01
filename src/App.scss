@@ -69,6 +69,16 @@ ul li {
   width: 60px;
 }
 
+.column-action-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.column-action-buttons > * {
+  margin-left: 20px;
+}
+
 .sidenav .back-button {
   justify-self: flex-end;
 }
@@ -154,6 +164,10 @@ a {
   grid-template-columns: repeat(auto-fill, 300px);
   grid-gap: 30px;
   align-content: stretch;
+}
+
+.dataset-tabs {
+  display: flex;
 }
 
 .column-list {
@@ -343,6 +357,26 @@ a {
 
 .controls button {
   margin-right: 10px;
+}
+
+.selected-dataset {
+  font-weight: 800;
+}
+
+.dataset-tab {
+  padding: 10px 40px;
+  border: 1px solid;
+  cursor: pointer;
+}
+
+.add-dataset {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-self: flex-end;
+  svg {
+    margin-right: 20px;
+  }
 }
 
 button {

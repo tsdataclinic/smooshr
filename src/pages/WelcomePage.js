@@ -1,7 +1,9 @@
 import React from 'react';
-import ProjectCard, {NewProjectCard} from '../components/ProjectCard';
+import ProjectCard, {EmptyProjectCard} from '../components/ProjectCard';
 import {useProjectStats, useStorage} from '../contexts/app_context';
 import {Link} from 'react-router-dom';
+
+import {faPlus, faUpload} from '@fortawesome/free-solid-svg-icons';
 
 export default function WelcomePage() {
   const projects = useProjectStats();
@@ -38,7 +40,10 @@ export default function WelcomePage() {
                 </Link>
               ))}
               <Link to={'/new_project'}>
-                <NewProjectCard />
+                <EmptyProjectCard prompt={'New Project'} icon={faPlus} />
+              </Link>
+              <Link to={'/load_project'}>
+                <EmptyProjectCard prompt={'Load Project'} icon={faUpload} />
               </Link>
             </div>
           </div>

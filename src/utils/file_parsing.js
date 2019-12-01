@@ -1,5 +1,5 @@
 import Papa from 'papaparse';
-import { saveAs } from 'file-saver';
+import {saveAs} from 'file-saver';
 import slugify from 'slugify';
 import python_template from './python_file';
 import JSZip from 'jszip';
@@ -12,20 +12,20 @@ export function parse_file_for_preview(
   onProgress = null,
   report_progress_every = 200,
   sample_rows = 10,
-  max_unique = 500
+  max_unique = 500,
 ) {
   return new Promise((resolve, reject) => {
     let no_rows = 0;
     let set_dict = {};
     let sample = [];
     let exceded = [];
-    let columnCounts = {}
+    let columnCounts = {};
 
     let ref = file.ref;
     let fileSize = ref.size;
 
     if (file.type !== 'file') {
-      ref = ref.split("?")[0]
+      ref = ref.split('?')[0];
       ref = `${process.env.REACT_APP_API_URL}/proxy?url=${ref}`;
     }
 
@@ -33,9 +33,7 @@ export function parse_file_for_preview(
       worker: true,
       header: true,
       download: file.type !== 'file',
-      step: function (row) {
-
-
+      step: function(row) {
         if (no_rows < sample_rows) {
           sample.push(row.data);
         }
@@ -50,7 +48,11 @@ export function parse_file_for_preview(
         no_rows = no_rows + 1;
 
         if (no_rows % report_progress_every == 0 && onProgress) {
-          onProgress({ rows_read: no_rows, bytes_read: row.meta.cursor, total_size: fileSize });
+          onProgress({
+            rows_read: no_rows,
+            bytes_read: row.meta.cursor,
+            total_size: fileSize,
+          });
         }
 
         row.meta.fields.forEach(f => {
@@ -88,11 +90,11 @@ export function parse_file_for_preview(
             key: field,
             dataset_id: dataset_id,
             type: 'text',
-            exceded: exceded.includes(field)
+            exceded: exceded.includes(field),
           });
 
           Object.entries(set_dict[field]).forEach(([field, count]) =>
-            entries.push({ column_id, name: field, count }),
+            entries.push({column_id, name: field, count}),
           );
         });
 
@@ -112,7 +114,8 @@ export function parse_file_for_preview(
   });
 }
 
-{/*export const saveMappingsJSON = (
+{
+  /*export const saveMappingsJSON = (
   project,
   datasets,
   meta_columns,
@@ -123,7 +126,8 @@ export function parse_file_for_preview(
   datasets.forEach(d => {
     console.log();
   });
-};*/}
+};*/
+}
 
 export const exportPythonCode = (
   project,
@@ -154,16 +158,41 @@ export const exportPythonCode = (
   const python_code = python_template(recipe_name, output_data_name);
 
   let zip = new JSZip();
-  let folder = zip.folder(project.name)
-  zip.folder(`${project.name}/put_your_datasets_in_here`)
-  zip.folder(`${project.name}/results`)
+  let folder = zip.folder(project.name);
+  zip.folder(`${project.name}/put_your_datasets_in_here`);
+  zip.folder(`${project.name}/results`);
   folder.file(recipe_name, JSON.stringify(recipy));
   folder.file('process.py', python_code);
-  zip.generateAsync({ type: 'blob' }).then(content => {
+  zip.generateAsync({type: 'blob'}).then(content => {
     saveAs(content, slugify(project.name) + 'zip');
   });
 };
 
+export const saveProject = (
+  project,
+  datasets,
+  meta_columns,
+  columns,
+  mappings,
+  entries,
+  settings,
+) => {
+  let projectJSON = {
+    project,
+    datasets,
+    meta_columns,
+    columns,
+    mappings,
+    entries,
+  };
+
+  const output_name = `${project.name}.json`;
+  var blob = new Blob([JSON.stringify(projectJSON)], {
+    type: 'text/plain;charset=utf-8',
+  });
+
+  saveAs(blob, output_name);
+};
 export const createJSONMapping = (
   project,
   datasets,
@@ -252,7 +281,7 @@ export const saveMappingsCSV = (columns, mappings, output_name) => {
     }
     return result;
   }, 'column,entry,mapped_entry\n');
-  var blob = new Blob([csvMapping], { type: 'text/plain;charset=utf-8' });
+  var blob = new Blob([csvMapping], {type: 'text/plain;charset=utf-8'});
   saveAs(blob, `mappings_for_${output_name}.csv`);
 };
 
@@ -260,5 +289,5 @@ export const exportData = (project, outfile) => {
   //   project.datasets.first.file
 };
 
-export const applyAndSave = () => { }
-export const applyMappingToFile = (columns, mappings, file) => { };
+export const applyAndSave = () => {};
+export const applyMappingToFile = (columns, mappings, file) => {};

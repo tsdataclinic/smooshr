@@ -6,11 +6,13 @@ import TablePreview from '../components/TablePreview';
 import {
   mergeMetaColumns,
   updateMetaColumn,
+  unMergeMetaColumn,
   deleteProject,
 } from '../contexts/actions';
 import {
   saveMappingsCSV,
   saveMappingsJSON,
+  saveProject,
   applyAndSave,
   exportPythonCode,
 } from '../utils/file_parsing';
@@ -21,6 +23,7 @@ import {
   faDatabase,
   faFistRaised,
   faInfoCircle,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
@@ -33,8 +36,23 @@ export default function ProjectPage(props) {
     meta_columns,
     columns,
     mappings,
+    entries,
     deleteProject,
   } = useProject(projectID);
+
+  const [selectedDatasetName, setSelectedDatasetName] = useState(
+    datasets && datasets.length > 0 ? datasets[0].name : null,
+  );
+
+  // Used to set the selected dataset to the first one on inital load
+  useEffect(() => {
+    if (datasets.length > 0 && !selectedDatasetName) {
+      setSelectedDatasetName(datasets[0].name);
+    }
+  }, [datasets, selectedDatasetName]);
+
+  const selectedDataset = datasets.find(d => d.name === selectedDatasetName);
+
   const [{}, dispatch] = useStateValue();
   const [selectedColumns, setSelectedColumns] = useState([]);
 
@@ -44,6 +62,18 @@ export default function ProjectPage(props) {
 
   const exportMappingsJSON = () => {
     saveMappingsJSON(project, datasets, meta_columns, columns, mappings);
+  };
+
+  const onSaveProject = () => {
+    saveProject(
+      project,
+      datasets,
+      meta_columns,
+      columns,
+      mappings,
+      entries,
+      {},
+    );
   };
 
   const exportPythonCode = () => {
@@ -68,6 +98,10 @@ export default function ProjectPage(props) {
     } else {
       setSelectedColumns([...selectedColumns, id]);
     }
+  };
+
+  const seperateMetaDataColumn = id => {
+    unMergeMetaColumn(meta_columns.find(mc => mc.id == id), dispatch);
   };
 
   const dereferenceColumn = colID => {
@@ -104,31 +138,6 @@ export default function ProjectPage(props) {
               <div className="metadata"></div>
             </div>
           </div>
-          <div className="datasets region">
-            <div className="region-header">
-              <h2>
-                <FontAwesomeIcon
-                  icon={faDatabase}
-                  style={{marginRight: '20px'}}
-                />
-                Datasets
-              </h2>
-              <Link to={`/project/${projectID}/add_datasets`}>
-                <button>Add Dataset</button>
-              </Link>
-            </div>
-            <div className="region-list">
-              {datasets.map(dataset => (
-                <p>{dataset.name}</p>
-              ))}
-            </div>
-            {datasets.length > 0 && (
-              <TablePreview
-                data={datasets[0].sample}
-                columns={datasets[0].columns}
-              />
-            )}
-          </div>
 
           <div className="columns region">
             <div className="region-header">
@@ -157,10 +166,51 @@ export default function ProjectPage(props) {
                   selected={selectedColumns.includes(mc.id)}
                   onClick={() => toggleSelectedColumn(mc.id)}
                   onUpdate={newName => changeMCName(mc, newName)}
+                  onUnmerge={() => seperateMetaDataColumn(mc.id)}
                   link={`/project/${project.id}/column/${mc.id}`}
                 />
               ))}
             </div>
+          </div>
+
+          <div className="datasets region">
+            <div className="region-header">
+              <h2>
+                <FontAwesomeIcon
+                  icon={faDatabase}
+                  style={{marginRight: '20px'}}
+                />
+                Datasets
+              </h2>
+            </div>
+            <div className="dataset-tabs">
+              {datasets.map(dataset => (
+                <p
+                  className={
+                    selectedDatasetName == dataset.name
+                      ? 'selected-dataset dataset-tab'
+                      : 'dataset-tab'
+                  }
+                  onClick={() => setSelectedDatasetName(dataset.name)}>
+                  {dataset.name}
+                </p>
+              ))}
+              <p className="final-dataset dataset-tab">Final Dataset Preview</p>
+              <div class="spacer" />
+              <Link
+                to={`/project/${projectID}/add_datasets`}
+                className="add-dataset dataset-tab">
+                <FontAwesomeIcon icon={faPlus} />
+                <span>Add Dataset</span>
+              </Link>
+            </div>
+
+            {datasets.length > 0 && selectedDataset && (
+              <TablePreview
+                data={selectedDataset.sample}
+                columns={selectedDataset.columns}
+              />
+            )}
           </div>
 
           <div className="actions region">
@@ -175,7 +225,7 @@ export default function ProjectPage(props) {
             </div>
             <div className="region-list action-list">
               {/*<button onClick={exportMappingsCSV}>Export Mappings (csv)</button>*/}
-              <button onClick={exportMappingsJSON}>Export Project</button>
+              <button onClick={onSaveProject}>Export Project</button>
               <Link to={`/project/${projectID}/export`}>
                 <button>Export Python code</button>
               </Link>
