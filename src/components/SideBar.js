@@ -18,19 +18,19 @@ export default function SideBar({history, match}) {
   return (
     <div className="sidenav">
       <div className="logos">
-        <Link to={'/'}>
+        <Link style={{display: 'flex', alignItems: 'center'}} to={'/'}>
           <img src="/DataClinicLogo.png" />
-        </Link>
-        <p>
           <span className="data-clinic">Data Clinic</span>{' '}
-          <span className="project-name">smooshr</span>
-        </p>
+        </Link>
+        <span className="project-name">smooshr (beta)</span>
       </div>
       <div className="spacer" />
       <div className="top-menu">
         <Link to="/">Projects</Link>
         <Link to="/about">About</Link>
-        <Link to="/feedback">Feedback</Link>
+        <a target="_blank" href="https://airtable.com/shrMCZrvP7467LNG7">
+          Feedback
+        </a>
       </div>
     </div>
   );

@@ -227,14 +227,16 @@ footer .social svg {
 .sidenav .logos {
   display: flex;
   flex-direction: row;
+  font-size: 1.5rem;
+  align-items: center;
 }
 .sidenav p {
   color: $main-color;
-  font-size: 2rem;
 }
 
 .sidenav .top-menu {
   font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .sidenav .top-menu a {
@@ -298,6 +300,7 @@ footer .social svg {
   justify-self: stretch;
   align-self: stretch;
   min-height: 0px;
+  overflow-y: auto;
 }
 .main .datatable {
   color: black;
@@ -576,6 +579,7 @@ p {
 
 .SearchBarContainer {
   position: relative;
+  align-self: center;
 }
 
 .SearchBarContainer input {
@@ -699,7 +703,8 @@ p {
 
 .MappingFocus {
   //background-color: $other-color;
-  background-color: rgba(179, 198, 106, 0.7);
+  //background-color: rgba(179, 198, 106, 0.7);
+  background-color: #fcf6df;
   padding: 20px 15px;
   display: grid;
   grid-template-columns: minmax(353px, 50%) 1fr;
@@ -800,7 +805,7 @@ p {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 50px 1fr 60px 400px;
+  grid-template-rows: 68px 1fr 60px 400px;
   grid-template-areas:
     'header'
     'table'
@@ -892,12 +897,45 @@ p {
 }
 
 .new-project-modal {
-  text-align: center;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  color: $other-text-color;
+  color: $main-color;
   box-sizing: border-box;
-  padding: 10px 200px 10px 200px;
+  height: 100%;
+  //  padding: 10px 20px 10px 20px;
+}
+
+.new-project-modal h1 {
+}
+.new-project-modal p {
+  text-transform: none;
+}
+
+.new-project-modal textarea {
+  box-sizing: border-box;
+  padding: 5px 10px;
+  flex: 1;
+}
+
+.new-project-modal input {
+  box-sizing: border-box;
+  padding: 5px 10px;
+}
+
+.new-project-modal .buttons {
+  justify-content: flex-start;
+}
+
+.new-project-modal .buttons button {
+  margin-right: 20px;
+  padding: 5px 40px;
+}
+
+.new-project-modal .buttons .cancel-button {
+  background-color: white;
+  border: 1px solid #1e4d5e;
+  color: #1e4d5e;
 }
 
 .feedback {
@@ -962,6 +1000,20 @@ button:disabled {
   padding: 5px;
   flex: 1;
   margin-right: 15px;
+}
+
+.load-project-modal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.load-project-modal .file-tab {
+  width: 100%;
+  height: 100%;
+}
+.load-project-modal .content {
+  flex: 1;
 }
 
 .progress-bar-inner {

@@ -36,66 +36,79 @@ export default function ProjectModal({match, history}) {
   };
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
   return (
-    <ReactModal isOpen={true} onRequestClose={onClose}>
+    <ReactModal
+      isOpen={true}
+      onRequestClose={onClose}
+      style={{
+        content: {height: '50%', width: '60%', transform: 'translate(25%,15%)'},
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        },
+      }}>
       <div className="load-project-modal">
-        {project ? (
-          <div>
-            <h1>{project.project.name}</h1>
-            <section>
-              <header
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <FontAwesomeIcon
-                  icon={faDatabase}
-                  style={{marginRight: '20px'}}
-                />
-                <h2>Datasets</h2>
-              </header>
-              <p>{project.project.description}</p>
-              {project.datasets.map(d => (
-                <p>{d.name}</p>
-              ))}
-            </section>
-            <section>
-              <header
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <FontAwesomeIcon
-                  icon={faColumns}
-                  style={{marginRight: '20px'}}
-                />
-                <h2>Coumns</h2>
-              </header>
-              {project.meta_columns.map(mc => (
-                <p>{mc.name}</p>
-              ))}
-            </section>
-            <button onClick={loadIt}>Load</button>
-          </div>
-        ) : (
-          <div {...getRootProps()}>
-            <div className="file-tab" style={{cursor: 'p'}}>
-              <FontAwesomeIcon icon={faFile} />
-              <input
-                {...getInputProps({
-                  accept: ['text/csv', 'application/vnd.ms-excel'],
-                })}
-              />
-              {isDragActive ? (
-                <p>Drop the files here ... </p>
-              ) : (
-                <p>Drag 'n' drop project file here or click to load project</p>
-              )}
+        <h1>Load Project</h1>
+        <div className="content">
+          {project ? (
+            <div>
+              <h1>{project.project.name}</h1>
+              <section>
+                <header
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <FontAwesomeIcon
+                    icon={faDatabase}
+                    style={{marginRight: '20px'}}
+                  />
+                  <h2>Datasets</h2>
+                </header>
+                <p>{project.project.description}</p>
+                {project.datasets.map(d => (
+                  <p>{d.name}</p>
+                ))}
+              </section>
+              <section>
+                <header
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <FontAwesomeIcon
+                    icon={faColumns}
+                    style={{marginRight: '20px'}}
+                  />
+                  <h2>Coumns</h2>
+                </header>
+                {project.meta_columns.map(mc => (
+                  <p>{mc.name}</p>
+                ))}
+              </section>
+              <button onClick={loadIt}>Load</button>
             </div>
-            {error && <p>{error}</p>}
-          </div>
-        )}
+          ) : (
+            <div {...getRootProps()}>
+              <div className="file-tab" style={{cursor: 'p'}}>
+                <FontAwesomeIcon icon={faFile} />
+                <input
+                  {...getInputProps({
+                    accept: ['text/csv', 'application/vnd.ms-excel'],
+                  })}
+                />
+                {isDragActive ? (
+                  <p>Drop the files here ... </p>
+                ) : (
+                  <p>
+                    Drag 'n' drop project file here or click to load project
+                  </p>
+                )}
+              </div>
+              {error && <p>{error}</p>}
+            </div>
+          )}
+        </div>
       </div>
     </ReactModal>
   );
