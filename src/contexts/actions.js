@@ -28,6 +28,59 @@ export function renameMapping(mapping, newName, dispatch) {
   });
 }
 
+export function loadProject(projectDetails, dispatch) {
+  const {
+    project,
+    datasets,
+    entries,
+    columns,
+    mappings,
+    meta_columns,
+    settings,
+  } = projectDetails;
+
+  dispatch({
+    type: 'ADD_OR_REPLACE_PROJECT',
+    payload: project,
+  });
+
+  datasets.forEach(dataset => {
+    dispatch({
+      type: 'ADD_OR_REPLACE_DATASET',
+      payload: dataset,
+    });
+  });
+
+  columns.forEach(column => {
+    dispatch({
+      type: 'ADD_OR_REPLACE_COLUMN',
+      payload: column,
+    });
+  });
+
+  mappings.forEach(mapping => {
+    dispatch({
+      type: 'ADD_OR_REPLACE_MAPPING',
+      payload: mapping,
+    });
+  });
+
+  meta_columns.forEach(mc => {
+    dispatch({
+      type: 'ADD_OR_REPLACE_METACOLUMN',
+      payload: mc,
+    });
+  });
+
+  entries.forEach(entry => {
+    console.log('entry ', entry);
+    dispatch({
+      type: 'ADD_OR_REPLACE_ENTRY',
+      payload: entry,
+    });
+  });
+}
+
 export function removeEntryFromMapping(mapping, entry, dispatch) {
   console.log('mapping ', mapping, ' entry ', entry);
   dispatch({
