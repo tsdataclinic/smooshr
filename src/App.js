@@ -24,7 +24,7 @@ function App() {
   const [{projects}, dispatch] = useStateValue();
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
         <div className="main">
           <Route
