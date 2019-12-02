@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/Smooshr/precache-manifest.7811a9c54e4e7ff62cf99e791bc17eee.js"
+  "/Smooshr/precache-manifest.e36d706d3cb41f0d2175207084b4dce1.js"
 );
 
 self.addEventListener('message', (event) => {
