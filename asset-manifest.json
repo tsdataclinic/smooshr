@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/Smooshr/static/css/main.b45de079.chunk.css",
+    "main.js": "/Smooshr/static/js/main.07c7e917.chunk.js",
+    "main.js.map": "/Smooshr/static/js/main.07c7e917.chunk.js.map",
+    "runtime~main.js": "/Smooshr/static/js/runtime~main.1bcc3dcd.js",
+    "runtime~main.js.map": "/Smooshr/static/js/runtime~main.1bcc3dcd.js.map",
+    "static/css/2.6130118c.chunk.css": "/Smooshr/static/css/2.6130118c.chunk.css",
+    "static/js/2.e0f46f07.chunk.js": "/Smooshr/static/js/2.e0f46f07.chunk.js",
+    "static/js/2.e0f46f07.chunk.js.map": "/Smooshr/static/js/2.e0f46f07.chunk.js.map",
+    "index.html": "/Smooshr/index.html",
+    "precache-manifest.db6d92fa65b8e6337f041e8571b2b694.js": "/Smooshr/precache-manifest.db6d92fa65b8e6337f041e8571b2b694.js",
+    "service-worker.js": "/Smooshr/service-worker.js",
+    "static/css/2.6130118c.chunk.css.map": "/Smooshr/static/css/2.6130118c.chunk.css.map",
+    "static/css/main.b45de079.chunk.css.map": "/Smooshr/static/css/main.b45de079.chunk.css.map",
+    "static/media/index.css": "/Smooshr/static/media/lato-latin-900italic.bd86aaa7.woff2",
+    "static/media/logo.svg": "/Smooshr/static/media/logo.5d5d9eef.svg"
+  }
+}
