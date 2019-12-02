@@ -38,23 +38,22 @@
     "typeface-lato": "^0.0.75",
     "uuid": "^3.3.2"
   },
+  "homepage": "https://tsdataclinic.github.io/Smooshr/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -67,6 +66,7 @@
     "@storybook/addons": "^5.2.1",
     "@storybook/react": "^5.2.1",
     "faker": "^4.1.0",
-    "node-sass": "^4.12.0"
+    "node-sass": "^4.12.0",
+    "gh-pages": "^2.1.1"
   }
 }
