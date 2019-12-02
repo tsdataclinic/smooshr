@@ -19,7 +19,7 @@ export default function SideBar({history, match}) {
     <div className="sidenav">
       <div className="logos">
         <Link style={{display: 'flex', alignItems: 'center'}} to={'/'}>
-          <img src="/DataClinicLogo.png" />
+          <img src={`${process.env.PUBLIC_URL}/DataClinicLogo.png`} />{' '}
           <span className="data-clinic">Data Clinic</span>{' '}
         </Link>
         <span className="project-name">smooshr (beta)</span>
