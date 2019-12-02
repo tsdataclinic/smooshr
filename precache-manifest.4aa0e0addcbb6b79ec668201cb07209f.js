@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8fdfa6a44aa73128f57f4e583da3c59e",
+    "revision": "24f4f09642d32d8800eb87703904fd2c",
     "url": "/Smooshr/index.html"
   },
   {
@@ -8,16 +8,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Smooshr/static/css/2.6130118c.chunk.css"
   },
   {
-    "revision": "5b6c14bad2764ef31703",
-    "url": "/Smooshr/static/css/main.b45de079.chunk.css"
+    "revision": "c342e3663ecb24f9da13",
+    "url": "/Smooshr/static/css/main.01095078.chunk.css"
   },
   {
     "revision": "30ff4af3abae6ee98c66",
     "url": "/Smooshr/static/js/2.e0f46f07.chunk.js"
   },
   {
-    "revision": "5b6c14bad2764ef31703",
-    "url": "/Smooshr/static/js/main.ef2769fa.chunk.js"
+    "revision": "c342e3663ecb24f9da13",
+    "url": "/Smooshr/static/js/main.c15ca752.chunk.js"
   },
   {
     "revision": "b8d338d175ae310863f7",
