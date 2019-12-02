@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import SideBar from './components/SideBar';
 import Footer from './components/Footer';
@@ -22,6 +22,15 @@ import './App.scss';
 
 function App() {
   const [{projects}, dispatch] = useStateValue();
+
+  useEffect(() => {
+    // This is for dealing with the 404 redirect issue on gh pages
+    var redirect = sessionStorage.redirect;
+    delete sessionStorage.redirect;
+    if (redirect && redirect != window.location.href) {
+      window.history.replaceState(null, null, redirect);
+    }
+  }, []);
 
   return (
     <Router basename={process.env.PUBLIC_URL}>
