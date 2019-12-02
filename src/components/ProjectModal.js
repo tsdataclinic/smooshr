@@ -4,12 +4,12 @@ import {useStateValue} from '../contexts/app_context';
 
 export default function ProjectModal({match, history}) {
   const onClose = () => history.goBack();
-  const [_, dispatch]= useStateValue();
+  const [_, dispatch] = useStateValue();
 
-  const [name,setName] = useState();
-  const [description,setDescription] = useState();
+  const [name, setName] = useState();
+  const [description, setDescription] = useState();
 
-  const createProject= () => {
+  const createProject = () => {
     dispatch({
       type: 'ADD_PROJECT',
       payload: {name, description},
@@ -18,18 +18,37 @@ export default function ProjectModal({match, history}) {
   };
 
   return (
-    <ReactModal isOpen={true} onRequestClose={onClose}>
-        <div className='new-project-modal'>
-            <h1>new project</h1>
-            <p>Name</p>
-            <input value={name} onChange={e=>setName(e.target.value)} placeholder='name' />
-            <p>Description</p>
-            <textarea value={description} onChange={e=>setDescription(e.target.value)} placeholder='description' />
-            <div className='buttons'>
-                <button onClick={createProject}>Submit</button>
-                <button onClick={onClose}>Cancel</button>
-            </div>
+    <ReactModal
+      style={{
+        content: {height: '35%', width: '50%', transform: 'translate(40%,40%)'},
+
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        },
+      }}
+      isOpen={true}
+      onRequestClose={onClose}>
+      <div className="new-project-modal">
+        <h1>New Project</h1>
+        <p>Project Name</p>
+        <input
+          value={name}
+          onChange={e => setName(e.target.value)}
+          placeholder="name"
+        />
+        <p>Description</p>
+        <textarea
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+          placeholder="description"
+        />
+        <div className="buttons">
+          <button onClick={createProject}>Create</button>
+          <button className="cancel-button" onClick={onClose}>
+            Cancel
+          </button>
         </div>
+      </div>
     </ReactModal>
   );
 }
