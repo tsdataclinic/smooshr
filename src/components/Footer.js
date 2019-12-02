@@ -15,9 +15,15 @@ export default function Footer() {
         © 2019 Two Sigma Investments, LP. All rights reserved.
       </p>
       <p className="social">
-        <FontAwesomeIcon icon={faTwitter} />
-        <FontAwesomeIcon icon={faMedium} />
-        <FontAwesomeIcon icon={faGithub} />
+        <a href="https://twitter.com/tsdataclinic?lang=en" target="_blank">
+          <FontAwesomeIcon icon={faTwitter} />
+        </a>
+        <a href="https://medium.com/dataclinic" target="_blank">
+          <FontAwesomeIcon icon={faMedium} />
+        </a>
+        <a href="https://github.com/tsdataclinic" target="blank">
+          <FontAwesomeIcon icon={faGithub} />
+        </a>
       </p>
     </footer>
   );
