@@ -36,7 +36,12 @@ export default function CodeExportModal({match, history}) {
 
   return (
     <ReactModal
-      style={{content: {height: '35%', transform: 'translate(0,40%)'}}}
+      style={{
+        content: {height: '35%', transform: 'translate(0,40%)'},
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        },
+      }}
       isOpen={true}
       onRequestClose={onClose}>
       <div className="code-export-modal">
@@ -91,7 +96,7 @@ export default function CodeExportModal({match, history}) {
               <span>Combine the datasets in to a single file</span>
                   </div>*/}
 
-            <div className={'export_instructions'}> 
+            <div className={'export_instructions'}>
               <p>
                 Click export to download a zip file with everything you need to
                 apply your mapping.

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
 import SideBar from './components/SideBar';
+import Footer from './components/Footer';
 import UploadModal from './components/UploadModal';
 import ProjectModal from './components/ProjectModal';
 import LoadProjectModal from './components/LoadProjectModal';
@@ -43,6 +44,7 @@ function App() {
           />
           <Route path="/" exact={true} component={WelcomePage} />
         </div>
+        <Footer />
 
         <Route path="/" component={SideBar} />
 
