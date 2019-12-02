@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import UploadModal from './components/UploadModal';
 import ProjectModal from './components/ProjectModal';
 import LoadProjectModal from './components/LoadProjectModal';
+import GHPagesRedirect from './components/GHPagesRedirect';
 import ShowApplyMappingsModal from './components/ApplyMappingsModal';
 import CodeExportModal from './components/CodeExportModal';
 import AutoClusterModal from './components/AutoClusterModal';
@@ -23,17 +24,9 @@ import './App.scss';
 function App() {
   const [{projects}, dispatch] = useStateValue();
 
-  useEffect(() => {
-    // This is for dealing with the 404 redirect issue on gh pages
-    var redirect = sessionStorage.redirect;
-    delete sessionStorage.redirect;
-    if (redirect && redirect != window.location.href) {
-      window.history.replaceState(null, null, redirect);
-    }
-  }, []);
-
   return (
     <Router basename={process.env.PUBLIC_URL}>
+      <GHPagesRedirect />
       <div className="App">
         <div className="main">
           <Route
