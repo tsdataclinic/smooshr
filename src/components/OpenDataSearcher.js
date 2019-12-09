@@ -18,9 +18,10 @@ export default function OpneDataSearcher({onDataset}) {
   };
 
   useEffect(() => {
-    const base = 'http://api.us.socrata.com/api/catalog/v1?';
+    const base = 'https://api.us.socrata.com/api/catalog/v1?';
     fetch(
-      `${base}domains=${domain}&search_context=${domain}&limit=20&only=datasets&q=${searchTerm}`)
+      `${base}domains=${domain}&search_context=${domain}&limit=20&only=datasets&q=${searchTerm}`,
+    )
       .then(res => res.json())
       .then(res => {
         console.log(res.results);
@@ -44,8 +45,10 @@ export default function OpneDataSearcher({onDataset}) {
             <a href={dataset.permalink} target="_blank">
               <FontAwesomeIcon icon={faExternalLinkAlt} />
             </a>{' '}
-
-            <FontAwesomeIcon onClick={()=>onSelect(dataset)} icon={faDownload} />
+            <FontAwesomeIcon
+              onClick={() => onSelect(dataset)}
+              icon={faDownload}
+            />
           </span>{' '}
         </p>
       ))}
