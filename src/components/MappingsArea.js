@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import MappingFocus from './MappingFocus';
 import MappingsMenu from './MappingsMenu';
 
@@ -33,7 +33,7 @@ export default function MappingsArea({
           onAddEntryToMapping={onAddEntryToMapping}
           onAddSuggestionToMapping={onAddSuggestionToMapping}
           suggestions={suggestions}
-          onAddNegativeExampleToMapping = { onAddNegativeExampleToMapping}
+          onAddNegativeExampleToMapping={onAddNegativeExampleToMapping}
         />
       )}
     </div>

@@ -1,23 +1,22 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import ReactModal from 'react-modal';
 import ApplyMapping from './ApplyMapping'
-import {useDataset} from '../contexts/app_context'
+import { useDataset } from '../contexts/app_context'
 
-import {useDropzone} from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 
-export default function ApplyMappingsModal({match,history}) {
+export default function ApplyMappingsModal({ match, history }) {
 
   const [files, setFiles] = useState(null);
   const [error, setError] = useState(null);
-  const {datasetID} = match.params
+  const { datasetID } = match.params
 
-  const onClose = ()=>{
-     console.log("PREVIOUS STATE")
-     history.goBack()
+  const onClose = () => {
+    console.log("PREVIOUS STATE")
+    history.goBack()
   }
 
- 
-  const {dataset,columns,mappings} = useDataset(datasetID);
+  const { columns, mappings } = useDataset(datasetID);
 
   const onDrop = useCallback(files => {
     if (files.every(file => file.name.split('.').includes('csv'))) {
@@ -27,8 +26,9 @@ export default function ApplyMappingsModal({match,history}) {
         "Smoosher currently only supports CSV's please just upload those!",
       );
     }
-  });
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <ReactModal isOpen={true} onRequestClose={onClose}>
@@ -37,34 +37,34 @@ export default function ApplyMappingsModal({match,history}) {
       {files ? (
         <div>
           {files.map(file => (
-           <ApplyMapping 
-               file={file} 
-               columns={columns}
-               mappings={mappings}
+            <ApplyMapping
+              file={file}
+              columns={columns}
+              mappings={mappings}
             />
-               
+
           ))}
         </div>
       ) : (
-        <React.Fragment>
-          <h1>Select files to apply mapping to</h1>
-          <div className="fileUploader">
-            <div {...getRootProps()}>
-              <input
-                {...getInputProps({
-                  accept: ['text/csv', 'application/vnd.ms-excel'],
-                })}
-              />
+          <React.Fragment>
+            <h1>Select files to apply mapping to</h1>
+            <div className="fileUploader">
+              <div {...getRootProps()}>
+                <input
+                  {...getInputProps({
+                    accept: ['text/csv', 'application/vnd.ms-excel'],
+                  })}
+                />
 
-              {isDragActive ? (
-                <p>Drop the files here ... </p>
-              ) : (
-                <p>Drag 'n' drop files to apply mapping</p>
-              )}
+                {isDragActive ? (
+                  <p>Drop the files here ... </p>
+                ) : (
+                    <p>Drag 'n' drop files to apply mapping</p>
+                  )}
+              </div>
             </div>
-          </div>
-        </React.Fragment>
-      )}
+          </React.Fragment>
+        )}
     </ReactModal>
   );
 }

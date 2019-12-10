@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ReactModal from 'react-modal';
-import {useProject, useStateValue} from '../contexts/app_context';
-import {exportPythonCode} from '../utils/file_parsing';
+import { useProject } from '../contexts/app_context';
+import { exportPythonCode } from '../utils/file_parsing';
 
-export default function CodeExportModal({match, history}) {
+export default function CodeExportModal({ match, history }) {
   const onClose = () => history.goBack();
-  const [_, dispatch] = useStateValue();
-  const {projectID} = match.params;
-  const {project, datasets, meta_columns, columns, mappings} = useProject(
+  // const [_, dispatch] = useStateValue();
+  const { projectID } = match.params;
+  const { project, datasets, meta_columns, columns, mappings } = useProject(
     projectID,
   );
 
@@ -37,7 +37,7 @@ export default function CodeExportModal({match, history}) {
   return (
     <ReactModal
       style={{
-        content: {height: '35%', transform: 'translate(0,40%)'},
+        content: { height: '35%', transform: 'translate(0,40%)' },
         overlay: {
           backgroundColor: 'rgba(0, 0, 0, 0.75)',
         },
@@ -51,7 +51,7 @@ export default function CodeExportModal({match, history}) {
               <h1>{project.name}</h1>
               <p>Export Code</p>
             </div>
-            {/*<div className='code-export-options'>
+            <div className='code-export-options'>
               <span>
                 Change non mapped entries?
                 <input
@@ -87,14 +87,6 @@ export default function CodeExportModal({match, history}) {
                 />{' '}
               </span>
             </div>
-
-                {/*<div className={'explanation'}>
-              <span>
-                The script will create these new columns on these datasets
-              </span>
-              <span>Map the old entries to the following</span>
-              <span>Combine the datasets in to a single file</span>
-                  </div>*/}
 
             <div className={'export_instructions'}>
               <p>

@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
-import {faExternalLinkAlt, faDownload} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faExternalLinkAlt, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function OpneDataSearcher({onDataset}) {
-  const template =
-    'https://data.cityofnewyork.us/api/views/aiww-p3af/rows.csv?accessType=DOWNLOAD';
+export default function OpneDataSearcher({ onDataset }) {
+
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -33,7 +32,7 @@ export default function OpneDataSearcher({onDataset}) {
   return (
     <div className="open-data-search">
       <SearchBar
-        style={{marginBottom: '30px'}}
+        style={{ marginBottom: '30px' }}
         text={searchTerm}
         onChange={setSearchTerm}
       />
@@ -42,7 +41,9 @@ export default function OpneDataSearcher({onDataset}) {
           {dataset.resource.name}{' '}
           <span className="open-data-result-controls">
             {' '}
-            <a href={dataset.permalink} target="_blank">
+            <a href={dataset.permalink} target="_blank"
+              rel="noopener noreferrer"
+            >
               <FontAwesomeIcon icon={faExternalLinkAlt} />
             </a>{' '}
             <FontAwesomeIcon

@@ -1,13 +1,13 @@
 import React from 'react';
-import ProjectCard, {EmptyProjectCard} from '../components/ProjectCard';
-import {useProjectStats, useStorage} from '../contexts/app_context';
-import {Link} from 'react-router-dom';
+import ProjectCard, { EmptyProjectCard } from '../components/ProjectCard';
+import { useProjectStats, useStorage } from '../contexts/app_context';
+import { Link } from 'react-router-dom';
 
-import {faPlus, faUpload} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 export default function WelcomePage() {
   const projects = useProjectStats();
-  const {persisting, quota, usage} = useStorage();
+  const { quota, usage } = useStorage();
 
   return (
     <div className="welcome-page page">
@@ -18,11 +18,15 @@ export default function WelcomePage() {
           We need your help to make smooshr better! Try out our{' '}
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href="https://docs.google.com/document/d/1ANrFqNZKCYR4LogOKPvYVHZAbp1iiK3gpknPlNZF6Lw/">
             tutorial
           </a>{' '}
           and leave your thoughts on our{' '}
-          <a target="_blank" href="https://airtable.com/shrMCZrvP7467LNG7">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://airtable.com/shrMCZrvP7467LNG7">
             feedback form
           </a>
         </p>

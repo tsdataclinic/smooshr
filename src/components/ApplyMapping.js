@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import streamSaver from 'streamsaver';
 
 export default function ApplyMapping(props) {
-  const {file, columns, mappings} = props;
+  const { file, columns } = props;
 
   const [addColumns, setAddColumns] = useState(true);
-  const [unmappedToUnknown, setUnmappedToUnknown] = useState(false);
   const [status, setStatus] = useState('pending');
 
   const startProcessing = () => {

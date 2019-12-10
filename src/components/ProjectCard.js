@@ -2,11 +2,10 @@ import React from 'react';
 import {
   faColumns,
   faDatabase,
-  faAlignJustify,
 } from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function ProjectCard({project, stats}) {
+export default function ProjectCard({ project, stats }) {
   return (
     <div className="project-card card">
       <h2 className="title">{project.name}</h2>
@@ -26,7 +25,7 @@ export default function ProjectCard({project, stats}) {
   );
 }
 
-export const EmptyProjectCard = ({prompt, icon}) => (
+export const EmptyProjectCard = ({ prompt, icon }) => (
   <div className="project-card card new-project-card">
     <h2 className="title">{prompt}</h2>
     <FontAwesomeIcon icon={icon} size={'3x'} />

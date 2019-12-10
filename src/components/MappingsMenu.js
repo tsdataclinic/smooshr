@@ -8,12 +8,12 @@ export default function MappingsMenu({
   mapping
 }) {
 
-  const mappingSelected = (mapping)=>{
-    if(onMappingSelected){
+  const mappingSelected = (mapping) => {
+    if (onMappingSelected) {
       onMappingSelected(mapping)
     }
   }
- 
+
   return (
     <div class="MappingsMenu" style={style}>
       <h3>
@@ -23,7 +23,7 @@ export default function MappingsMenu({
         {mappings.map(mapping => (
           <li
             className={
-              selected && mapping.name == selected.name ? 'selected' : ''
+              selected && mapping.name === selected.name ? 'selected' : ''
             }
             onClick={() => mappingSelected(mapping)}>
             {mapping.name}

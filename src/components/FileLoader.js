@@ -1,23 +1,22 @@
-import React, {useCallback, useState} from 'react';
-import {useDropzone} from 'react-dropzone';
+import React, { useCallback, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 import FileSnapshot from './FileSnapshot';
 import Tabs from './Tabs';
 import OpenDataSearcher from './OpenDataSearcher';
 
-import {faFile, faDownload} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faFile, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function FileLoader(props) {
+export default function FileLoader({ onAddDataset }) {
   const [filesPreview, setFilesPreview] = useState(null);
   const [error, setError] = useState(null);
   const [url, setURL] = useState(null);
 
   const [columnSelections, setColumnSelections] = useState([]);
-  const {onClose} = props;
   const [selectedTab, setSelectedTab] = useState('file');
 
   const submitFromURL = () => {
-    setFilesPreview([{type: 'url', ref: url}]);
+    setFilesPreview([{ type: 'url', ref: url }]);
   };
 
   const submitFromOpenData = dataset => {
@@ -26,15 +25,15 @@ export default function FileLoader(props) {
 
   const onDrop = useCallback(files => {
     if (files.every(file => file.name.split('.').includes('csv'))) {
-      setFilesPreview(files.map(f => ({type: 'file', ref: f})));
-      setColumnSelections({...columnSelections, [files[0].name]: {}});
+      setFilesPreview(files.map(f => ({ type: 'file', ref: f })));
+      setColumnSelections({ ...columnSelections, [files[0].name]: {} });
       setError(null);
     } else {
       setError('Some files are not CSVs, We only support CSVs for now');
     }
-  });
+  }, [columnSelections]);
 
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const renderURL = () => {
     return (
@@ -71,8 +70,8 @@ export default function FileLoader(props) {
           {isDragActive ? (
             <p>Drop the files here ... </p>
           ) : (
-            <p>Drag 'n' drop files here or click to load dataset</p>
-          )}
+              <p>Drag 'n' drop files here or click to load dataset</p>
+            )}
         </div>
         {error && <p>{error}</p>}
       </div>
@@ -81,12 +80,12 @@ export default function FileLoader(props) {
 
   const tabContent = () => {
     switch (selectedTab) {
-      case 'file':
-        return renderFile();
       case 'url':
         return renderURL();
       case 'open data portal':
         return renderOpenDataPortal();
+      default:
+        return renderFile();
     }
   };
 
@@ -101,12 +100,12 @@ export default function FileLoader(props) {
       {filesPreview ? (
         <div>
           {filesPreview.map(file => (
-            <FileSnapshot file={file} onAddDataset={props.onAddDataset} />
+            <FileSnapshot file={file} onAddDataset={onAddDataset} />
           ))}
         </div>
       ) : (
-        <div className="content">{tabContent()}</div>
-      )}
+          <div className="content">{tabContent()}</div>
+        )}
     </div>
   );
 }

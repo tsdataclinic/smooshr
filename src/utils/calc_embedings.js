@@ -1,6 +1,3 @@
-import * as tsne from '@tensorflow/tfjs-tsne';
-import * as tf from '@tensorflow/tfjs-core';
-
 const get_embedings_from_server = entries => {
   let unique_words = new Set();
   entries.forEach(entry => {
@@ -12,9 +9,9 @@ const get_embedings_from_server = entries => {
   return Promise.all(
     Array.from(unique_words).map(entry =>
       fetch(
-        `${process.env.REACT_APP_API_URL}/embedding/${entry
-          .toLowerCase()
-          .replace(/[\W_]+/g, '')}`,
+        `${
+        process.env.REACT_APP_API_URL
+        }/embedding/${entry.toLowerCase().replace(/[\W_]+/g, '')}`,
       )
         .then(r => r.json())
         .then(r => r[0]),
@@ -46,7 +43,7 @@ const category_mean = (entries, negativeEntries, embeddings) => {
     const weight = embed[1];
     const vec = embed[0].map(v => v * weight);
 
-    if (total.length == 0) {
+    if (total.length === 0) {
       total = vec;
     } else {
       total = vec.map((v, i) => v + total[i]);
@@ -69,15 +66,13 @@ export const most_similar_to_category_mean = (
   const mean = category_mean(entries, negativeEntries, embeddings);
 
   const distances = search_entries.map(entry => {
-
-    const embeding = embeddings.find(e => e.entry == entry.name);
+    const embeding = embeddings.find(e => e.entry === entry.name);
     if (embeding) {
       const dist = vec_dist2(norm_vec(embeding.embed), mean);
       return { suggestion: entry.name, dist: dist };
-    }
-    else {
-      console.log('failed to find ', entry)
-      return { suggestion: entry.name, dist: 2000000 }
+    } else {
+      console.log('failed to find ', entry);
+      return { suggestion: entry.name, dist: 2000000 };
     }
   });
   return distances
@@ -96,7 +91,7 @@ const combined_word_embedings_for_entry = (
   entry.name.split(' ').reduce((full_embed, word) => {
     const word_embed = word_embedings
       .filter(embed => embed)
-      .find(we => we.key == word.toLocaleLowerCase());
+      .find(we => we.key === word.toLocaleLowerCase());
 
     console.log('word emebed is ', word_embed);
     if (word_embed) {
@@ -105,7 +100,7 @@ const combined_word_embedings_for_entry = (
         rep = norm_vec(rep);
       }
 
-      if (full_embed.length == 0) {
+      if (full_embed.length === 0) {
         full_embed = rep;
       } else {
         full_embed = full_embed.map((v, i) => v + rep[i]);
@@ -121,14 +116,3 @@ export const calc_embedings = entries =>
       embed: combined_word_embedings_for_entry(entry, word_embedings),
     })),
   );
-
-export const tsne_coords = words => {
-  const coords = words.map(w => w.rep).filter(w => w);
-  console.log('coords ', coords, coords.length, coords[0].length);
-  const tsneOpt = tsne.tsne(tf.tensor(coords));
-  return tsneOpt.compute().then(() => {
-    const coordinates = tsneOpt.coordinates();
-    coordinates.print();
-    return coordinates;
-  });
-};

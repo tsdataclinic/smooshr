@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import SideBar from './components/SideBar';
 import Footer from './components/Footer';
 import UploadModal from './components/UploadModal';
@@ -8,21 +7,16 @@ import LoadProjectModal from './components/LoadProjectModal';
 import GHPagesRedirect from './components/GHPagesRedirect';
 import ShowApplyMappingsModal from './components/ApplyMappingsModal';
 import CodeExportModal from './components/CodeExportModal';
-import AutoClusterModal from './components/AutoClusterModal';
-import DatasetPage, {DatasetPageSidebar} from './pages/DatasetPage';
+import DatasetPage from './pages/DatasetPage';
 import ColumnPage from './pages/ColumnPage';
 import WelcomePage from './pages/WelcomePage';
-import ProjectPage, {ProjectPageSidebar} from './pages/ProjectPage';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import ProjectPage from './pages/ProjectPage';
 import 'typeface-lato';
-
-import {useStateValue} from './contexts/app_context';
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './App.scss';
 
 function App() {
-  const [{projects}, dispatch] = useStateValue();
 
   return (
     <Router basename={process.env.PUBLIC_URL}>
@@ -64,10 +58,6 @@ function App() {
           component={ShowApplyMappingsModal}
         />
 
-        <Route
-          path="/project/:projectID/dataset/:datasetID/column/:columnID/guess_categories"
-          component={AutoClusterModal}
-        />
       </div>
     </Router>
   );

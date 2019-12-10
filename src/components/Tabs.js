@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-export default function Tabs({options, selected, onSelected}) {
+export default function Tabs({ options, selected, onSelected }) {
   console.log('SELECTED ', selected)
   return (
     <div className="Tabs">
@@ -8,7 +8,7 @@ export default function Tabs({options, selected, onSelected}) {
         <p
           className={`Tab ${selected === option ? 'selected' : ''} `}
           key={option}
-          onClick={()=>onSelected(option)}>
+          onClick={() => onSelected(option)}>
           {option}
         </p>
       ))}

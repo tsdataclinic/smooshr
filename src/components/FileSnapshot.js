@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { parse_file_for_preview } from '../utils/file_parsing';
-import { useStateValue } from '../contexts/app_context';
 import ProgressBar from './ProgressBar'
 
 export default function FileSnapshot({ file, onAddDataset }) {
@@ -10,8 +9,6 @@ export default function FileSnapshot({ file, onAddDataset }) {
   const [includedCols, setIncludedCols] = useState([]);
   const [progress, setProgress] = useState({});
   const [status, setStatus] = useState('loading');
-
-  const [_, dispatch] = useStateValue();
 
   const submit = () => {
     const cols = columns.map(c => ({
@@ -67,19 +64,19 @@ export default function FileSnapshot({ file, onAddDataset }) {
     <div className="fileSnapshot">
       <div className='file-snapshot-header'>
         <h3>{file.type === 'url' ? file.ref : file.ref.name}</h3>
-        {status == 'loading' &&
+        {status === 'loading' &&
           <React.Fragment>
             <p>Loading, parsed {progress.rows_read ? progress.rows_read.toLocaleString() : 0} rows</p>
             <ProgressBar total={progress.total_size ? progress.total_size : 0} value={progress.bytes_read} style={{ width: '500px' }} />
           </React.Fragment>
         }
-        {status == 'selecting' &&
+        {status === 'selecting' &&
           <p>
             Has a total of {dataset.row_count} rows and {columns.length}{' '}
             columns. Select the columns you want to work with
           </p>}
       </div>
-      {status == 'selecting' && (
+      {status === 'selecting' && (
         <React.Fragment>
           <ul className="column-summary-list ">
             {columns.map(column => (
