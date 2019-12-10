@@ -54,7 +54,7 @@ export default function WelcomePage() {
         </div>
       )}
 
-      <div className="Storage">
+      <div className="storage">
         <p>smooshr processes and stores all data locally on your machine.</p>
         {quota && (
           <p>

@@ -14,7 +14,7 @@ export default function MappingsMenu({
   }
 
   return (
-    <div class="MappingsMenu" style={style}>
+    <div class="mappings-menu" style={style}>
       <h3>
         Merged Groups <span class="Pill">{mappings.length}</span>{' '}
       </h3>

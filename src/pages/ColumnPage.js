@@ -149,7 +149,7 @@ export default function ColumnPage({ match }) {
 
   if (!cache_loaded) {
     return (
-      <div className="ColumnPage">
+      <div className="column-page">
         <SearchBar
           style={{ gridArea: 'header', width: '50%', justifySelf: 'center' }}
           onChange={updateSearch}
@@ -170,7 +170,7 @@ export default function ColumnPage({ match }) {
           onClearSelection={clearSelection}
           {...entries}
         />
-        <div className="StatsAndActions">
+        <div className="stats-and-actions">
           <div className="stats">
             <p>
               <span>{stats.total_entries_in_mappings}</span> /{' '}
@@ -179,7 +179,7 @@ export default function ColumnPage({ match }) {
               <span>{stats.total_rows}</span> rows
             </p>
           </div>
-          <div className="entryActionButtons">
+          <div className="entry-action-buttons">
             <button
               disabled={entrySelection.length === 0}
               onClick={onCreateMapping}>

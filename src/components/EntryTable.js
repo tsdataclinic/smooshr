@@ -12,7 +12,7 @@ export default function EntryTable({
   onClearSelection,
   selection,
 }) {
-  const [order, setOrder] = useState('Alphabetically');
+  const [order, setOrder] = useState('Occurances');
 
   const toggleSelection = entry => {
     if (onToggleSelection) {
@@ -31,13 +31,13 @@ export default function EntryTable({
   }
 
   return (
-    <div style={style} className="EntryTable">
-      <div className="EntryTableFilters">
+    <div style={style} className="entry-table">
+      <div className="entry-table-filters">
         <SelectedEntriesList selection={selection} onRemoveSelection={toggleSelection} onClearAll={onClearSelection} />
         <OrderBySelector onChange={order => setOrder(order)} />
 
       </div>
-      <div className="EntriesTableEntries">
+      <div className="entry-table-entries">
         {orderedEntries.length > 0 ? (
           orderedEntries.map(entry => (
             <EntryCard

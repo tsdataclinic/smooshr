@@ -2,10 +2,10 @@ import React from 'react';
 
 export default function Tabs({ options, selected, onSelected }) {
   return (
-    <div className="Tabs">
+    <div className="tabs">
       {options.map(option => (
         <p
-          className={`Tab ${selected === option ? 'selected' : ''} `}
+          className={`tab ${selected === option ? 'selected' : ''} `}
           key={option}
           onClick={() => onSelected(option)}>
           {option}

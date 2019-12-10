@@ -56,9 +56,9 @@ export default function MappingFocus({
   const suggestionsByType = suggestions[suggestionType];
 
   return (
-    <div className="MappingFocus" style={style}>
+    <div className="mapping-focus" style={style}>
       <EditableText text={mapping.name} onUpdate={updateMappingName} />
-      <div className="IncludeList">
+      <div className="include-list">
         <h4>Includes</h4>
         <ul>
           {mapping.entries.map(entry => (
@@ -66,14 +66,14 @@ export default function MappingFocus({
               {entry}{' '}
               <button
                 onClick={() => removeEntryFromMapping(entry)}
-                className={'SmallButton RoundButton'}>
+                className={'small-button round-button'}>
                 <FontAwesomeIcon icon={faTimes} />{' '}
               </button>
             </li>
           ))}
         </ul>
       </div>
-      <div className="KeywordMatch">
+      <div className="keyword-match">
         <h4>
           Suggestions by:{' '}
           <span
@@ -102,11 +102,11 @@ export default function MappingFocus({
               {entry.suggestion}{' '}
               <div className="SuggestionActionButtons">
                 <button
-                  className={'SmallButton RoundButton'}
+                  className={'small-button round-button'}
                   onClick={() => addSuggestionToMapping(entry)}>
                   <FontAwesomeIcon icon={faCheck} />
                 </button>
-                <button className={'SmallButton RoundButton'}
+                <button className={'small-button round-button'}
                   onClick={() => addNegativeExampleToMapping(entry)}
                 >
                   <FontAwesomeIcon
@@ -119,10 +119,10 @@ export default function MappingFocus({
       </div>
 
       <div className={'ActionButtons'}>
-        <button onClick={clearMapping} className={'MidButton'}>
+        <button onClick={clearMapping} className={'mid-button'}>
           Clear Mapping
         </button>
-        <button onClick={deleteMapping} className={'MidButton'}>
+        <button onClick={deleteMapping} className={'mid-button'}>
           Delete Mapping
         </button>
       </div>

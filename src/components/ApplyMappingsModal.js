@@ -47,7 +47,7 @@ export default function ApplyMappingsModal({ match, history }) {
       ) : (
           <React.Fragment>
             <h1>Select files to apply mapping to</h1>
-            <div className="fileUploader">
+            <div className="file-uploader">
               <div {...getRootProps()}>
                 <input
                   {...getInputProps({

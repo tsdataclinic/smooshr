@@ -88,7 +88,7 @@ export default function CodeExportModal({ match, history }) {
               </span>
             </div>
 
-            <div className={'export_instructions'}>
+            <div className={'export-instructions'}>
               <p>
                 Click export to download a zip file with everything you need to
                 apply your mapping.

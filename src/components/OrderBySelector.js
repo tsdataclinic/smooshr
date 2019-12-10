@@ -22,7 +22,7 @@ export default function OrderBySelector({ onChange }) {
   const options = ["Alphabetically", "Occurances"]
 
   return (
-    <div className="OrderBy">
+    <div className="order-by">
       <p>Order By: </p>
       <ul>
         <li onClick={showDropDown}>{selected} <FontAwesomeIcon icon={faSortDown} /> </li>

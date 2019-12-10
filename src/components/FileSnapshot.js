@@ -61,7 +61,7 @@ export default function FileSnapshot({ file, onAddDataset }) {
 
 
   return (
-    <div className="fileSnapshot">
+    <div className="file-snapshot">
       <div className='file-snapshot-header'>
         <h3>{file.type === 'url' ? file.ref : file.ref.name}</h3>
         {status === 'loading' &&

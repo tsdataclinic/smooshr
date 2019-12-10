@@ -17,7 +17,7 @@ export default function MappingsArea({
   style,
 }) {
   return (
-    <div className="MappingsArea" style={style}>
+    <div className="mappings-area" style={style}>
       <MappingsMenu
         mappings={mappings}
         selected={selection}

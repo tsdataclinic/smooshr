@@ -5,15 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function SearchBar({ value, onChange, prompt, style }) {
 
   return (
-    <div className='SearchBarContainer' style={style}>
-      <FontAwesomeIcon className='searchIcon' icon={faSearch} />
+    <div className='search-bar-container' style={style}>
+      <FontAwesomeIcon className='search-icon' icon={faSearch} />
       <input type='text'
-        className='SearchBar'
+        className='search-bar'
         onChange={(e) => onChange(e.target.value)}
         placeholder={prompt}
         value={value}
       />
-      <FontAwesomeIcon className='clearIcon' onClick={() => onChange('')} icon={faTimes} />
+      <FontAwesomeIcon className='clear-icon' onClick={() => onChange('')} icon={faTimes} />
     </div>
   )
 }

@@ -23,7 +23,7 @@ export default function ApplyMapping(props) {
   };
 
   return (
-    <div className="ApplyMapping">
+    <div className="apply-mapping">
       {status === 'pending' && (
         <React.Fragment>
           <p id={file.name}>{file.name}</p>

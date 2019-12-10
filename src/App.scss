@@ -27,6 +27,7 @@ ul li {
   padding: 0px;
   margin: 0px;
 }
+
 .App {
   text-align: center;
   height: 100vh;
@@ -34,7 +35,7 @@ ul li {
   padding: 0px;
   display: grid;
   grid-template-rows: 70px 1fr 40px;
-  grid-template-areas: 'sidenav' 'main' 'footer';
+  grid-template-areas: 'sidenav''main''footer';
 }
 
 .App-logo {
@@ -75,7 +76,7 @@ ul li {
   justify-content: flex-end;
 }
 
-.column-action-buttons > * {
+.column-action-buttons>* {
   margin-left: 20px;
 }
 
@@ -87,6 +88,7 @@ ul li {
   border-right: 1px solid;
   padding-right: 20px;
 }
+
 .sidenav .social {
   width: 394px;
   display: flex;
@@ -173,6 +175,7 @@ a {
 .column-list {
   grid-template-columns: repeat(auto-fill, 600px);
 }
+
 .project-card {
   text-align: left;
   height: 100%;
@@ -183,7 +186,7 @@ a {
   flex-direction: column;
 }
 
-.new-project-card > svg {
+.new-project-card>svg {
   align-self: center;
   flex: 1;
 }
@@ -192,7 +195,7 @@ a {
   width: 100%;
 }
 
-.project-card > * {
+.project-card>* {
   margin: 0px 0px 20px 0px;
 }
 
@@ -225,6 +228,7 @@ footer .social svg {
   font-size: 1.5rem;
   margin-left: 20px;
 }
+
 .sidenav svg {
   color: white;
   font-size: 2em;
@@ -237,6 +241,7 @@ footer .social svg {
   align-items: center;
   text-transform: lowercase;
 }
+
 .sidenav p {
   color: $main-color;
 }
@@ -259,6 +264,7 @@ footer .social svg {
 .spacer {
   flex-grow: 1;
 }
+
 .sidenav .sidebarlist {
   display: flex;
   flex-direction: column;
@@ -269,6 +275,7 @@ footer .social svg {
   color: $main-color;
   text-decoration: none;
 }
+
 .sidenav ul {
   padding: 0;
   margin-top: 85px;
@@ -286,13 +293,11 @@ footer .social svg {
   word-wrap: break-word;
   cursor: pointer;
 }
+
 .sidenav li:hover {
   background-color: rgb(67, 172, 190);
 }
 
-.sidenav .dataset_picker li.datapicker_li_active {
-  font-weight: bold;
-}
 
 .buttons {
   display: flex;
@@ -310,11 +315,12 @@ footer .social svg {
   min-height: 0px;
   overflow-y: auto;
 }
+
 .main .datatable {
   color: black;
 }
 
-.fileSnapshot {
+.file-snapshot {
   display: grid;
   grid-template-rows: 60px 1fr 80px;
   grid-template-areas:
@@ -324,11 +330,11 @@ footer .social svg {
   height: 863px;
 }
 
-.fileSnapshot .file-snapshot-header {
+.file-snapshot .file-snapshot-header {
   grid-area: header;
 }
 
-.fileSnapshot ul.column-summary-list {
+.file-snapshot ul.column-summary-list {
   list-style-type: none;
   display: grid;
   grid-area: table;
@@ -339,6 +345,7 @@ footer .social svg {
   padding: 20px;
   min-height: 0;
 }
+
 .summary_list_header {
   display: flex;
   flex-direction: row;
@@ -357,13 +364,14 @@ footer .social svg {
   padding: 20px;
 }
 
-.fileSnapshot ul {
+.file-snapshot ul {
   list-style-type: none;
 }
 
 .search input {
   flex: 0.5;
 }
+
 .search {
   display: flex;
   justify-content: space-around;
@@ -402,6 +410,7 @@ footer .social svg {
   flex-direction: row;
   align-items: center;
   justify-self: flex-end;
+
   svg {
     margin-right: 20px;
   }
@@ -421,7 +430,7 @@ button:hover {
   background-color: $other-text-color;
 }
 
-.MidButton {
+.mid-button {
   height: 40px;
 }
 
@@ -452,14 +461,14 @@ button:hover {
   background-color: white;
 }
 
-.EntryCard {
+.entry-card {
   height: 90px;
   width: 400px;
   color: $main-color;
   text-align: left;
 }
 
-.EntryTable {
+.entry-table {
   display: grid;
   box-sizing: border-box;
   padding: 20px;
@@ -472,7 +481,7 @@ button:hover {
     'entrytable';
 }
 
-.EntryTableFilters {
+.entry-table-filters {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -496,6 +505,7 @@ button:hover {
   flex-direction: row;
   justify-content: center;
   font-weight: bold;
+
   svg {
     margin-left: 5px;
     color: white;
@@ -513,12 +523,15 @@ button:hover {
   display: flex;
   flex-direction: row;
   align-items: center;
+
   span {
     margin-right: 20px;
   }
+
   a {
     cursor: pointer;
   }
+
   ul {
     display: flex;
     flex-direction: row;
@@ -528,27 +541,21 @@ button:hover {
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
   }
+
   li {
     margin: 0px 5px;
     padding: 0px;
     flex-shrink: 0;
   }
 
-  .text-button{
+  .text-button {
     background-color: white;
-    color:$main-color;
+    color: $main-color;
   }
 }
 
-.EntryTableActions {
-  grid-area: actions;
-  text-align: right;
-  box-sizing: border-box;
-  padding-top: 20px;
-  align-self: center;
-}
 
-.EntriesTableEntries {
+.entry-table-entries {
   grid-area: entrytable;
   display: grid;
   grid-gap: 15px 10px;
@@ -560,7 +567,7 @@ button:hover {
   padding-top: 20px;
 }
 
-.EntryCard h3,
+.entry-card h3,
 p {
   padding: 0px;
   margin: 0px;
@@ -568,12 +575,12 @@ p {
   text-transform: lowercase;
 }
 
-.EntryCard h3 {
+.entry-card h3 {
   font-size: 1.3rem;
   margin-bottom: 5px;
 }
 
-.EntryCard p {
+.entry-card p {
   color: $other-text-color;
 }
 
@@ -581,71 +588,75 @@ p {
   border: 2px solid black;
 }
 
-.SearchBarContainer {
+.search-bar-container {
   position: relative;
   align-self: center;
+
+  input {
+    box-sizing: border-box;
+    padding: 15px 20px 15px 60px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  svg {
+    position: absolute;
+    font-weight: light;
+    font-size: 1.4rem;
+  }
+
+  .search-icon {
+    top: 1em;
+    left: 1em;
+  }
+
+  .clear-icon {
+    top: 1em;
+    right: 1em;
+    cursor: pointer;
+  }
 }
 
-.SearchBarContainer input {
-  box-sizing: border-box;
-  padding: 15px 20px 15px 60px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-  border: none;
-  border-radius: 4px;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.SearchBarContainer svg {
-  position: absolute;
-  font-weight: light;
-  font-size: 1.4rem;
-}
-
-.SearchBarContainer .searchIcon {
-  top: 1em;
-  left: 1em;
-}
-.SearchBarContainer .clearIcon {
-  top: 1em;
-  right: 1em;
-  cursor: pointer;
-}
-.OrderBy {
+.order-by {
   display: flex;
   flex-direction: row;
   margin-left: 100px;
   height: 40px;
   flex-shrink: 0;
-}
-.OrderBy ul {
-  text-decoration: none;
-  list-style: none;
-  position: relative;
-  right: 0px;
-  padding: 0px;
-  margin: 0px;
-  margin-left: 10px;
-  cursor: pointer;
+
+  ul {
+    text-decoration: none;
+    list-style: none;
+    position: relative;
+    right: 0px;
+    padding: 0px;
+    margin: 0px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  ul li:first-child {
+    font-weight: bold;
+  }
+
+  span {
+    font-weight: bold;
+  }
+
+  svg {
+    position: relative;
+    top: -2px;
+  }
 }
 
-.OrderBy ul li:first-child {
-  font-weight: bold;
-}
 
 .ButtonSmall {
   border-radius: 5px;
   color: white;
   background-color: lightblue;
-}
-
-.OrderBy span {
-  font-weight: bold;
-}
-
-.OrderBy svg {
-  position: relative;
-  top: -2px;
 }
 
 .Pill {
@@ -655,7 +666,7 @@ p {
   padding: 2px 10px;
 }
 
-.MappingsMenu {
+.mappings-menu {
   background-color: $yellow;
   color: $main-color;
   box-sizing: border-box;
@@ -663,49 +674,48 @@ p {
   min-height: 0px;
   display: flex;
   flex-direction: column;
+
+
+  h3 {
+    font-size: 1.2rem;
+    color: $other-text-color;
+    margin: 0px;
+    margin-bottom: 10px;
+    text-align: left;
+    text-transform: uppercase;
+
+    span {
+      margin-left: 40px;
+    }
+  }
+
+  ul {
+    overflow-y: auto;
+    text-align: left;
+    margin-top: 20px;
+    cursor: pointer;
+    // max-height: 200px;
+    flex: 1;
+
+    li {
+      margin-bottom: 10px;
+      text-transform: lowercase;
+    }
+
+
+    li.selected {
+      color: $main-color;
+      font-weight: bold;
+    }
+  }
 }
 
-.MappingsMenu h3 {
-  text-transform: uppercase;
-}
-
-.MappingsMenu h3 {
-  font-size: 1.2rem;
-  color: $other-text-color;
-  margin: 0px;
-  margin-bottom: 10px;
-  text-align: left;
-}
-
-.MappingsMenu h3 span {
-  margin-left: 40px;
-}
-
-.MappingsMenu ul {
-  overflow-y: auto;
-  text-align: left;
-  margin-top: 20px;
-  cursor: pointer;
-  // max-height: 200px;
-  flex: 1;
-}
-
-.MappingsMenu ul li {
-  margin-bottom: 10px;
-  text-transform: lowercase;
-}
-
-.MappingFocus {
+.mapping-focus {
   display: grid;
-  text-align: left;
 }
 
-.MappingsMenu li.selected {
-  color: $main-color;
-  font-weight: bold;
-}
 
-.MappingFocus {
+.mapping-focus {
   //background-color: $other-color;
   //background-color: rgba(179, 198, 106, 0.7);
   background-color: #fcf6df;
@@ -716,72 +726,79 @@ p {
   grid-column-gap: 30px;
   justify-items: stretch;
   align-items: stretch;
+  text-align: left;
   grid-template-areas:
     'header header'
     'includes suggestions'
     'buttons buttons';
-}
-.MappingFocus h3 {
-  font-weight: normal;
+
+  h3 {
+    font-weight: normal;
+  }
+
+  .ActionButtons {
+    grid-area: buttons;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  .include-list {
+    grid-area: includes;
+  }
+
+  .SuggestionActionButtons {
+    display: flex;
+
+    button {
+      margin-right: 5px;
+    }
+  }
+
+  .keyword-match {
+    grid-area: suggestions;
+
+    span {
+      cursor: pointer;
+      max-height: 0px;
+    }
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 250px);
+    grid-template-rows: repeat(auto-fit, 25px);
+    grid-column-gap: 30px;
+    grid-row-gap: 20px;
+    height: 215px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    justify-content: space-between;
+  }
+
+  li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-height: 30px;
+    text-transform: lowercase;
+
+    button {
+      border-radius: 30px;
+    }
+
+    svg {
+      font-size: 1.2em;
+      color: white;
+    }
+  }
 }
 
-.MappingFocus .ActionButtons {
-  grid-area: buttons;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.MappingFocus .ActionButtons button {
-  margin-right: 10px;
-}
-.MappingFocus .IncludeList {
-  grid-area: includes;
-}
-
-.MappingFocus .SuggestionActionButtons {
-  display: flex;
-}
-.MappingFocus .SuggestionActionButtons button {
-  margin-right: 5px;
-}
-
-.MappingFocus .KeywordMatch {
-  grid-area: suggestions;
-}
-
-.MappingFocus .KeywordMatch span {
-  cursor: pointer;
-  max-height: 0px;
-}
-
-.MappingFocus ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 250px);
-  grid-template-rows: repeat(auto-fit, 25px);
-  grid-column-gap: 30px;
-  grid-row-gap: 20px;
-  height: 215px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  justify-content: space-between;
-}
-.MappingFocus li {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  max-height: 30px;
-  text-transform: lowercase;
-}
-
-.MappingFocus li button {
-  border-radius: 30px;
-}
-.MappingFocus li svg {
-  font-size: 1.2em;
-  color: white;
-}
-
-.MappingsArea {
+.mappings-area {
   display: grid;
   grid-template-columns: 300px 1fr;
   grid-column-gap: 5px;
@@ -795,17 +812,17 @@ p {
   justify-content: space-around;
 }
 
-.SmallButton {
+.small-button {
   background-color: $other-text-color;
   font-size: 0.6rem;
   padding: 5px 10px;
 }
 
-.RoundButtopx {
+.round-button {
   border-radius: 5px;
 }
 
-.ColumnPage {
+.column-page {
   width: 100%;
   height: 100%;
   display: grid;
@@ -817,7 +834,7 @@ p {
     'mappings';
 }
 
-.StatsAndActions {
+.stats-and-actions {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -825,28 +842,28 @@ p {
   padding: 0px 30px;
   grid-area: stats_and_actions;
   align-items: center;
+
+  .stats p {
+    font-weight: 400;
+  }
+
+  .stats span {
+    font-weight: bold;
+  }
+
+  .entry-action-buttons button {
+    margin-left: 20px;
+  }
 }
 
-.StatsAndActions .stats p {
-  font-weight: 400;
-}
-
-.StatsAndActions .stats span {
-  font-weight: bold;
-}
-
-.StatsAndActions .entryActionButtons button {
-  margin-left: 20px;
-}
-
-.Tabs {
+.tabs {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   margin-bottom: 30px;
 }
 
-.Tab {
+.tab {
   color: $other-text-color;
   font-weight: normal;
   text-decoration: none;
@@ -854,7 +871,7 @@ p {
   cursor: pointer;
 }
 
-.Tab.selected {
+.tab.selected {
   font-weight: bold;
   text-decoration: underline;
 }
@@ -867,6 +884,7 @@ p {
   margin-top: 30px;
   text-align: center;
 }
+
 .file-tab {
   font-size: 2.5em;
 }
@@ -875,6 +893,7 @@ p {
   font-size: 4em;
   margin-bottom: 20px;
 }
+
 .url-tab {
   text-align: center;
   padding: 200px;
@@ -910,8 +929,6 @@ p {
   //  padding: 10px 20px 10px 20px;
 }
 
-.new-project-modal h1 {
-}
 .new-project-modal p {
   text-transform: none;
 }
@@ -945,6 +962,7 @@ p {
 .feedback {
   margin: 20px 0px;
 }
+
 .feedback a {
   text-decoration: underline;
 }
@@ -971,20 +989,23 @@ button:disabled {
   flex-direction: column;
   justify-content: space-between;
 }
+
 .code-export-options {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
-.export_instructions {
+.export-instructions {
   align-self: start;
   flex: 1;
   margin-top: 40px;
+
   p {
     text-transform: none;
     margin-bottom: 10px;
   }
+
   li {
     margin-left: 20px;
     margin-bottom: 10px;
@@ -1012,10 +1033,12 @@ button:disabled {
   display: flex;
   flex-direction: column;
 }
+
 .load-project-modal .file-tab {
   width: 100%;
   height: 100%;
 }
+
 .load-project-modal .content {
   flex: 1;
 }
@@ -1026,5 +1049,4 @@ button:disabled {
   width: 0%;
 }
 
-.storage {
-}
+.storage {}
