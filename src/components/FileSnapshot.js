@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { parse_file_for_preview } from '../utils/file_parsing';
+import { parseFileForPreview } from '../utils/file_parsing';
 import ProgressBar from './ProgressBar'
 
 export default function FileSnapshot({ file, onAddDataset }) {
@@ -26,21 +26,21 @@ export default function FileSnapshot({ file, onAddDataset }) {
     setStatus('skipping');
   };
 
-  const toggleSelect = column_id => {
-    if (includedCols.includes(column_id)) {
-      setIncludedCols(includedCols.filter(id => id !== column_id));
+  const toggleSelect = columnID => {
+    if (includedCols.includes(columnID)) {
+      setIncludedCols(includedCols.filter(id => id !== columnID));
     } else {
-      setIncludedCols([...includedCols, column_id]);
+      setIncludedCols([...includedCols, columnID]);
     }
   };
 
   const displayEntries = useMemo(
     () =>
       columns.reduce((res, col) => {
-        const col_entries = entries.filter(e => e.column_id === col.id);
+        const colEntries = entries.filter(e => e.column_id === col.id);
         res[col.id] = {
-          entries: col_entries.slice(0, 5).map(e => e.name),
-          extra: col_entries.length - 5,
+          entries: colEntries.slice(0, 5).map(e => e.name),
+          extra: colEntries.length - 5,
         };
 
         return res;
@@ -49,7 +49,7 @@ export default function FileSnapshot({ file, onAddDataset }) {
   );
 
   useEffect(() => {
-    parse_file_for_preview(file, progress => setProgress(progress)).then(
+    parseFileForPreview(file, progress => setProgress(progress)).then(
       result => {
         setStatus('selecting');
         setDataset(result.dataset);
@@ -82,7 +82,7 @@ export default function FileSnapshot({ file, onAddDataset }) {
             {columns.map(column => (
               <li className='column-preview-card card' key={column.id}>
                 <div>
-                  <div class="summary_list_header">
+                  <div class="summary-list-header">
                     <h3>
                       {column.name} <span>{`${column.exceded ? '>' : ''} ${column.unique}`}</span>
                     </h3>

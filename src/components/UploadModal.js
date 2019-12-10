@@ -10,7 +10,7 @@ export default function UploadModal({ match, history }) {
   const [, dispatch] = useStateValue();
 
   const addDatasetToStore = (newDataset, columns, entries) => {
-    const meta_columns = columns
+    const metaColumns = columns
       .filter(c => c.focusCol)
       .map(column => ({
         columns: [column.id],
@@ -37,7 +37,7 @@ export default function UploadModal({ match, history }) {
 
     dispatch({
       type: 'ADD_META_COLUMNS',
-      payload: meta_columns,
+      payload: metaColumns,
     });
 
     onClose();

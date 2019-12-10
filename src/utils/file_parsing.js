@@ -7,7 +7,7 @@ import JSZip from 'jszip';
 const uuidv1 = require('uuid/v1');
 
 // Takes a file handle and returns the summary stats for that file
-export function parse_file_for_preview(
+export function parseFileForPreview(
   file,
   onProgress = null,
   report_progress_every = 200,

@@ -49,7 +49,7 @@ export default function EntryTable({
           ))
         ) : (
             <div className="all-done">
-              <h1>You really smooshed that crap out of that column.</h1>
+              <h1>You really smooshed the crap out of that column.</h1>
               <h1>
                 {[...Array(5)].map(() => (
                   <FontAwesomeIcon icon={faGlassCheers} />

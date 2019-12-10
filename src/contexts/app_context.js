@@ -334,18 +334,18 @@ export const useProject = projectID => {
   const [state, dispatch] = useStateValue();
   const project = state.projects.find(p => p.id === projectID);
   const datasets = state.datasets.filter(d => d.project_id === projectID);
-  const meta_columns = state.metaColumns.filter(
+  const metaColumns = state.metaColumns.filter(
     mc => mc.project_id === projectID,
   );
-  const meta_column_ids = meta_columns.map(mc => mc.id);
+  const metaColumnIds = metaColumns.map(mc => mc.id);
 
-  const colIDs = meta_columns.reduce((ids, mc) => [...ids, ...mc.columns], []);
+  const colIDs = metaColumns.reduce((ids, mc) => [...ids, ...mc.columns], []);
   const mappings = state.mappings.filter(m =>
-    meta_column_ids.includes(m.column_id),
+    metaColumnIds.includes(m.column_id),
   );
   const columns = state.columns.filter(c => colIDs.includes(c.id));
-  const column_ids = columns.map(c => c.id);
-  const entries = state.entries.filter(e => column_ids.includes(e.column_id));
+  const columnIds = columns.map(c => c.id);
+  const entries = state.entries.filter(e => columnIds.includes(e.column_id));
 
   const deleteProject = () => {
     columns.forEach(c => {
@@ -366,12 +366,13 @@ export const useProject = projectID => {
       });
     });
 
-    meta_columns.forEach(m => {
+    metaColumns.forEach(m => {
       dispatch({
         type: 'REMOVE_META_COLUMN',
         payload: m.id,
       });
     });
+
     datasets.forEach(d => {
       dispatch({
         type: 'REMOVE_DATASET',
@@ -388,7 +389,7 @@ export const useProject = projectID => {
   return {
     project,
     datasets,
-    meta_columns,
+    metaColumns,
     columns,
     mappings,
     deleteProject,
@@ -401,19 +402,19 @@ export const useColumn = columnID => {
   const column = state.columns.find(c => c.id === columnID);
   const entries = state.entries.filter(e => e.column_id === columnID);
   const mappings = state.mappings.filter(m => m.column_id === columnID);
-  const entry_names = entries.map(e => e.name);
+  const entryNames = entries.map(e => e.name);
   const embeddings = state.embeddings.filter(embed =>
-    entry_names.includes(embed.entry),
+    entryNames.includes(embed.entry),
   );
   return { column, entries, mappings, embeddings, dispatch };
 };
 
 export const useMetaColumn = columnID => {
   const [state, dispatch] = useStateValue();
-  const meta_column = state.metaColumns.find(c => c.id === columnID);
-  if (!meta_column) {
+  const metaColumn = state.metaColumns.find(c => c.id === columnID);
+  if (!metaColumn) {
     return {
-      meta_column: null,
+      metaColumn: null,
       entries: [],
       mappings: [],
       embeggins: [],
@@ -421,7 +422,7 @@ export const useMetaColumn = columnID => {
     };
   }
   const entries = state.entries.filter(e =>
-    meta_column.columns.includes(e.column_id),
+    metaColumn.columns.includes(e.column_id),
   );
 
   // Need to consolidate the entries down to as single space.
@@ -435,12 +436,11 @@ export const useMetaColumn = columnID => {
     };
   });
 
-  const mappings = state.mappings.filter(m => m.column_id === meta_column.id);
-  const entry_names = entries.map(e => e.name);
+  const mappings = state.mappings.filter(m => m.column_id === metaColumn.id);
   const embeddings = state.embeddings.filter(embed =>
-    entry_names.includes(embed.entry),
+    entryNames.includes(embed.entry),
   );
-  return { meta_column, entries: mergedEntry, mappings, embeddings, dispatch };
+  return { metaColumn, entries: mergedEntry, mappings, embeddings, dispatch };
 };
 
 export const useProjectStats = () => {

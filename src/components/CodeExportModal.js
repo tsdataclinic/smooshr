@@ -7,7 +7,7 @@ export default function CodeExportModal({ match, history }) {
   const onClose = () => history.goBack();
   // const [_, dispatch] = useStateValue();
   const { projectID } = match.params;
-  const { project, datasets, meta_columns, columns, mappings } = useProject(
+  const { project, datasets, metaColumns, columns, mappings } = useProject(
     projectID,
   );
 
@@ -27,7 +27,7 @@ export default function CodeExportModal({ match, history }) {
     exportPythonCode(
       project,
       datasets,
-      meta_columns,
+      metaColumns,
       columns,
       mappings,
       settings,
@@ -97,7 +97,7 @@ export default function CodeExportModal({ match, history }) {
               <ul>
                 <li>
                   Load the files you worked on from the "put_your_files_in_here"
-                  filder
+                  folder
                 </li>
                 <li>
                   Combine and rename columns from each dataset as you indicated

@@ -27,7 +27,7 @@ export default function ProjectPage(props) {
   const {
     project,
     datasets,
-    meta_columns,
+    metaColumns,
     columns,
     mappings,
     entries,
@@ -54,7 +54,7 @@ export default function ProjectPage(props) {
     saveProject(
       project,
       datasets,
-      meta_columns,
+      metaColumns,
       columns,
       mappings,
       entries,
@@ -79,7 +79,7 @@ export default function ProjectPage(props) {
   };
 
   const seperateMetaDataColumn = id => {
-    unMergeMetaColumn(meta_columns.find(mc => mc.id === id), dispatch);
+    unMergeMetaColumn(metaColumns.find(mc => mc.id === id), dispatch);
   };
 
   const dereferenceColumn = colID => {
@@ -93,7 +93,7 @@ export default function ProjectPage(props) {
   };
 
   const mergeColumns = () => {
-    const toMerge = meta_columns.filter(mc => selectedColumns.includes(mc.id));
+    const toMerge = metaColumns.filter(mc => selectedColumns.includes(mc.id));
     mergeMetaColumns(toMerge, dispatch);
     setSelectedColumns([]);
   };
@@ -136,7 +136,7 @@ export default function ProjectPage(props) {
                 )}
             </div>
             <div className="region-list column-list">
-              {meta_columns.map(mc => (
+              {metaColumns.map(mc => (
                 <ColumnCard
                   name={mc.name}
                   description={mc.description}
@@ -146,6 +146,7 @@ export default function ProjectPage(props) {
                   onUpdate={newName => changeMCName(mc, newName)}
                   onUnmerge={() => seperateMetaDataColumn(mc.id)}
                   link={`/project/${project.id}/column/${mc.id}`}
+                  key={mc.id}
                 />
               ))}
             </div>
@@ -164,6 +165,7 @@ export default function ProjectPage(props) {
             <div className="dataset-tabs">
               {datasets.map(dataset => (
                 <p
+                  key={dataset.name}
                   className={
                     selectedDatasetName === dataset.name
                       ? 'selected-dataset dataset-tab'
@@ -174,7 +176,7 @@ export default function ProjectPage(props) {
                 </p>
               ))}
               <p className="final-dataset dataset-tab">Final Dataset Preview</p>
-              <div class="spacer" />
+              <div className="spacer" />
               <Link
                 to={`/project/${projectID}/add_datasets`}
                 className="add-dataset dataset-tab">

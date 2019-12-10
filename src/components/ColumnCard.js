@@ -12,7 +12,7 @@ export default function ColumnCard({
   onUnmerge,
   link,
 }) {
-  const total_unique = fromColumns.reduce((tot, c) => tot + c.unique, 0);
+  const totalUnique = fromColumns.reduce((tot, c) => tot + c.unique, 0);
   return (
     <div
       onClick={onClick}
@@ -24,12 +24,12 @@ export default function ColumnCard({
           justifyContent: 'space-between',
         }}>
         <EditableText text={name} onUpdate={onUpdate} />
-        <h2>{total_unique}</h2>
+        <h2>{totalUnique}</h2>
       </div>
       <p className="description">{description}</p>
 
       {fromColumns.map(c => (
-        <p>
+        <p key={c.name}>
           {c.name} | {c.dataset.name}
         </p>
       ))}

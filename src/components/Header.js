@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function Header({ history, match }) {
   return (
-    <div className="sidenav">
+    <div className="header">
       <div className="logos">
         <Link style={{ display: 'flex', alignItems: 'center' }} to={'/'}>
           <img alt={"Data Clinic Modal"} src={`${process.env.PUBLIC_URL}/DataClinicLogo.png`} />{' '}
