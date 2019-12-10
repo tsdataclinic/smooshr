@@ -7,7 +7,6 @@
     "@fortawesome/free-brands-svg-icons": "^5.11.2",
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "@fortawesome/react-fontawesome": "0.1.8",
-    "@storybook/addon-knobs": "^5.2.1",
     "fast-levenshtein": "^2.0.6",
     "file-saver": "^2.0.2",
     "jszip": "^3.2.2",
@@ -31,8 +30,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
   },
@@ -40,7 +37,11 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",

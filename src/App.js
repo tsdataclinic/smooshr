@@ -1,5 +1,5 @@
 import React from 'react';
-import SideBar from './components/SideBar';
+import Header from './components/Header'
 import Footer from './components/Footer';
 import UploadModal from './components/UploadModal';
 import ProjectModal from './components/ProjectModal';
@@ -42,7 +42,7 @@ function App() {
         </div>
         <Footer />
 
-        <Route path="/" component={SideBar} />
+        <Route path="/" component={Header} />
 
         <Route path="/new_project" component={ProjectModal} />
         <Route path="/load_project" component={LoadProjectModal} />

@@ -475,7 +475,7 @@ button:hover {
 .EntryTableFilters {
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: flex-end;
   grid-area: filters;
   text-align: right;
   justify-content: space-between;

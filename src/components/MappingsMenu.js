@@ -4,8 +4,7 @@ export default function MappingsMenu({
   mappings = [],
   selected,
   onMappingSelected,
-  style,
-  mapping
+  style
 }) {
 
   const mappingSelected = (mapping) => {
