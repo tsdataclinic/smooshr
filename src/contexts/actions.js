@@ -1,4 +1,4 @@
-import {calc_embedings} from '../utils/calc_embedings';
+import { calc_embedings } from '../utils/calc_embedings';
 const uuidv1 = require('uuid/v1');
 
 export function createMapping(selection, columnID, name, dispatch) {
@@ -36,7 +36,6 @@ export function loadProject(projectDetails, dispatch) {
     columns,
     mappings,
     meta_columns,
-    settings,
   } = projectDetails;
 
   dispatch({
@@ -182,7 +181,6 @@ export function mergeMetaColumns(meta_columns, dispatch) {
   const new_col = meta_columns[0];
   const ids = meta_columns.map(mc => mc.id);
 
-  const toDelete = [];
   meta_columns.slice(1).forEach(mc => {
     new_col.columns = [...new_col.columns, ...mc.columns];
   });

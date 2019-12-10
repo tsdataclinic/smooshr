@@ -1,5 +1,5 @@
 import Papa from 'papaparse';
-import {saveAs} from 'file-saver';
+import { saveAs } from 'file-saver';
 import slugify from 'slugify';
 import python_template from './python_file';
 import JSZip from 'jszip';
@@ -33,12 +33,12 @@ export function parse_file_for_preview(
       worker: true,
       header: true,
       download: file.type !== 'file',
-      step: function(row) {
+      step: function (row) {
         if (no_rows < sample_rows) {
           sample.push(row.data);
         }
 
-        if (no_rows == 0) {
+        if (no_rows === 0) {
           row.meta.fields.forEach(f => {
             set_dict[f] = {};
             columnCounts[f] = 0;
@@ -47,7 +47,7 @@ export function parse_file_for_preview(
 
         no_rows = no_rows + 1;
 
-        if (no_rows % report_progress_every == 0 && onProgress) {
+        if (no_rows % report_progress_every === 0 && onProgress) {
           onProgress({
             rows_read: no_rows,
             bytes_read: row.meta.cursor,
@@ -58,7 +58,7 @@ export function parse_file_for_preview(
         row.meta.fields.forEach(f => {
           let val = row.data[f];
 
-          if (val == f) {
+          if (val === f) {
             return;
           }
           if (val in set_dict[f]) {
@@ -94,7 +94,7 @@ export function parse_file_for_preview(
           });
 
           Object.entries(set_dict[field]).forEach(([field, count]) =>
-            entries.push({column_id, name: field, count}),
+            entries.push({ column_id, name: field, count }),
           );
         });
 
@@ -114,21 +114,6 @@ export function parse_file_for_preview(
   });
 }
 
-{
-  /*export const saveMappingsJSON = (
-  project,
-  datasets,
-  meta_columns,
-  columns,
-  mappings,
-) => {
-  console.log('datasets ', datasets);
-  datasets.forEach(d => {
-    console.log();
-  });
-};*/
-}
-
 export const exportPythonCode = (
   project,
   datasets,
@@ -137,13 +122,6 @@ export const exportPythonCode = (
   mappings,
   settings,
 ) => {
-  var mapping = createJSONMapping(
-    project,
-    datasets,
-    meta_columns,
-    columns,
-    mappings,
-  );
   const recipe_name = slugify(project.name) + '.json';
   const output_data_name = slugify(project.name) + 'csv';
 
@@ -163,7 +141,7 @@ export const exportPythonCode = (
   zip.folder(`${project.name}/results`);
   folder.file(recipe_name, JSON.stringify(recipy));
   folder.file('process.py', python_code);
-  zip.generateAsync({type: 'blob'}).then(content => {
+  zip.generateAsync({ type: 'blob' }).then(content => {
     saveAs(content, slugify(project.name) + 'zip');
   });
 };
@@ -227,7 +205,6 @@ export const createJSONMapping = (
     column_renames: make_col_mappings(d),
   }));
 
-  const output_name = slugify(project.name) + '.json';
   const mappingsJSON = {};
   meta_columns.forEach(mc => {
     const applicableMappings = mappings.filter(m => m.column_id === mc.id);
@@ -271,7 +248,7 @@ export const saveMappingsJSON = (
 
 export const saveMappingsCSV = (columns, mappings, output_name) => {
   const csvMapping = columns.reduce((result, column) => {
-    const column_mappings = mappings.filter(m => m.column_id == column.id);
+    const column_mappings = mappings.filter(m => m.column_id === column.id);
     if (column_mappings.length > 0) {
       column_mappings.forEach(mapping => {
         mapping.entries.forEach(entry => {
@@ -281,7 +258,7 @@ export const saveMappingsCSV = (columns, mappings, output_name) => {
     }
     return result;
   }, 'column,entry,mapped_entry\n');
-  var blob = new Blob([csvMapping], {type: 'text/plain;charset=utf-8'});
+  var blob = new Blob([csvMapping], { type: 'text/plain;charset=utf-8' });
   saveAs(blob, `mappings_for_${output_name}.csv`);
 };
 
@@ -289,5 +266,5 @@ export const exportData = (project, outfile) => {
   //   project.datasets.first.file
 };
 
-export const applyAndSave = () => {};
-export const applyMappingToFile = (columns, mappings, file) => {};
+export const applyAndSave = () => { };
+export const applyMappingToFile = (columns, mappings, file) => { };

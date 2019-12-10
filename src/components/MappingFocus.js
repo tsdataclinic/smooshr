@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-import { faEdit, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditableText from './EditableText';
 
@@ -79,7 +78,7 @@ export default function MappingFocus({
           Suggestions by:{' '}
           <span
             style={
-              suggestionType == 'text'
+              suggestionType === 'text'
                 ? { fontWeight: 'bold' }
                 : { fontWeight: 'lighter' }
             }
@@ -89,7 +88,7 @@ export default function MappingFocus({
           /{' '}
           <span
             style={
-              suggestionType == 'meaning'
+              suggestionType === 'meaning'
                 ? { fontWeight: 'bold' }
                 : { fontWeight: 'lighter' }
             }

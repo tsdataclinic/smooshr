@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ReactModal from 'react-modal';
-import {useStateValue} from '../contexts/app_context';
+import { useStateValue } from '../contexts/app_context';
 
-export default function ProjectModal({match, history}) {
+export default function ProjectModal({ match, history }) {
   const onClose = () => history.goBack();
-  const [_, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
 
   const [name, setName] = useState();
   const [description, setDescription] = useState();
@@ -12,7 +12,7 @@ export default function ProjectModal({match, history}) {
   const createProject = () => {
     dispatch({
       type: 'ADD_PROJECT',
-      payload: {name, description},
+      payload: { name, description },
     });
     onClose();
   };
@@ -20,7 +20,7 @@ export default function ProjectModal({match, history}) {
   return (
     <ReactModal
       style={{
-        content: {height: '35%', width: '50%', transform: 'translate(40%,40%)'},
+        content: { height: '35%', width: '50%', transform: 'translate(40%,40%)' },
 
         overlay: {
           backgroundColor: 'rgba(0, 0, 0, 0.75)',

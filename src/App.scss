@@ -533,6 +533,11 @@ button:hover {
     padding: 0px;
     flex-shrink: 0;
   }
+
+  .text-button{
+    background-color: white;
+    color:$main-color;
+  }
 }
 
 .EntryTableActions {

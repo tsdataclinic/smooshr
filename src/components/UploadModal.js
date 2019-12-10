@@ -1,15 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ReactModal from 'react-modal';
 import FileLoader from './FileLoader';
-import {useStateValue} from '../contexts/app_context';
+import { useStateValue } from '../contexts/app_context';
 const uuidv1 = require('uuid/v1');
 
-export default function UploadModal({match, history}) {
-  const {projectID} = match.params;
+export default function UploadModal({ match, history }) {
+  const { projectID } = match.params;
   const onClose = () => history.goBack();
-  const [_, dispatch] = useStateValue();
-
-  const [selectedTab, setSelectedTab] = useState('file');
+  const [, dispatch] = useStateValue();
 
   const addDatasetToStore = (newDataset, columns, entries) => {
     const meta_columns = columns
@@ -24,7 +22,7 @@ export default function UploadModal({match, history}) {
 
     dispatch({
       type: 'ADD_DATASETS',
-      payload: [{...newDataset, project_id: projectID}],
+      payload: [{ ...newDataset, project_id: projectID }],
     });
 
     dispatch({
@@ -48,7 +46,7 @@ export default function UploadModal({match, history}) {
   return (
     <ReactModal
       style={{
-        content: {height: '60%', width: '80%', transform: 'translate(10%,15%)'},
+        content: { height: '60%', width: '80%', transform: 'translate(10%,15%)' },
         overlay: {
           backgroundColor: 'rgba(0, 0, 0, 0.75)',
         },

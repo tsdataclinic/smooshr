@@ -1,5 +1,4 @@
-import React, {createContext, useContext, useReducer, useEffect} from 'react';
-import {deleteProject} from './actions';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import Dexie from 'dexie';
 
 const uuidv1 = require('uuid/v1');
@@ -27,6 +26,7 @@ const initalState = {
   persisting: false,
 };
 
+// Helper function
 const add_or_replace = (candidate, collection, id_col = 'id') => {
   console.log('id col before default is ', id_col);
   console.log('loading ', candidate, ' with id col ', id_col);
@@ -39,15 +39,16 @@ const add_or_replace = (candidate, collection, id_col = 'id') => {
   }
 };
 
+// Main Reducer for the project
 const reducer = (state, action) => {
   console.log('DISPATCHING ', action.type);
-  const {type, payload} = action;
+  const { type, payload } = action;
   switch (type) {
     case 'LOAD_CACHED_STATE':
       return payload;
 
     case 'ADD_DATASETS':
-      return {...state, datasets: [...state.datasets, ...payload]};
+      return { ...state, datasets: [...state.datasets, ...payload] };
 
     case 'ADD_OR_REPLACE_DATASET':
       return {
@@ -91,7 +92,7 @@ const reducer = (state, action) => {
         embeddings: payload,
       };
     case 'ADD_COLUMNS':
-      return {...state, columns: [...state.columns, ...payload]};
+      return { ...state, columns: [...state.columns, ...payload] };
 
     case 'REMOVE_COLUMN':
       return {
@@ -100,7 +101,7 @@ const reducer = (state, action) => {
       };
 
     case 'ADD_ENTRIES':
-      return {...state, entries: [...state.entries, ...payload]};
+      return { ...state, entries: [...state.entries, ...payload] };
 
     case 'REMOVE ENTRY':
       return {
@@ -141,9 +142,6 @@ const reducer = (state, action) => {
         metaColumns: [...state.metaColumns, ...payload],
       };
 
-    case 'ADD_MAPPINGS':
-      return {...state, mappings: [...state.mappings, ...payload]};
-
     case 'REMOVE_MAPPING':
       return {
         ...state,
@@ -155,6 +153,8 @@ const reducer = (state, action) => {
         ...state,
         mappings: [...state.mappings, ...payload],
       };
+
+
     case 'ADD_MAPPING':
       return {
         ...state,
@@ -164,7 +164,7 @@ const reducer = (state, action) => {
     case 'ADD_PROJECT':
       return {
         ...state,
-        projects: [...state.projects, {id: uuidv1(), ...payload}],
+        projects: [...state.projects, { id: uuidv1(), ...payload }],
       };
 
     case 'REMOVE_PROJECT':
@@ -177,7 +177,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         projects: state.projects.map(p =>
-          p.id == payload.id ? {...p, ...payload} : p,
+          p.id === payload.id ? { ...p, ...payload } : p,
         ),
       };
 
@@ -186,7 +186,7 @@ const reducer = (state, action) => {
         ...state,
         mappings: state.mappings.map(m =>
           m.id === payload.id
-            ? {...m, entries: [...m.entries, payload.entry]}
+            ? { ...m, entries: [...m.entries, payload.entry] }
             : m,
         ),
       };
@@ -194,7 +194,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         mappings: state.mappings.map(m =>
-          m.id === payload.id ? {...m, ...payload.mapping} : m,
+          m.id === payload.id ? { ...m, ...payload.mapping } : m,
         ),
       };
     case 'REMOVE_ENTRIES_FOR_COLUMN':
@@ -213,7 +213,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         meta_columns: state.metaColumns.map(mc =>
-          mc.id === payload.id ? {...mc, ...payload.meta_column} : mc,
+          mc.id === payload.id ? { ...mc, ...payload.meta_column } : mc,
         ),
       };
 
@@ -232,7 +232,7 @@ const reducer = (state, action) => {
   }
 };
 
-export const StateProvider = ({children}) => {
+export const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initalState);
   const {
     datasets,
@@ -243,18 +243,35 @@ export const StateProvider = ({children}) => {
     metaColumns,
     showUploadModal,
     showApplyMappingsModal,
+    cache_loaded
   } = state;
 
+
+  // Effect used to persist the state values that we care about preserving
+  // to our cache 
+  // TODO move this function to it's own hook section
   useEffect(() => {
-    if (state.cache_loaded) {
-      db.state.put({data: JSON.stringify(state), id: 1});
-      // localStorage.setItem('state', JSON.stringify(state));
+    if (cache_loaded) {
+
+      db.state.put({
+        data: JSON.stringify({
+          datasets,
+          columns,
+          entries,
+          projects,
+          mappings,
+          metaColumns,
+          showUploadModal,
+          showApplyMappingsModal,
+        }), id: 1
+      });
+
       if (navigator.storage && navigator.storage.estimate) {
         navigator.storage.estimate().then(estimation => {
-          const {quota, usage} = estimation;
+          const { quota, usage } = estimation;
           dispatch({
             type: 'UPDATE_STORAGE_QUOTA',
-            payload: {quota, usage},
+            payload: { quota, usage },
           });
         });
       } else {
@@ -270,8 +287,32 @@ export const StateProvider = ({children}) => {
     metaColumns,
     showUploadModal,
     showApplyMappingsModal,
+    cache_loaded
   ]);
 
+  // Use this to restore the state
+  useEffect(() => {
+    db.state.get(1).then(result => {
+      if (result) {
+        const cachedState = JSON.parse(result.data);
+        console.log('ATTEMPTING TO HYDRATE STATE', cachedState);
+
+        dispatch({
+          type: 'LOAD_CACHED_STATE',
+          payload: { ...initalState, ...cachedState, cache_loaded: true },
+        });
+      } else {
+        dispatch({
+          type: 'LOAD_CACHED_STATE',
+          payload: { ...initalState, cache_loaded: true },
+        });
+      }
+    });
+  }, []);
+
+
+  // Record if we are able to reliably persist the 
+  // cached local state
   useEffect(() => {
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist().then(persistResult => {
@@ -283,28 +324,6 @@ export const StateProvider = ({children}) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log('State update ', state);
-  }, [state]);
-
-  useEffect(() => {
-    db.state.get(1).then(result => {
-      if (result) {
-        const cachedState = JSON.parse(result.data);
-        console.log('ATTEMPTING TO HYDRATE STATE', cachedState);
-
-        dispatch({
-          type: 'LOAD_CACHED_STATE',
-          payload: {...initalState, ...cachedState, cache_loaded: true},
-        });
-      } else {
-        dispatch({
-          type: 'LOAD_CACHED_STATE',
-          payload: {...initalState, cache_loaded: true},
-        });
-      }
-    });
-  }, []);
 
   return (
     <StateContext.Provider value={[state, dispatch]}>
@@ -312,6 +331,8 @@ export const StateProvider = ({children}) => {
     </StateContext.Provider>
   );
 };
+
+
 export const useStateValue = () => useContext(StateContext);
 
 export const useProject = projectID => {
@@ -383,13 +404,13 @@ export const useProject = projectID => {
 export const useColumn = columnID => {
   const [state, dispatch] = useStateValue();
   const column = state.columns.find(c => c.id === columnID);
-  const entries = state.entries.filter(e => e.column_id == columnID);
+  const entries = state.entries.filter(e => e.column_id === columnID);
   const mappings = state.mappings.filter(m => m.column_id === columnID);
   const entry_names = entries.map(e => e.name);
   const embeddings = state.embeddings.filter(embed =>
     entry_names.includes(embed.entry),
   );
-  return {column, entries, mappings, embeddings, dispatch};
+  return { column, entries, mappings, embeddings, dispatch };
 };
 
 export const useMetaColumn = columnID => {
@@ -424,12 +445,12 @@ export const useMetaColumn = columnID => {
   const embeddings = state.embeddings.filter(embed =>
     entry_names.includes(embed.entry),
   );
-  return {meta_column, entries: mergedEntry, mappings, embeddings, dispatch};
+  return { meta_column, entries: mergedEntry, mappings, embeddings, dispatch };
 };
 
 export const useProjectStats = () => {
-  const [state, _] = useStateValue();
-  const {projects, datasets, columns, meta_columns} = state;
+  const [state,] = useStateValue();
+  const { projects, datasets, columns } = state;
   const project_stats = projects.reduce((stats, project) => {
     const project_datasets = datasets
       .filter(d => d.project_id === project.id)
@@ -438,7 +459,7 @@ export const useProjectStats = () => {
       project_datasets.includes(c.id),
     );
     const project_meta_columns = columns.filter(
-      mc => mc.project_id == project.id,
+      mc => mc.project_id === project.id,
     );
     return [
       ...stats,
@@ -456,8 +477,7 @@ export const useProjectStats = () => {
 };
 
 export const useStorage = () => {
-  const [{storage_stats, persisting}, _] = useStateValue();
-  console.log('storage stats', storage_stats);
+  const [{ storage_stats, persisting },] = useStateValue();
   if (storage_stats) {
     return {
       persisting,
@@ -470,10 +490,10 @@ export const useStorage = () => {
 };
 
 export const useDataset = datasetID => {
-  const [state, dispatch] = useStateValue();
+  const [state,] = useStateValue();
   const dataset = state.datasets.find(d => d.id === datasetID);
   const columns = state.columns.filter(d => d.dataset_id === datasetID);
   const columnIDs = columns.map(c => c.id);
   const mappings = state.mappings.filter(m => columnIDs.includes(m.columnID));
-  return {dataset, columns, mappings};
+  return { dataset, columns, mappings };
 };

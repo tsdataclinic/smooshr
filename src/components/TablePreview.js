@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ReactDataGrid from 'react-data-grid';
 
 export default function TablePreview(props) {
-  const {data} = props;
+  const { data } = props;
 
-  const columns = Object.keys(data[0]).map(k => ({key: k, name: k}));
+  const columns = Object.keys(data[0]).map(k => ({ key: k, name: k }));
   const [rows, setRows] = useState(data);
 
   const sortRows = (initalRows, sortColumn, sortDirection) => rows => {
@@ -18,7 +18,7 @@ export default function TablePreview(props) {
     return sortDirection === 'NONE' ? initalRows : [...rows].sort(comp);
   };
 
-  if (data.length == 0) {
+  if (data.length === 0) {
     return <h1> No data to show</h1>;
   }
 

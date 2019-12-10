@@ -1,22 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import {useStateValue, useProject} from '../contexts/app_context';
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useStateValue, useProject } from '../contexts/app_context';
+import { Link } from 'react-router-dom';
 import ColumnCard from '../components/ColumnCard';
 import TablePreview from '../components/TablePreview';
 import {
   mergeMetaColumns,
   updateMetaColumn,
   unMergeMetaColumn,
-  deleteProject,
 } from '../contexts/actions';
 import {
-  saveMappingsCSV,
-  saveMappingsJSON,
   saveProject,
-  applyAndSave,
-  exportPythonCode,
 } from '../utils/file_parsing';
-import OpenDataSearcher from '../components/OpenDataSearcher';
 
 import {
   faColumns,
@@ -25,11 +19,11 @@ import {
   faInfoCircle,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function ProjectPage(props) {
-  const {match, history} = props;
-  const {projectID} = match.params;
+  const { match, history } = props;
+  const { projectID } = match.params;
   const {
     project,
     datasets,
@@ -53,16 +47,8 @@ export default function ProjectPage(props) {
 
   const selectedDataset = datasets.find(d => d.name === selectedDatasetName);
 
-  const [{}, dispatch] = useStateValue();
+  const [, dispatch] = useStateValue();
   const [selectedColumns, setSelectedColumns] = useState([]);
-
-  const exportMappingsCSV = () => {
-    saveMappingsCSV(project, datasets, meta_columns, columns, mappings);
-  };
-
-  const exportMappingsJSON = () => {
-    saveMappingsJSON(project, datasets, meta_columns, columns, mappings);
-  };
 
   const onSaveProject = () => {
     saveProject(
@@ -76,16 +62,8 @@ export default function ProjectPage(props) {
     );
   };
 
-  const exportPythonCode = () => {
-    exportPythonCode();
-  };
-
-  const exportData = () => {
-    applyAndSave(project, datasets, meta_columns, columns, mappings);
-  };
-
   const changeMCName = (mc, name) => {
-    updateMetaColumn(mc.id, {name}, dispatch);
+    updateMetaColumn(mc.id, { name }, dispatch);
   };
   const deleteThisProject = () => {
     deleteProject();
@@ -101,7 +79,7 @@ export default function ProjectPage(props) {
   };
 
   const seperateMetaDataColumn = id => {
-    unMergeMetaColumn(meta_columns.find(mc => mc.id == id), dispatch);
+    unMergeMetaColumn(meta_columns.find(mc => mc.id === id), dispatch);
   };
 
   const dereferenceColumn = colID => {
@@ -131,7 +109,7 @@ export default function ProjectPage(props) {
               <h2>
                 <FontAwesomeIcon
                   icon={faInfoCircle}
-                  style={{marginRight: '20px'}}
+                  style={{ marginRight: '20px' }}
                 />
                 Metadata
               </h2>
@@ -144,7 +122,7 @@ export default function ProjectPage(props) {
               <h2>
                 <FontAwesomeIcon
                   icon={faColumns}
-                  style={{marginRight: '20px'}}
+                  style={{ marginRight: '20px' }}
                 />
                 Columns
               </h2>
@@ -154,8 +132,8 @@ export default function ProjectPage(props) {
                     mergeColumns
                   }>{`Merge ${selectedColumns.length} columns`}</button>
               ) : (
-                ''
-              )}
+                  ''
+                )}
             </div>
             <div className="region-list column-list">
               {meta_columns.map(mc => (
@@ -178,7 +156,7 @@ export default function ProjectPage(props) {
               <h2>
                 <FontAwesomeIcon
                   icon={faDatabase}
-                  style={{marginRight: '20px'}}
+                  style={{ marginRight: '20px' }}
                 />
                 Datasets
               </h2>
@@ -187,7 +165,7 @@ export default function ProjectPage(props) {
               {datasets.map(dataset => (
                 <p
                   className={
-                    selectedDatasetName == dataset.name
+                    selectedDatasetName === dataset.name
                       ? 'selected-dataset dataset-tab'
                       : 'dataset-tab'
                   }
@@ -218,25 +196,23 @@ export default function ProjectPage(props) {
               <h2>
                 <FontAwesomeIcon
                   icon={faFistRaised}
-                  style={{marginRight: '20px'}}
+                  style={{ marginRight: '20px' }}
                 />
                 Actions
               </h2>
             </div>
             <div className="region-list action-list">
-              {/*<button onClick={exportMappingsCSV}>Export Mappings (csv)</button>*/}
               <button onClick={onSaveProject}>Export Project</button>
               <Link to={`/project/${projectID}/export`}>
                 <button>Export Python code</button>
               </Link>
-              {/*<button onClick={exportData}>Export Data</button> */}
               <button onClick={deleteThisProject}>Delete Project</button>
             </div>
           </div>
         </React.Fragment>
       ) : (
-        <h1>Project not found</h1>
-      )}
+          <h1>Project not found</h1>
+        )}
     </div>
   );
 }

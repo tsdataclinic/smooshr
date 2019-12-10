@@ -1,24 +1,21 @@
-import React, {useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import ReactModal from 'react-modal';
-import {useStateValue} from '../contexts/app_context';
-import {useDropzone} from 'react-dropzone';
-import {faFile, faDownload} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {loadProject} from '../contexts/actions';
+import { useStateValue } from '../contexts/app_context';
+import { useDropzone } from 'react-dropzone';
+import { faFile } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { loadProject } from '../contexts/actions';
 
 import {
   faColumns,
   faDatabase,
-  faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
-export default function ProjectModal({match, history}) {
+export default function ProjectModal({ match, history }) {
   const onClose = () => history.goBack();
-  const [_, dispatch] = useStateValue();
-  const [error, setError] = useState(null);
+  const [, dispatch] = useStateValue();
+  const [error,] = useState(null);
 
-  const [name, setName] = useState();
-  const [description, setDescription] = useState();
   const [project, setProject] = useState(null);
 
   const onDrop = useCallback(files => {
@@ -28,19 +25,19 @@ export default function ProjectModal({match, history}) {
     reader.onload = f => {
       setProject(JSON.parse(reader.result));
     };
-  });
+  }, []);
 
   const loadIt = () => {
     loadProject(project, dispatch);
     history.goBack();
   };
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop});
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
     <ReactModal
       isOpen={true}
       onRequestClose={onClose}
       style={{
-        content: {height: '50%', width: '60%', transform: 'translate(25%,15%)'},
+        content: { height: '50%', width: '60%', transform: 'translate(25%,15%)' },
         overlay: {
           backgroundColor: 'rgba(0, 0, 0, 0.75)',
         },
@@ -60,7 +57,7 @@ export default function ProjectModal({match, history}) {
                   }}>
                   <FontAwesomeIcon
                     icon={faDatabase}
-                    style={{marginRight: '20px'}}
+                    style={{ marginRight: '20px' }}
                   />
                   <h2>Datasets</h2>
                 </header>
@@ -78,7 +75,7 @@ export default function ProjectModal({match, history}) {
                   }}>
                   <FontAwesomeIcon
                     icon={faColumns}
-                    style={{marginRight: '20px'}}
+                    style={{ marginRight: '20px' }}
                   />
                   <h2>Coumns</h2>
                 </header>
@@ -89,25 +86,25 @@ export default function ProjectModal({match, history}) {
               <button onClick={loadIt}>Load</button>
             </div>
           ) : (
-            <div {...getRootProps()}>
-              <div className="file-tab" style={{cursor: 'p'}}>
-                <FontAwesomeIcon icon={faFile} />
-                <input
-                  {...getInputProps({
-                    accept: ['text/csv', 'application/vnd.ms-excel'],
-                  })}
-                />
-                {isDragActive ? (
-                  <p>Drop the files here ... </p>
-                ) : (
-                  <p>
-                    Drag 'n' drop project file here or click to load project
+              <div {...getRootProps()}>
+                <div className="file-tab" style={{ cursor: 'p' }}>
+                  <FontAwesomeIcon icon={faFile} />
+                  <input
+                    {...getInputProps({
+                      accept: ['text/csv', 'application/vnd.ms-excel'],
+                    })}
+                  />
+                  {isDragActive ? (
+                    <p>Drop the files here ... </p>
+                  ) : (
+                      <p>
+                        Drag 'n' drop project file here or click to load project
                   </p>
-                )}
+                    )}
+                </div>
+                {error && <p>{error}</p>}
               </div>
-              {error && <p>{error}</p>}
-            </div>
-          )}
+            )}
         </div>
       </div>
     </ReactModal>
