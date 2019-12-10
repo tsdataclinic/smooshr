@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function Tabs({ options, selected, onSelected }) {
-  console.log('SELECTED ', selected)
   return (
     <div className="Tabs">
       {options.map(option => (

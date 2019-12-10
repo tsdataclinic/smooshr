@@ -72,7 +72,6 @@ export function loadProject(projectDetails, dispatch) {
   });
 
   entries.forEach(entry => {
-    console.log('entry ', entry);
     dispatch({
       type: 'ADD_OR_REPLACE_ENTRY',
       payload: entry,
@@ -81,7 +80,6 @@ export function loadProject(projectDetails, dispatch) {
 }
 
 export function removeEntryFromMapping(mapping, entry, dispatch) {
-  console.log('mapping ', mapping, ' entry ', entry);
   dispatch({
     type: 'UPDATE_MAPPING',
     payload: {

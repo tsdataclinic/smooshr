@@ -23,7 +23,6 @@ export default function OpneDataSearcher({ onDataset }) {
     )
       .then(res => res.json())
       .then(res => {
-        console.log(res.results);
         setSearchResults(res.results);
       })
       .catch(err => console.log(err));

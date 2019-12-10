@@ -28,8 +28,6 @@ const initalState = {
 
 // Helper function
 const add_or_replace = (candidate, collection, id_col = 'id') => {
-  console.log('id col before default is ', id_col);
-  console.log('loading ', candidate, ' with id col ', id_col);
   if (collection.find(item => item[id_col] === candidate[id_col])) {
     return collection.map(item =>
       item[id_col] === candidate[id_col] ? candidate : item,
@@ -41,7 +39,6 @@ const add_or_replace = (candidate, collection, id_col = 'id') => {
 
 // Main Reducer for the project
 const reducer = (state, action) => {
-  console.log('DISPATCHING ', action.type);
   const { type, payload } = action;
   switch (type) {
     case 'LOAD_CACHED_STATE':
@@ -295,8 +292,6 @@ export const StateProvider = ({ children }) => {
     db.state.get(1).then(result => {
       if (result) {
         const cachedState = JSON.parse(result.data);
-        console.log('ATTEMPTING TO HYDRATE STATE', cachedState);
-
         dispatch({
           type: 'LOAD_CACHED_STATE',
           payload: { ...initalState, ...cachedState, cache_loaded: true },
