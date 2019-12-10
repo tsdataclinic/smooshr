@@ -1,8 +1,6 @@
 import React from 'react';
 import TablePreview from '../components/TablePreview';
 import { useStateValue } from '../contexts/app_context';
-import SideList from '../components/SideList'
-import { Link } from 'react-router-dom';
 
 export default function DatasetPage({ match }) {
   const datasetID = match.params.datasetID;
@@ -29,23 +27,3 @@ export default function DatasetPage({ match }) {
     );
 }
 
-export function DatasetPageSidebar({ match }) {
-
-  const { projectID, datasetID } = match.params;
-  const [{ columns },] = useStateValue();
-  const columnsForDataset = columns.filter(c => c.dataset_id === datasetID)
-
-  return (
-    <SideList
-      title={'Columns'}
-      entries=
-      {columnsForDataset.filter(c => c.focusCol).map(column => (
-        <Link to={`/project/${projectID}/dataset/${datasetID}/column/${column.id}`}>
-          {column.name} ({column.unique})
-            </Link>
-      ))}
-      actionPrompt={'Back to project'}
-      actionLink={`/project/${projectID}`}
-    />
-  );
-}
