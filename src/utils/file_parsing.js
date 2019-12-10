@@ -74,7 +74,7 @@ export function parse_file_for_preview(
         });
       },
       error: error => {
-        console.log('something bad happened');
+        console.log('something bad happened ', error);
       },
       complete: () => {
         let columns = [];

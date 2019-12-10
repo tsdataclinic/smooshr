@@ -71,7 +71,6 @@ export const most_similar_to_category_mean = (
       const dist = vec_dist2(norm_vec(embeding.embed), mean);
       return { suggestion: entry.name, dist: dist };
     } else {
-      console.log('failed to find ', entry);
       return { suggestion: entry.name, dist: 2000000 };
     }
   });
@@ -93,7 +92,6 @@ const combined_word_embedings_for_entry = (
       .filter(embed => embed)
       .find(we => we.key === word.toLocaleLowerCase());
 
-    console.log('word emebed is ', word_embed);
     if (word_embed) {
       let rep = word_embed.embedding;
       if (norm) {

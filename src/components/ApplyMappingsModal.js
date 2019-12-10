@@ -12,7 +12,6 @@ export default function ApplyMappingsModal({ match, history }) {
   const { datasetID } = match.params
 
   const onClose = () => {
-    console.log("PREVIOUS STATE")
     history.goBack()
   }
 
