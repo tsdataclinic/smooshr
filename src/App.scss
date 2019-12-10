@@ -35,7 +35,7 @@ ul li {
   padding: 0px;
   display: grid;
   grid-template-rows: 70px 1fr 40px;
-  grid-template-areas: 'sidenav''main''footer';
+  grid-template-areas: 'header''main''footer';
 }
 
 .App-logo {
@@ -55,8 +55,8 @@ ul li {
 }
 
 /* Side nav content */
-.sidenav {
-  grid-area: sidenav;
+.header {
+  grid-area: header;
   background-color: $yellow;
   padding: 0px 40px;
   height: 100%;
@@ -64,11 +64,43 @@ ul li {
   display: flex;
   align-items: center;
   flex-direction: row;
+
+  img {
+    width: 60px;
+  }
+
+  .back-button {
+    justify-self: flex-end;
+  }
+
+  .data-clinic {
+    border-right: 1px solid;
+    padding-right: 20px;
+  }
+
+  .social {
+    width: 394px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .social svg {
+    margin-left: 20px;
+    width: 30px;
+    color: $main-color;
+  }
+
+  .content {
+    flex: 1;
+  }
+
+  ..project-name {
+    margin-left: 20px;
+  }
+
 }
 
-.sidenav img {
-  width: 60px;
-}
 
 .column-action-buttons {
   margin-top: 20px;
@@ -80,35 +112,6 @@ ul li {
   margin-left: 20px;
 }
 
-.sidenav .back-button {
-  justify-self: flex-end;
-}
-
-.sidenav .data-clinic {
-  border-right: 1px solid;
-  padding-right: 20px;
-}
-
-.sidenav .social {
-  width: 394px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.sidenav .social svg {
-  margin-left: 20px;
-  width: 30px;
-  color: $main-color;
-}
-
-.sidenav .content {
-  flex: 1;
-}
-
-.sidenav .project-name {
-  margin-left: 20px;
-}
 
 a {
   text-decoration: none;
