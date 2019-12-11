@@ -8,7 +8,7 @@ export default function Header({ history, match }) {
       <div className="logos">
         <Link style={{ display: 'flex', alignItems: 'center' }} to={'/'}>
           <img alt={"Data Clinic Modal"} src={`${process.env.PUBLIC_URL}/DataClinicLogo.png`} />{' '}
-          <span className="c">Data Clinic</span>{' '}
+          <span className="data-clinic">Data Clinic</span>{' '}
         </Link>
         <span className="project-name">smooshr (beta)</span>
       </div>
