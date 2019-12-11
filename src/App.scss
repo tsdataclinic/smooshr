@@ -462,7 +462,7 @@ footer {
   display: grid;
   grid-template-columns: minmax(20%, 300px) 1fr;
 
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 1000px) {
     grid-template-columns: 100px 1fr;
   }
 
@@ -494,7 +494,7 @@ footer {
       display: none
     }
 
-    @media only screen and (max-width: 700px) {
+    @media only screen and (max-width: 1000px) {
       padding: 10px 0px;
 
       .dataset-name {
@@ -522,7 +522,7 @@ footer {
       margin-right: 20px;
     }
 
-    @media only screen and (max-width: 700px) {
+    @media only screen and (max-width: 1000px) {
       svg {
         margin: 0px;
       }
