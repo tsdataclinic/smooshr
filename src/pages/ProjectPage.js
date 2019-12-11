@@ -99,12 +99,32 @@ export default function ProjectPage(props) {
   };
 
   return (
-    <div className="dataset-page page">
+    <div className="project-page page">
       {project ? (
         <React.Fragment>
-          <p>{project.description}</p>
+          <div className="actions">
+            <div className="region-header">
+              <h2>
+                <FontAwesomeIcon
+                  icon={faFistRaised}
+                  style={{ marginRight: '20px' }}
+                />
+                Actions
+              </h2>
 
-          <div className="metadata region">
+              <div className="">
+                <button onClick={onSaveProject}>Export Project</button>
+                <Link to={`/project/${projectID}/export`}>
+                  <button>Export Python code</button>
+                </Link>
+                <button onClick={deleteThisProject}>Delete Project</button>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div className="metadata">
             <div className="region-header">
               <h2>
                 <FontAwesomeIcon
@@ -113,7 +133,11 @@ export default function ProjectPage(props) {
                 />
                 Metadata
               </h2>
-              <div className="metadata"></div>
+              <div className="properties">
+                <p>Name: {project.name}</p>
+                <p>Description: {project.description}</p>
+
+              </div>
             </div>
           </div>
 
@@ -193,24 +217,6 @@ export default function ProjectPage(props) {
             )}
           </div>
 
-          <div className="actions region">
-            <div className="region-header">
-              <h2>
-                <FontAwesomeIcon
-                  icon={faFistRaised}
-                  style={{ marginRight: '20px' }}
-                />
-                Actions
-              </h2>
-            </div>
-            <div className="region-list action-list">
-              <button onClick={onSaveProject}>Export Project</button>
-              <Link to={`/project/${projectID}/export`}>
-                <button>Export Python code</button>
-              </Link>
-              <button onClick={deleteThisProject}>Delete Project</button>
-            </div>
-          </div>
         </React.Fragment>
       ) : (
           <h1>Project not found</h1>

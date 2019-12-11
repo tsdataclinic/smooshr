@@ -30,7 +30,8 @@ ul li {
 
 .App {
   text-align: center;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   margin: 0px;
   padding: 0px;
   display: grid;
@@ -173,19 +174,14 @@ a {
   text-align: left;
 }
 
-.action-list {
-  justify-content: space-around;
-}
+
 
 .region {
   margin-bottom: 50px;
 }
 
 .region-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  text-align: left;
 }
 
 .region-list {
@@ -195,12 +191,13 @@ a {
   align-content: stretch;
 }
 
+
 .dataset-tabs {
   display: flex;
 }
 
 .column-list {
-  grid-template-columns: repeat(auto-fill, 600px);
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 }
 
 .project-card {
@@ -816,6 +813,48 @@ p {
 
 .round-button {
   border-radius: 5px;
+}
+
+.project-page {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(1fr, 3);
+  grid-template-areas:
+    "metadata actions"
+    "columns columns"
+    "datasets datasets";
+
+
+  .metadata {
+    grid-area: metadata;
+
+    .properties {
+      box-sizing: border-box;
+      padding-left: 45px;
+    }
+  }
+
+  .columns {
+    grid-area: columns;
+
+  }
+
+  .datasets {
+    grid-area: datasets;
+  }
+
+  .actions {
+    justify-content: space-around;
+    grid-area: actions;
+    justify-self: flex-end;
+
+    .region-header {
+      text-align: right;
+    }
+  }
 }
 
 .column-page {
