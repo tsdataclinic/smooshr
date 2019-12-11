@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/Smooshr/static/css/main.c8a66339.chunk.css",
+    "main.css": "/Smooshr/static/css/main.6a0aedd6.chunk.css",
     "main.js": "/Smooshr/static/js/main.92312f83.chunk.js",
     "main.js.map": "/Smooshr/static/js/main.92312f83.chunk.js.map",
     "runtime-main.js": "/Smooshr/static/js/runtime-main.c994be54.js",
@@ -9,10 +9,10 @@
     "static/js/2.955884b5.chunk.js": "/Smooshr/static/js/2.955884b5.chunk.js",
     "static/js/2.955884b5.chunk.js.map": "/Smooshr/static/js/2.955884b5.chunk.js.map",
     "index.html": "/Smooshr/index.html",
-    "precache-manifest.5b6cb0b26a1c305e494f01c98da98780.js": "/Smooshr/precache-manifest.5b6cb0b26a1c305e494f01c98da98780.js",
+    "precache-manifest.b01740542ad729d395ecd68b0668d5f6.js": "/Smooshr/precache-manifest.b01740542ad729d395ecd68b0668d5f6.js",
     "service-worker.js": "/Smooshr/service-worker.js",
     "static/css/2.6130118c.chunk.css.map": "/Smooshr/static/css/2.6130118c.chunk.css.map",
-    "static/css/main.c8a66339.chunk.css.map": "/Smooshr/static/css/main.c8a66339.chunk.css.map",
+    "static/css/main.6a0aedd6.chunk.css.map": "/Smooshr/static/css/main.6a0aedd6.chunk.css.map",
     "static/js/2.955884b5.chunk.js.LICENSE": "/Smooshr/static/js/2.955884b5.chunk.js.LICENSE",
     "static/media/index.css": "/Smooshr/static/media/lato-latin-900italic.bd86aaa7.woff2"
   },
@@ -20,7 +20,7 @@
     "static/js/runtime-main.c994be54.js",
     "static/css/2.6130118c.chunk.css",
     "static/js/2.955884b5.chunk.js",
-    "static/css/main.c8a66339.chunk.css",
+    "static/css/main.6a0aedd6.chunk.css",
     "static/js/main.92312f83.chunk.js"
   ]
 }
