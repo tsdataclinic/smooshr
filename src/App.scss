@@ -75,18 +75,7 @@ ul li {
     padding-right: 20px;
   }
 
-  .social {
-    width: 394px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
 
-  .social svg {
-    margin-left: 20px;
-    width: 30px;
-    color: $main-color;
-  }
 
   .content {
     flex: 1;
@@ -126,10 +115,26 @@ ul li {
       display: none
     }
 
+    .social {
+      display: none;
+    }
+
 
     @media only screen and (max-width: 760px) {
       .hamburger-menu {
         display: block
+      }
+
+      .social {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      .social svg {
+        width: 3rem;
+        color: $main-color;
       }
 
       .menu-links {
@@ -144,7 +149,7 @@ ul li {
         background-color: $yellow;
         box-sizing: border-box;
         justify-content: center;
-        font-size: 2rem;
+        font-size: 2.5rem;
         top: 0px;
         left: 0px;
 
@@ -296,17 +301,28 @@ footer {
   justify-content: space-between;
   font-size: 0.8rem;
   text-transform: none;
+
+  p {
+    text-transform: none;
+  }
+
+  svg {
+    @media only screen and (max-width: 580px) {
+      display: none;
+    }
+  }
+
+  .social svg {
+    color: white;
+    font-size: 1.5rem;
+    margin-left: 20px;
+
+    @media only screen and (max-width: 760px) {
+      display: none;
+    }
+  }
 }
 
-footer p {
-  text-transform: none;
-}
-
-footer .social svg {
-  color: white;
-  font-size: 1.5rem;
-  margin-left: 20px;
-}
 
 
 .spacer {
