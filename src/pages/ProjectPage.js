@@ -99,12 +99,32 @@ export default function ProjectPage(props) {
   };
 
   return (
-    <div className="dataset-page page">
+    <div className="project-page page">
       {project ? (
         <React.Fragment>
-          <p>{project.description}</p>
+          <div className="actions">
+            <div className="region-header">
+              <h2>
+                <FontAwesomeIcon
+                  icon={faFistRaised}
+                  style={{ marginRight: '20px' }}
+                />
+                Actions
+              </h2>
 
-          <div className="metadata region">
+              <div className="">
+                <button onClick={onSaveProject}>Export Project</button>
+                <Link to={`/project/${projectID}/export`}>
+                  <button>Export Python code</button>
+                </Link>
+                <button onClick={deleteThisProject}>Delete Project</button>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div className="metadata">
             <div className="region-header">
               <h2>
                 <FontAwesomeIcon
@@ -113,7 +133,11 @@ export default function ProjectPage(props) {
                 />
                 Metadata
               </h2>
-              <div className="metadata"></div>
+              <div className="properties">
+                <p>Name: {project.name}</p>
+                <p>Description: {project.description}</p>
+
+              </div>
             </div>
           </div>
 
@@ -162,55 +186,40 @@ export default function ProjectPage(props) {
                 Datasets
               </h2>
             </div>
-            <div className="dataset-tabs">
-              {datasets.map(dataset => (
-                <p
-                  key={dataset.name}
-                  className={
-                    selectedDatasetName === dataset.name
-                      ? 'selected-dataset dataset-tab'
-                      : 'dataset-tab'
-                  }
-                  onClick={() => setSelectedDatasetName(dataset.name)}>
-                  {dataset.name}
-                </p>
-              ))}
-              <p className="final-dataset dataset-tab">Final Dataset Preview</p>
-              <div className="spacer" />
-              <Link
-                to={`/project/${projectID}/add_datasets`}
-                className="add-dataset dataset-tab">
-                <FontAwesomeIcon icon={faPlus} />
-                <span>Add Dataset</span>
-              </Link>
-            </div>
-
-            {datasets.length > 0 && selectedDataset && (
-              <TablePreview
-                data={selectedDataset.sample}
-                columns={selectedDataset.columns}
-              />
-            )}
-          </div>
-
-          <div className="actions region">
-            <div className="region-header">
-              <h2>
-                <FontAwesomeIcon
-                  icon={faFistRaised}
-                  style={{ marginRight: '20px' }}
-                />
-                Actions
-              </h2>
-            </div>
-            <div className="region-list action-list">
-              <button onClick={onSaveProject}>Export Project</button>
-              <Link to={`/project/${projectID}/export`}>
-                <button>Export Python code</button>
-              </Link>
-              <button onClick={deleteThisProject}>Delete Project</button>
+            <div className='dataset-table-view'>
+              <div className="dataset-tabs">
+                {datasets.map((dataset, index) => (
+                  <p
+                    key={dataset.name}
+                    className={
+                      selectedDatasetName === dataset.name
+                        ? 'selected-dataset dataset-tab'
+                        : 'dataset-tab'
+                    }
+                    onClick={() => setSelectedDatasetName(dataset.name)}>
+                    <span className='dataset-number'>{index + 1}</span> <span className='dataset-name'>{dataset.name}</span>
+                  </p>
+                ))}
+                <p className="final-dataset dataset-tab">Result</p>
+                <div className="spacer" />
+                <Link
+                  to={`/project/${projectID}/add_datasets`}
+                  className="add-dataset dataset-tab">
+                  <FontAwesomeIcon icon={faPlus} />
+                  <span className='dataset-name'>Add Dataset</span>
+                </Link>
+              </div>
+              <div className='table'>
+                {datasets.length > 0 && selectedDataset && (
+                  <TablePreview
+                    data={selectedDataset.sample}
+                    columns={selectedDataset.columns}
+                  />
+                )}
+              </div>
             </div>
           </div>
+
         </React.Fragment>
       ) : (
           <h1>Project not found</h1>
