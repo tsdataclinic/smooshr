@@ -186,35 +186,38 @@ export default function ProjectPage(props) {
                 Datasets
               </h2>
             </div>
-            <div className="dataset-tabs">
-              {datasets.map(dataset => (
-                <p
-                  key={dataset.name}
-                  className={
-                    selectedDatasetName === dataset.name
-                      ? 'selected-dataset dataset-tab'
-                      : 'dataset-tab'
-                  }
-                  onClick={() => setSelectedDatasetName(dataset.name)}>
-                  {dataset.name}
-                </p>
-              ))}
-              <p className="final-dataset dataset-tab">Final Dataset Preview</p>
-              <div className="spacer" />
-              <Link
-                to={`/project/${projectID}/add_datasets`}
-                className="add-dataset dataset-tab">
-                <FontAwesomeIcon icon={faPlus} />
-                <span>Add Dataset</span>
-              </Link>
+            <div className='dataset-table-view'>
+              <div className="dataset-tabs">
+                {datasets.map((dataset, index) => (
+                  <p
+                    key={dataset.name}
+                    className={
+                      selectedDatasetName === dataset.name
+                        ? 'selected-dataset dataset-tab'
+                        : 'dataset-tab'
+                    }
+                    onClick={() => setSelectedDatasetName(dataset.name)}>
+                    <span className='dataset-number'>{index + 1}</span> <span className='dataset-name'>{dataset.name}</span>
+                  </p>
+                ))}
+                <p className="final-dataset dataset-tab">Result</p>
+                <div className="spacer" />
+                <Link
+                  to={`/project/${projectID}/add_datasets`}
+                  className="add-dataset dataset-tab">
+                  <FontAwesomeIcon icon={faPlus} />
+                  <span className='dataset-name'>Add Dataset</span>
+                </Link>
+              </div>
+              <div className='table'>
+                {datasets.length > 0 && selectedDataset && (
+                  <TablePreview
+                    data={selectedDataset.sample}
+                    columns={selectedDataset.columns}
+                  />
+                )}
+              </div>
             </div>
-
-            {datasets.length > 0 && selectedDataset && (
-              <TablePreview
-                data={selectedDataset.sample}
-                columns={selectedDataset.columns}
-              />
-            )}
           </div>
 
         </React.Fragment>

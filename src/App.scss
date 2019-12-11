@@ -252,9 +252,6 @@ a {
 }
 
 
-.dataset-tabs {
-  display: flex;
-}
 
 .column-list {
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -459,26 +456,81 @@ footer {
   margin-right: 10px;
 }
 
-.selected-dataset {
-  font-weight: 800;
-}
 
-.dataset-tab {
-  padding: 10px 40px;
-  border: 1px solid;
-  cursor: pointer;
-}
 
-.add-dataset {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-self: flex-end;
+.dataset-table-view {
+  display: grid;
+  grid-template-columns: minmax(20%, 300px) 1fr;
 
-  svg {
-    margin-right: 20px;
+  @media only screen and (max-width: 700px) {
+    grid-template-columns: 100px 1fr;
+  }
+
+  .dataset-tabs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .selected-dataset {
+    font-weight: 800;
+    background-color: $yellow;
+  }
+
+  .dataset-tab {
+    padding: 10px 40px;
+    border: 1px solid;
+    cursor: pointer;
+
+
+
+    .dataset-name {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dataset-number {
+      display: none
+    }
+
+    @media only screen and (max-width: 700px) {
+      padding: 10px 0px;
+
+      .dataset-name {
+        display: none
+      }
+
+      .dataset-number {
+        display: block
+      }
+    }
+  }
+
+  .table {
+    overflow-x: auto;
+  }
+
+  .add-dataset {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: flex-end;
+    justify-content: center;
+
+    svg {
+      margin-right: 20px;
+    }
+
+    @media only screen and (max-width: 700px) {
+      svg {
+        margin: 0px;
+      }
+
+    }
   }
 }
+
 
 button {
   background-color: $main-color;
