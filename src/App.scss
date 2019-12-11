@@ -30,7 +30,8 @@ ul li {
 
 .App {
   text-align: center;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   margin: 0px;
   padding: 0px;
   display: grid;
@@ -233,19 +234,14 @@ a {
   text-align: left;
 }
 
-.action-list {
-  justify-content: space-around;
-}
+
 
 .region {
   margin-bottom: 50px;
 }
 
 .region-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  text-align: left;
 }
 
 .region-list {
@@ -255,12 +251,10 @@ a {
   align-content: stretch;
 }
 
-.dataset-tabs {
-  display: flex;
-}
+
 
 .column-list {
-  grid-template-columns: repeat(auto-fill, 600px);
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 }
 
 .project-card {
@@ -462,26 +456,81 @@ footer {
   margin-right: 10px;
 }
 
-.selected-dataset {
-  font-weight: 800;
-}
 
-.dataset-tab {
-  padding: 10px 40px;
-  border: 1px solid;
-  cursor: pointer;
-}
 
-.add-dataset {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-self: flex-end;
+.dataset-table-view {
+  display: grid;
+  grid-template-columns: minmax(20%, 300px) 1fr;
 
-  svg {
-    margin-right: 20px;
+  @media only screen and (max-width: 1000px) {
+    grid-template-columns: 100px 1fr;
+  }
+
+  .dataset-tabs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .selected-dataset {
+    font-weight: 800;
+    background-color: $yellow;
+  }
+
+  .dataset-tab {
+    padding: 10px 40px;
+    border: 1px solid;
+    cursor: pointer;
+
+
+
+    .dataset-name {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dataset-number {
+      display: none
+    }
+
+    @media only screen and (max-width: 1000px) {
+      padding: 10px 0px;
+
+      .dataset-name {
+        display: none
+      }
+
+      .dataset-number {
+        display: block
+      }
+    }
+  }
+
+  .table {
+    overflow-x: auto;
+  }
+
+  .add-dataset {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: flex-end;
+    justify-content: center;
+
+    svg {
+      margin-right: 20px;
+    }
+
+    @media only screen and (max-width: 1000px) {
+      svg {
+        margin: 0px;
+      }
+
+    }
   }
 }
+
 
 button {
   background-color: $main-color;
@@ -887,6 +936,48 @@ p {
 
 .round-button {
   border-radius: 5px;
+}
+
+.project-page {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(1fr, 3);
+  grid-template-areas:
+    "metadata actions"
+    "columns columns"
+    "datasets datasets";
+
+
+  .metadata {
+    grid-area: metadata;
+
+    .properties {
+      box-sizing: border-box;
+      padding-left: 45px;
+    }
+  }
+
+  .columns {
+    grid-area: columns;
+
+  }
+
+  .datasets {
+    grid-area: datasets;
+  }
+
+  .actions {
+    justify-content: space-around;
+    grid-area: actions;
+    justify-self: flex-end;
+
+    .region-header {
+      text-align: right;
+    }
+  }
 }
 
 .column-page {
