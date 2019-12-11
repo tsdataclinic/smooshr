@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Nav from './Nav'
 
 export default function Header({ history, match }) {
   return (
@@ -12,13 +13,8 @@ export default function Header({ history, match }) {
         <span className="project-name">smooshr (beta)</span>
       </div>
       <div className="spacer" />
-      <div className="top-menu">
-        <Link to="/">Projects</Link>
-        <Link to="/about">About</Link>
-        <a target="_blank" rel="noopener noreferrer" href="https://airtable.com/shrMCZrvP7467LNG7">
-          Feedback
-        </a>
-      </div>
+      <Nav />
+
     </div>
   );
 }
