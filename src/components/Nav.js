@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import Social from './Social'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -23,7 +24,10 @@ export default function Nav() {
                 <a onClick={toggleMenu} target="_blank" rel="noopener noreferrer" href="https://airtable.com/shrMCZrvP7467LNG7">
                     Feedback
                 </a>
+
+                <Social />
             </div>
+
         </div>
     )
 }
