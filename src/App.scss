@@ -841,7 +841,7 @@ p {
     grid-template-rows: repeat(auto-fit, 25px);
     grid-column-gap: 30px;
     grid-row-gap: 20px;
-    height: 215px;
+    // height: 215px;
     overflow-x: hidden;
     overflow-y: auto;
     justify-content: space-between;
@@ -869,8 +869,8 @@ p {
   display: grid;
   grid-template-columns: 300px 1fr;
   grid-column-gap: 5px;
-  height: 400px;
-  max-height: 400px;
+  // height: 400px;
+  // max-height: 400px;
 }
 
 .empty-mapping-prompt {
@@ -893,7 +893,7 @@ p {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 68px 1fr 60px 400px;
+  grid-template-rows: 68px 1fr 60px 0.5fr;
   grid-template-areas:
     'header'
     'table'
