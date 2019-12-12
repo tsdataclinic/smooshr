@@ -532,6 +532,7 @@ footer {
 }
 
 
+
 button {
   background-color: $main-color;
   color: white;
@@ -816,6 +817,12 @@ p {
     li {
       margin-bottom: 10px;
       text-transform: lowercase;
+      display: flex;
+      flex-direction: row;
+    }
+
+    span {
+      flex: 1
     }
 
 
@@ -826,10 +833,11 @@ p {
   }
 }
 
-.mapping-focus {
-  display: grid;
-}
+.mapping-header {
+  display: flex;
+  flex-direction: row;
 
+}
 
 .mapping-focus {
   //background-color: $other-color;
@@ -837,80 +845,92 @@ p {
   background-color: #fcf6df;
   padding: 20px 15px;
   display: grid;
-  grid-template-columns: minmax(353px, 50%) 1fr;
-  grid-template-rows: 14px 1fr 60px;
-  grid-column-gap: 30px;
-  justify-items: stretch;
-  align-items: stretch;
+  width: 100%;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50px 1fr;
+  grid-column-gap: 0px;
+  // justify-items: stretch;
+  // align-items: stretch;
   text-align: left;
   grid-template-areas:
-    'header header'
-    'includes suggestions'
-    'buttons buttons';
+    'name toggle'
+    'includes suggestions';
+
+
+  .group-name {
+    grid-area: name;
+    align-self: center;
+  }
+
+  .group-toggle {
+    grid-area: toggle;
+  }
 
   h3 {
     font-weight: normal;
   }
 
-  .ActionButtons {
-    grid-area: buttons;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    button {
-      margin-right: 10px;
-    }
-  }
-
   .include-list {
     grid-area: includes;
+    display: flex;
+    flex-direction: column;
   }
 
   .SuggestionActionButtons {
     display: flex;
-
-    button {
-      margin-right: 5px;
-    }
+    margin-left: 20px;
   }
 
   .keyword-match {
     grid-area: suggestions;
+    display: flex;
+    flex-direction: column;
+
+    // @media only screen and (max-width: 1000px) {
+    //   display: none;
+    // }
 
     span {
       cursor: pointer;
-      max-height: 0px;
     }
+
   }
 
   ul {
     display: grid;
     grid-template-columns: repeat(auto-fit, 250px);
     grid-template-rows: repeat(auto-fit, 25px);
+    max-width: 500px;
     grid-column-gap: 30px;
-    grid-row-gap: 20px;
+    grid-row-gap: 10px;
     // height: 215px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    justify-content: space-between;
+    overflow-x: auto;
+    // justify-content: space-between;
+    grid-auto-flow: column;
+    flex: 1;
   }
 
   li {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    max-height: 30px;
+    // justify-content: space-between;
+    // max-height: 30px;
     text-transform: lowercase;
+    align-items: center;
+
+
+    span {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+    }
 
     button {
       border-radius: 30px;
     }
 
-    svg {
-      font-size: 1.2em;
-      color: white;
-    }
   }
 }
 
@@ -1205,4 +1225,45 @@ button:disabled {
   background-color: #b3a0bb;
   height: 100%;
   width: 0%;
+}
+
+.toggle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .toggle-prompt {
+    margin-right: 10px;
+  }
+
+  .toggle-inner {
+    border: 1px solid $main-color;
+    box-sizing: border-box;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+
+    .toggle-entry {
+      color: $main-color;
+      box-sizing: border-box;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .toggle-selected {
+      color: white;
+      background-color: $main-color;
+    }
+  }
+}
+
+.add-button {
+  color: green;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.remove-button {
+  color: red;
+  cursor: pointer;
 }

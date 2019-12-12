@@ -1,9 +1,13 @@
 import React from 'react';
 
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 export default function MappingsMenu({
   mappings = [],
   selected,
   onMappingSelected,
+  onDeleteMapping,
   style
 }) {
 
@@ -14,9 +18,9 @@ export default function MappingsMenu({
   }
 
   return (
-    <div class="mappings-menu" style={style}>
+    <div className="mappings-menu" style={style}>
       <h3>
-        Merged Groups <span class="Pill">{mappings.length}</span>{' '}
+        Groups
       </h3>
       <ul>
         {mappings.map(mapping => (
@@ -25,7 +29,10 @@ export default function MappingsMenu({
               selected && mapping.name === selected.name ? 'selected' : ''
             }
             onClick={() => mappingSelected(mapping)}>
-            {mapping.name}
+            <span>
+              {mapping.name}
+            </span>
+            <FontAwesomeIcon onClick={() => onDeleteMapping(mapping)} className='remove-button' icon={faTimesCircle} />
           </li>
         ))}
       </ul>

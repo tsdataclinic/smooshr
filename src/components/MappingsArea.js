@@ -9,7 +9,6 @@ export default function MappingsArea({
   onRenameMapping,
   onRemoveEntryFromMapping,
   onDeleteMapping,
-  onClearMapping,
   onAddEntryToMapping,
   onAddSuggestionToMapping,
   onAddNegativeExampleToMapping,
@@ -22,14 +21,13 @@ export default function MappingsArea({
         mappings={mappings}
         selected={selection}
         onMappingSelected={onMappingSelected}
+        onDeleteMapping={onDeleteMapping}
       />
       {selection && (
         <MappingFocus
           mapping={selection}
           onRemoveEntryFromMapping={onRemoveEntryFromMapping}
           onRenameMapping={onRenameMapping}
-          onDeleteMapping={onDeleteMapping}
-          onClearMapping={onClearMapping}
           onAddEntryToMapping={onAddEntryToMapping}
           onAddSuggestionToMapping={onAddSuggestionToMapping}
           suggestions={suggestions}

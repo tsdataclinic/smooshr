@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Toggle from './Toggle'
 import EditableText from './EditableText';
 
 export default function MappingFocus({
   mapping,
   onRemoveEntryFromMapping,
   onRenameMapping,
-  onClearMapping,
   onDeleteMapping,
   onAddSuggestionToMapping,
   onAddNegativeExampleToMapping,
   suggestions,
   style,
 }) {
-  const [suggestionType, setSuggestionType] = useState('text');
+  const [suggestionType, setSuggestionType] = useState('meaning');
 
   const removeEntryFromMapping = entry => {
     if (onRemoveEntryFromMapping) {
@@ -31,12 +31,6 @@ export default function MappingFocus({
   const updateMappingName = name => {
     if (onRenameMapping) {
       onRenameMapping(mapping, name);
-    }
-  };
-
-  const clearMapping = name => {
-    if (onClearMapping) {
-      onClearMapping(mapping);
     }
   };
 
@@ -57,75 +51,65 @@ export default function MappingFocus({
 
   return (
     <div className="mapping-focus" style={style}>
-      <EditableText text={mapping.name} onUpdate={updateMappingName} />
+      <div className='group-name'>
+        <EditableText text={mapping.name} onUpdate={updateMappingName} />
+      </div>
+      <div className='toggle'>
+        <Toggle prompt={"Suggested matches by:"} entries={['meaning', 'text']} onChange={setSuggestionType} />
+      </div>
       <div className="include-list">
-        <h4>Includes</h4>
+        <h4>Group Includes</h4>
         <ul>
           {mapping.entries.map(entry => (
             <li>
-              {entry}{' '}
-              <button
-                onClick={() => removeEntryFromMapping(entry)}
-                className={'small-button round-button'}>
-                <FontAwesomeIcon icon={faTimes} />{' '}
-              </button>
+              <span title={entry}>{entry}</span>
+              <div className="SuggestionActionButtons">
+
+                <FontAwesomeIcon
+                  className='remove-button'
+                  onClick={() => removeEntryFromMapping(entry)}
+                  icon={faTimesCircle} />
+              </div>
             </li>
           ))}
         </ul>
       </div>
+      {/* 
+      <div className="full-toggle">
+        <Toggle entries={['Includes', "Text", "Meaning"]} />
+      </div> */}
+
       <div className="keyword-match">
-        <h4>
-          Suggestions by:{' '}
-          <span
-            style={
-              suggestionType === 'text'
-                ? { fontWeight: 'bold' }
-                : { fontWeight: 'lighter' }
-            }
-            onClick={() => setSuggestionType('text')}>
-            text
-          </span>{' '}
-          /{' '}
-          <span
-            style={
-              suggestionType === 'meaning'
-                ? { fontWeight: 'bold' }
-                : { fontWeight: 'lighter' }
-            }
-            onClick={() => setSuggestionType('meaning')}>
-            meaning
-          </span>
-        </h4>
+        <h4>You might want to add</h4>
         <ul>
           {suggestionsByType.map(entry => (
             <li>
-              {entry.suggestion}{' '}
+              <span title={entry.suggestion}>{entry.suggestion}</span>
               <div className="SuggestionActionButtons">
-                <button
-                  className={'small-button round-button'}
-                  onClick={() => addSuggestionToMapping(entry)}>
-                  <FontAwesomeIcon icon={faCheck} />
-                </button>
-                <button className={'small-button round-button'}
+
+                <FontAwesomeIcon
+                  className='add-button'
+                  onClick={() => addSuggestionToMapping(entry)}
+                  icon={faCheckCircle} />
+
+                <FontAwesomeIcon
+                  className='remove-button'
                   onClick={() => addNegativeExampleToMapping(entry)}
-                >
-                  <FontAwesomeIcon
-                    icon={faTimes} />
-                </button>
+                  icon={faTimesCircle} />
               </div>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className={'ActionButtons'}>
+      {/* <div className={'ActionButtons'}>
         <button onClick={clearMapping} className={'mid-button'}>
           Clear Mapping
         </button>
         <button onClick={deleteMapping} className={'mid-button'}>
           Delete Mapping
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
