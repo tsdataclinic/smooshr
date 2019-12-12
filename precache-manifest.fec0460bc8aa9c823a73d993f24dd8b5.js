@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2a8be05850c9dd955678820bb816756a",
+    "revision": "33b0f7f8c971f2661f2381234e3ccb85",
     "url": "/Smooshr/index.html"
   },
   {
-    "revision": "28a9634265902ad4c92e",
+    "revision": "ab0cf5ff0565cb51a71c",
     "url": "/Smooshr/static/css/2.6130118c.chunk.css"
   },
   {
-    "revision": "30e11c9e124ce4b8649c",
-    "url": "/Smooshr/static/css/main.6a0aedd6.chunk.css"
+    "revision": "510ca3a34d859dc334f1",
+    "url": "/Smooshr/static/css/main.5199a0d0.chunk.css"
   },
   {
-    "revision": "28a9634265902ad4c92e",
-    "url": "/Smooshr/static/js/2.955884b5.chunk.js"
+    "revision": "ab0cf5ff0565cb51a71c",
+    "url": "/Smooshr/static/js/2.a73a9a46.chunk.js"
   },
   {
     "revision": "143c081d80f25942b094cf0f7cf5fece",
-    "url": "/Smooshr/static/js/2.955884b5.chunk.js.LICENSE"
+    "url": "/Smooshr/static/js/2.a73a9a46.chunk.js.LICENSE"
   },
   {
-    "revision": "30e11c9e124ce4b8649c",
-    "url": "/Smooshr/static/js/main.92312f83.chunk.js"
+    "revision": "510ca3a34d859dc334f1",
+    "url": "/Smooshr/static/js/main.fb20383c.chunk.js"
   },
   {
     "revision": "8683ecd5061323188e49",
