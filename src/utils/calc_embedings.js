@@ -79,7 +79,7 @@ export const most_similar_to_category_mean = (
     .filter(a => !entries.includes(a.suggestion))
     .filter(a => !negativeEntries.includes(a.suggestion))
     .sort((a, b) => (a.dist > b.dist ? 1 : -1))
-    .slice(0, 8);
+    .slice(0, 20);
 };
 
 const combined_word_embedings_for_entry = (
