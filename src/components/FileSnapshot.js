@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { parseFileForPreview } from '../utils/file_parsing';
-import ProgressBar from './ProgressBar'
+import React, {useState, useEffect, useMemo} from 'react';
+import {parseFileForPreview} from '../utils/file_parsing';
+import ProgressBar from './ProgressBar';
 
-export default function FileSnapshot({ file, onAddDataset }) {
+export default function FileSnapshot({file, onAddDataset}) {
   const [columns, setColumns] = useState([]);
   const [dataset, setDataset] = useState([]);
   const [entries, setEntries] = useState([]);
@@ -59,32 +59,43 @@ export default function FileSnapshot({ file, onAddDataset }) {
     );
   }, [file]);
 
-
   return (
     <div className="file-snapshot">
-      <div className='file-snapshot-header'>
+      <div className="file-snapshot-header">
         <h3>{file.type === 'url' ? file.ref : file.ref.name}</h3>
-        {status === 'loading' &&
+        {status === 'loading' && (
           <React.Fragment>
-            <p>Loading, parsed {progress.rows_read ? progress.rows_read.toLocaleString() : 0} rows</p>
-            <ProgressBar total={progress.total_size ? progress.total_size : 0} value={progress.bytes_read} style={{ width: '500px' }} />
+            <p>
+              Loading, parsed{' '}
+              {progress.rows_read ? progress.rows_read.toLocaleString() : 0}{' '}
+              rows
+            </p>
+            <ProgressBar
+              total={progress.total_size ? progress.total_size : 0}
+              value={progress.bytes_read}
+              style={{width: '500px'}}
+            />
           </React.Fragment>
-        }
-        {status === 'selecting' &&
+        )}
+        {status === 'selecting' && (
           <p>
             Has a total of {dataset.row_count} rows and {columns.length}{' '}
             columns. Select the columns you want to work with
-          </p>}
+          </p>
+        )}
       </div>
       {status === 'selecting' && (
         <React.Fragment>
           <ul className="column-summary-list ">
             {columns.map(column => (
-              <li className='column-preview-card card' key={column.id}>
+              <li className="column-preview-card card" key={column.id}>
                 <div>
                   <div class="summary-list-header">
                     <h3>
-                      {column.name} <span>{`${column.exceded ? '>' : ''} ${column.unique}`}</span>
+                      {column.name}{' '}
+                      <span>{`${column.exceded ? '>' : ''} ${
+                        column.unique
+                      }`}</span>
                     </h3>
                     <input
                       type="checkbox"
@@ -101,13 +112,12 @@ export default function FileSnapshot({ file, onAddDataset }) {
             ))}
           </ul>
 
-          <div className='column-summary-buttons'>
+          <div className="column-summary-buttons">
             <button onClick={submit}>Load</button>
-            <button onClick={skip}>Skip</button>
+            <button onClick={skip}>Cancel</button>
           </div>
         </React.Fragment>
       )}
-
     </div>
   );
 }

@@ -36,12 +36,8 @@ export default function CodeExportModal({ match, history }) {
 
   return (
     <ReactModal
-      style={{
-        content: { height: '35%', transform: 'translate(0,40%)' },
-        overlay: {
-          backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        },
-      }}
+      className="Modal"
+      overlayClassName="Overlay"
       isOpen={true}
       onRequestClose={onClose}>
       <div className="code-export-modal">
