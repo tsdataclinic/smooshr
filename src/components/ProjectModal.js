@@ -19,14 +19,11 @@ export default function ProjectModal({ match, history }) {
 
   return (
     <ReactModal
-      style={{
-        content: { height: '35%', width: '50%', transform: 'translate(40%,40%)' },
 
-        overlay: {
-          backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        },
-      }}
       isOpen={true}
+
+      className="Modal"
+      overlayClassName="Overlay"
       onRequestClose={onClose}>
       <div className="new-project-modal">
         <h1>New Project</h1>
