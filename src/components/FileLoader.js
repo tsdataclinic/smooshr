@@ -93,7 +93,7 @@ export default function FileLoader({onAddDataset}) {
   };
 
   return (
-    <div classname="file-uploader">
+    <div className="file-uploader">
       {filesPreview ? (
         filesPreview.map(file => (
           <FileSnapshot file={file} onAddDataset={onAddDataset} />

@@ -90,7 +90,7 @@ export default function FileSnapshot({file, onAddDataset}) {
             {columns.map(column => (
               <li className="column-preview-card card" key={column.id}>
                 <div>
-                  <div class="summary-list-header">
+                  <div className="summary-list-header">
                     <h3>
                       {column.name}{' '}
                       <span>{`${column.exceded ? '>' : ''} ${
