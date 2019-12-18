@@ -36,7 +36,7 @@ ul li {
   padding: 0px;
   display: grid;
   grid-template-rows: 70px 1fr 40px;
-  grid-template-areas: 'header''main''footer';
+  grid-template-areas: 'header' 'main' 'footer';
 }
 
 .App-logo {
@@ -45,6 +45,29 @@ ul li {
   pointer-events: none;
 }
 
+.Overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 3;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: center;
+}
+
+.Modal {
+  width: 80%;
+  height: 60%;
+  background-color: white;
+  box-sizing: border-box;
+  padding: 30px;
+  overflow: hidden;
+}
 
 /* Side nav content */
 .header {
@@ -66,7 +89,6 @@ ul li {
   }
 
   .data-clinic {
-
     @media only screen and (max-width: 510px) {
       display: none;
     }
@@ -74,8 +96,6 @@ ul li {
     border-right: 1px solid;
     padding-right: 20px;
   }
-
-
 
   .content {
     flex: 1;
@@ -108,21 +128,20 @@ ul li {
     text-transform: lowercase;
 
     .hamburger-menu {
-      display: none
+      display: none;
     }
 
     .menu-close-icon {
-      display: none
+      display: none;
     }
 
     .social {
       display: none;
     }
 
-
     @media only screen and (max-width: 760px) {
       .hamburger-menu {
-        display: block
+        display: block;
       }
 
       .social {
@@ -168,10 +187,7 @@ ul li {
       .menu-links.hidden {
         display: none;
       }
-
-
     }
-
   }
 
   .top-menu a {
@@ -182,10 +198,7 @@ ul li {
     width: 35px;
     margin-right: 20px;
   }
-
-
 }
-
 
 .column-action-buttons {
   margin-top: 20px;
@@ -193,10 +206,9 @@ ul li {
   justify-content: flex-end;
 }
 
-.column-action-buttons>* {
+.column-action-buttons > * {
   margin-left: 20px;
 }
-
 
 a {
   text-decoration: none;
@@ -234,8 +246,6 @@ a {
   text-align: left;
 }
 
-
-
 .region {
   margin-bottom: 50px;
 }
@@ -251,8 +261,6 @@ a {
   align-content: stretch;
 }
 
-
-
 .column-list {
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 }
@@ -267,7 +275,7 @@ a {
   flex-direction: column;
 }
 
-.new-project-card>svg {
+.new-project-card > svg {
   align-self: center;
   flex: 1;
 }
@@ -276,7 +284,7 @@ a {
   width: 100%;
 }
 
-.project-card>* {
+.project-card > * {
   margin: 0px 0px 20px 0px;
 }
 
@@ -320,8 +328,6 @@ footer {
   }
 }
 
-
-
 .spacer {
   flex-grow: 1;
 }
@@ -359,7 +365,6 @@ footer {
   background-color: rgb(67, 172, 190);
 }
 
-
 .buttons {
   display: flex;
   justify-content: space-around;
@@ -388,7 +393,7 @@ footer {
     'header'
     'table'
     'buttons';
-  height: 863px;
+  height: 100%;
 }
 
 .file-snapshot .file-snapshot-header {
@@ -456,8 +461,6 @@ footer {
   margin-right: 10px;
 }
 
-
-
 .dataset-table-view {
   display: grid;
   grid-template-columns: minmax(20%, 300px) 1fr;
@@ -481,8 +484,6 @@ footer {
     border: 1px solid;
     cursor: pointer;
 
-
-
     .dataset-name {
       display: block;
       white-space: nowrap;
@@ -491,18 +492,18 @@ footer {
     }
 
     .dataset-number {
-      display: none
+      display: none;
     }
 
     @media only screen and (max-width: 1000px) {
       padding: 10px 0px;
 
       .dataset-name {
-        display: none
+        display: none;
       }
 
       .dataset-number {
-        display: block
+        display: block;
       }
     }
   }
@@ -526,11 +527,9 @@ footer {
       svg {
         margin: 0px;
       }
-
     }
   }
 }
-
 
 button {
   background-color: $main-color;
@@ -670,7 +669,6 @@ button:hover {
   }
 }
 
-
 .entry-table-entries {
   grid-area: entrytable;
   display: grid;
@@ -768,7 +766,6 @@ p {
   }
 }
 
-
 .ButtonSmall {
   border-radius: 5px;
   color: white;
@@ -790,7 +787,6 @@ p {
   min-height: 0px;
   display: flex;
   flex-direction: column;
-
 
   h3 {
     font-size: 1.2rem;
@@ -818,7 +814,6 @@ p {
       text-transform: lowercase;
     }
 
-
     li.selected {
       color: $main-color;
       font-weight: bold;
@@ -829,7 +824,6 @@ p {
 .mapping-focus {
   display: grid;
 }
-
 
 .mapping-focus {
   //background-color: $other-color;
@@ -946,10 +940,9 @@ p {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(1fr, 3);
   grid-template-areas:
-    "metadata actions"
-    "columns columns"
-    "datasets datasets";
-
+    'metadata actions'
+    'columns columns'
+    'datasets datasets';
 
   .metadata {
     grid-area: metadata;
@@ -962,7 +955,6 @@ p {
 
   .columns {
     grid-area: columns;
-
   }
 
   .datasets {
@@ -1037,10 +1029,17 @@ p {
 .file-tab {
   border: 1px dashed;
   box-sizing: border-box;
-  padding: 150px 30px;
-  height: 50%;
-  margin-top: 30px;
+  // padding: 150px 30px;
+  // height: 50%;
+  // margin-top: 30px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.drop-area {
 }
 
 .file-tab {
@@ -1067,14 +1066,28 @@ p {
   font-size: 1.7em;
 }
 
+.file-uploader {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .file-uploader .content {
   display: grid;
   width: 100%;
-  height: 100%;
+  flex: 1;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   justify-content: center;
   align-content: center;
+}
+
+.file-uploader .content > div {
+  height: 100%;
+}
+
+.file-tab {
+  height: 100%;
 }
 
 .new-project-modal {

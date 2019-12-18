@@ -30,7 +30,11 @@ export default function ApplyMappingsModal({ match, history }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <ReactModal isOpen={true} onRequestClose={onClose}>
+    <ReactModal isOpen={true} onRequestClose={onClose}
+      className="Modal"
+      overlayClassName="Overlay"
+
+    >
       {error && <h1>{error}</h1>}
 
       {files ? (

@@ -45,12 +45,8 @@ export default function UploadModal({ match, history }) {
 
   return (
     <ReactModal
-      style={{
-        content: { height: '60%', width: '80%', transform: 'translate(10%,15%)' },
-        overlay: {
-          backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        },
-      }}
+      className="Modal"
+      overlayClassName="Overlay"
       isOpen={true}
       onRequestClose={onClose}>
       <FileLoader onAddDataset={addDatasetToStore} onClose={onClose} />
