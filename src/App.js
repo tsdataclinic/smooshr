@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './components/Header'
+import Header from './components/Header';
 import Footer from './components/Footer';
 import UploadModal from './components/UploadModal';
 import ProjectModal from './components/ProjectModal';
@@ -9,15 +9,15 @@ import ShowApplyMappingsModal from './components/ApplyMappingsModal';
 import CodeExportModal from './components/CodeExportModal';
 import DatasetPage from './pages/DatasetPage';
 import ColumnPage from './pages/ColumnPage';
+import AboutPage from './pages/AboutPage';
 import WelcomePage from './pages/WelcomePage';
 import ProjectPage from './pages/ProjectPage';
 import 'typeface-lato';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import './App.scss';
 
 function App() {
-
   return (
     <Router basename={process.env.PUBLIC_URL}>
       <GHPagesRedirect />
@@ -39,6 +39,7 @@ function App() {
             component={ProjectPage}
           />
           <Route path="/" exact={true} component={WelcomePage} />
+          <Route path="/about" exact={true} component={AboutPage} />
         </div>
         <Footer />
 
@@ -57,7 +58,6 @@ function App() {
           path="/dataset/:datasetID/apply"
           component={ShowApplyMappingsModal}
         />
-
       </div>
     </Router>
   );
