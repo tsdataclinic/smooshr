@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/Smooshr/static/css/main.e67aadbd.chunk.css",
-    "main.js": "/Smooshr/static/js/main.7e5b91aa.chunk.js",
-    "main.js.map": "/Smooshr/static/js/main.7e5b91aa.chunk.js.map",
-    "runtime-main.js": "/Smooshr/static/js/runtime-main.c994be54.js",
-    "runtime-main.js.map": "/Smooshr/static/js/runtime-main.c994be54.js.map",
-    "static/css/2.6130118c.chunk.css": "/Smooshr/static/css/2.6130118c.chunk.css",
-    "static/js/2.955884b5.chunk.js": "/Smooshr/static/js/2.955884b5.chunk.js",
-    "static/js/2.955884b5.chunk.js.map": "/Smooshr/static/js/2.955884b5.chunk.js.map",
-    "index.html": "/Smooshr/index.html",
-    "precache-manifest.549d347faf134a488a981accb5c22354.js": "/Smooshr/precache-manifest.549d347faf134a488a981accb5c22354.js",
-    "service-worker.js": "/Smooshr/service-worker.js",
-    "static/css/2.6130118c.chunk.css.map": "/Smooshr/static/css/2.6130118c.chunk.css.map",
-    "static/css/main.e67aadbd.chunk.css.map": "/Smooshr/static/css/main.e67aadbd.chunk.css.map",
-    "static/js/2.955884b5.chunk.js.LICENSE": "/Smooshr/static/js/2.955884b5.chunk.js.LICENSE",
-    "static/media/index.css": "/Smooshr/static/media/lato-latin-900italic.bd86aaa7.woff2"
+    "main.css": "/smooshr/static/css/main.e67aadbd.chunk.css",
+    "main.js": "/smooshr/static/js/main.672f142d.chunk.js",
+    "main.js.map": "/smooshr/static/js/main.672f142d.chunk.js.map",
+    "runtime-main.js": "/smooshr/static/js/runtime-main.59fead8a.js",
+    "runtime-main.js.map": "/smooshr/static/js/runtime-main.59fead8a.js.map",
+    "static/css/2.f8fd46b4.chunk.css": "/smooshr/static/css/2.f8fd46b4.chunk.css",
+    "static/js/2.955884b5.chunk.js": "/smooshr/static/js/2.955884b5.chunk.js",
+    "static/js/2.955884b5.chunk.js.map": "/smooshr/static/js/2.955884b5.chunk.js.map",
+    "index.html": "/smooshr/index.html",
+    "precache-manifest.b1f4acf5d7d8c4ba3ce0d63c5967a06f.js": "/smooshr/precache-manifest.b1f4acf5d7d8c4ba3ce0d63c5967a06f.js",
+    "service-worker.js": "/smooshr/service-worker.js",
+    "static/css/2.f8fd46b4.chunk.css.map": "/smooshr/static/css/2.f8fd46b4.chunk.css.map",
+    "static/css/main.e67aadbd.chunk.css.map": "/smooshr/static/css/main.e67aadbd.chunk.css.map",
+    "static/js/2.955884b5.chunk.js.LICENSE": "/smooshr/static/js/2.955884b5.chunk.js.LICENSE",
+    "static/media/index.css": "/smooshr/static/media/lato-latin-900italic.bd86aaa7.woff2"
   },
   "entrypoints": [
-    "static/js/runtime-main.c994be54.js",
-    "static/css/2.6130118c.chunk.css",
+    "static/js/runtime-main.59fead8a.js",
+    "static/css/2.f8fd46b4.chunk.css",
     "static/js/2.955884b5.chunk.js",
     "static/css/main.e67aadbd.chunk.css",
-    "static/js/main.7e5b91aa.chunk.js"
+    "static/js/main.672f142d.chunk.js"
   ]
 }
