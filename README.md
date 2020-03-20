@@ -41,7 +41,7 @@ As the data and tech philanthropic arm of the investment manager Two Sigma, Data
 
 We leverage Two Sigma’s people, data science skills, and technological know-how to support communities, mission driven organizations, and the broader public in their effort to use data more effectively.
 
-To learn more visit [dataclinic.twosigma.com](dataclinic.twosigma.com) and connect with us via [mailto:dataclinic@twosigma.com](dataclinic@twosigma.com).
+To learn more visit [dataclinic.twosigma.com](dataclinic.twosigma.com) and connect with us via [dataclinic@twosigma.com](mailto:dataclinic@twosigma.com).
 
 # Running smooshr locally
 
