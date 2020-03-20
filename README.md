@@ -20,6 +20,8 @@ The first data cleaning task we have built in to smooshr is that of creating a c
 2. Categories with way too many subcategories. For example if you want to easily combine "Automobile - car" "Automobile - van", "Automobile - truck" etc in to "Automobile"
 3. Data that has categories that changes from year to year. For example if a dataset for 2018 refers to a category about housing as "homes" and the release of the 2019 dataset refers to them as 'houses', smooshr can help standardize these across the files.
 
+The best way to get started is to checkout the [tutorial](https://github.com/tsdataclinic/smooshr/blob/master/tutorial.md)
+
 ## Export your workflow as code
 
 Smooshr is designed to be useful and then to get out of your way. Once you have generated the mappings for your new taxonomy, you can export a package of python code that can be run to apply the transforms for your script. This easily allows you to incorporate this step into a larger ETL pipeline or to teak the cleaning script as you see fit. Dont want to use our python code, no problem, simply export the results as a json file that can be easily loaded in to your own scripts to transform your data.
