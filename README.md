@@ -79,8 +79,4 @@ yarn start
 
 This should start a server on http://localhost:3000
 
-```
-
-```
-
 If you have any issues with the setup, please open an issue on this repo.
