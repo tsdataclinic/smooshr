@@ -2,6 +2,8 @@
 
 Introducing smooshr, a quick and user-friendly way to clean messy datasets.
 
+![screenshot](https://camo.githubusercontent.com/d4d1b675cba2c86dfa61ff105a13c019839f68c1/68747470733a2f2f747364617461636c696e69632e6769746875622e696f2f736d6f6f7368722f7475746f7269616c5f73637265656e73686f74732f736d6f6f7368725f31322e706e67)
+
 While some solutions exist for processing numerical data, cleaning text data is a lengthy and painstaking process even for those who live and breathe regular expressions. That's why we built smooshr, a browser-based tool that makes it easy to create and share recipes for cleaning unruly data, with a specific focus on entity consolidation and standardization. Just upload or point to the data you want to clean and start consolidating column entries through a point-and-click interface. No coding necessary—although it does spit out reproducible scripts for your ETL pipeline for those who want it!  
 
 Our first release focuses on entity consolidation tasks (both within and between datasets) but we have plans to extend functionality to other forms of data cleaning in the near future.
