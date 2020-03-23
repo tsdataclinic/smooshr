@@ -1,4 +1,4 @@
-## smoosher
+## smooshr
 
 Introducing smooshr, a quick and user-friendly way to clean messy datasets.
 
