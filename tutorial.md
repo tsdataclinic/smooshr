@@ -33,9 +33,9 @@ As you do so, think about your feedback, which can be entered in this form [http
 
 First, we want to download the data we will be using from the open data portal. These links are for the 2009 and 2008 311 data:
 
--   [311 Calls from 2009](https://data.cityofnewyork.us/api/views/uzcy-9puk/rows.csv?accessType=DOWNLOAD)
+-   [311 Calls from 2008](https://data.cityofnewyork.us/api/views/uzcy-9puk/rows.csv?accessType=DOWNLOAD)
 
--   [311 Calls from 2008](https://data.cityofnewyork.us/api/views/3rfa-3xsf/rows.csv?accessType=DOWNLOAD)
+-   [311 Calls from 2009](https://data.cityofnewyork.us/api/views/3rfa-3xsf/rows.csv?accessType=DOWNLOAD)
 
 ## Load up smooshr
 
