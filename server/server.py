@@ -63,17 +63,33 @@ def proxy():
     res.headers.add('Access-Control-Allow-Origin', '*')
     return res 
 
+def get_multi_embedings(words):
+    conn  = get_db() 
+    sql = "select * from embeddings where key in ({seq})".format( seq=','.join(['?']*len(words))) 
+    result = conn.execute(sql, words)
+    result = [ [r[0], r[1].tolist()] for r in result ]
+    result = [ {"key": key, "embedding": embed} for key,embed in dict(result).items() ]
+    print(result)
+    return result
+
+@app.route('/embedding_bulk',methods=['POST'])
+def bulk_embeding():
+    words = request.json
+    try:
+       result = get_multi_embedings(words)
+       return jsonify(result)
+    except Exception as e:
+        raise e 
+        return jsonify([])
+
 @app.route('/embedding/<words>')
 def embeding(words):
-    conn  = get_db() 
     try:
         words = words.split(',')
-        sql = "select * from embeddings where key in ({seq})".format( seq=','.join(['?']*len(words))) 
-        result = conn.execute(sql, words)
-        result = [ [r[0], r[1].tolist()] for r in result ]
-        result = [ {"key": key, "embedding": embed} for key,embed in dict(result).items() ]
+        result = get_multi_embedings(words)
         return jsonify(result)
-    except:
+    except Exception as e:
+        raise e 
         return jsonify([])
 if __name__=='__main__':
     print('starting up server')
