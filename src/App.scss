@@ -36,7 +36,7 @@ ul li {
     padding: 0px;
     display: grid;
     grid-template-rows: 70px 1fr 40px;
-    grid-template-areas: "header" "main" "footer";
+    grid-template-areas: "header""main""footer";
 }
 
 .App-logo {
@@ -206,7 +206,7 @@ ul li {
     justify-content: flex-end;
 }
 
-.column-action-buttons > * {
+.column-action-buttons>* {
     margin-left: 20px;
 }
 
@@ -275,7 +275,7 @@ a {
     flex-direction: column;
 }
 
-.new-project-card > svg {
+.new-project-card>svg {
     align-self: center;
     flex: 1;
 }
@@ -284,7 +284,7 @@ a {
     width: 100%;
 }
 
-.project-card > * {
+.project-card>* {
     margin: 0px 0px 20px 0px;
 }
 
@@ -687,6 +687,9 @@ p {
     margin: 0px;
     font-weight: bold;
     text-transform: lowercase;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .entry-card h3 {
@@ -1039,8 +1042,7 @@ p {
     justify-content: center;
 }
 
-.drop-area {
-}
+.drop-area {}
 
 .file-tab {
     font-size: 2.5em;
@@ -1082,7 +1084,7 @@ p {
     align-content: center;
 }
 
-.file-uploader .content > div {
+.file-uploader .content>div {
     height: 100%;
 }
 
@@ -1224,15 +1226,18 @@ button:disabled {
     box-sizing: border-box;
     padding: 20px;
     text-align: left;
+
     h2 {
         color: $teal;
     }
+
     p {
         text-transform: none;
         box-sizing: border-box;
         padding-left: 20px;
         color: grey;
     }
+
     a {
         color: $other-text-color;
     }

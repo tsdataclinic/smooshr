@@ -6,17 +6,25 @@ const get_embedings_from_server = entries => {
     });
   });
 
-  return Promise.all(
-    Array.from(unique_words).map(entry =>
-      fetch(
-        `${
-        process.env.REACT_APP_API_URL
-        }/embedding/${entry.toLowerCase().replace(/[\W_]+/g, '')}`,
-      )
-        .then(r => r.json())
-        .then(r => r[0]),
-    ),
-  );
+  return fetch(`${process.env.REACT_APP_API_URL}/embedding_bulk`, {
+    method: 'POST',
+    body: JSON.stringify(Array.from(unique_words).map(w => w.toLowerCase().replace(/[\W_]+/g, ''))),
+    headers: {
+      'content-type': 'application/json'
+    }
+  }).then(r => r.json())
+
+  // return Promise.all(
+  //   Array.from(unique_words).map(entry =>
+  //     fetch(
+  //       `${
+  //       process.env.REACT_APP_API_URL
+  //       }/embedding/${entry.toLowerCase().replace(/[\W_]+/g, '')}`,
+  //     )
+  //       .then(r => r.json())
+  //       .then(r => r[0]),
+  //   ),
+  // );
 };
 
 const vec_mag = vec => Math.sqrt(vec.reduce((mag, v) => mag + v * v, 0));

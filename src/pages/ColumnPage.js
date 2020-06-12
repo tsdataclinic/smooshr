@@ -5,6 +5,7 @@ import MappingsArea from '../components/MappingsArea';
 import useFuse from 'react-use-fuse';
 import { suggestForMapping } from '../utils/text_clustering';
 import { most_similar_to_category_mean } from '../utils/calc_embedings';
+import { usePagenationWithItems } from '../hooks/pagination'
 
 import {
   createMapping,
@@ -47,7 +48,8 @@ export default function ColumnPage({ match }) {
     },
   });
 
-  const filteredEntries = result;
+  const filteredEntries = (result[0] && result[0].item) ? result.map(r => r.item) : result;
+
 
   const toggleEnrtySelection = entry => {
     const entryName = typeof entry == 'string' ? entry : entry.name;
@@ -147,6 +149,10 @@ export default function ColumnPage({ match }) {
     ),
   };
 
+  console.log("FILTERED ", filteredEntries)
+
+  // const [pagedEntries, { pageButtons }] = usePagenationWithItems(filteredEntries, 30)
+
   if (!cache_loaded) {
     return (
       <div className="column-page">
@@ -170,6 +176,7 @@ export default function ColumnPage({ match }) {
           onClearSelection={clearSelection}
           {...entries}
         />
+        <pageButtons />
         <div className="stats-and-actions">
           <div className="stats">
             <p>

@@ -5,6 +5,7 @@ import { faGlassCheers } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SelectedEntriesList from './SelectedEntriesList'
 
+
 export default function EntryTable({
   entries,
   style,
