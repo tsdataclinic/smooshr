@@ -1053,6 +1053,19 @@ p {
   }
 }
 
+.page-select-buttons {
+  flex-grow: 1;
+  display: flex;
+  grid-area: page_choice_buttons;
+
+  margin-left: 20px;
+  margin-right: 20px;
+
+  button {
+    flex-grow: 1;
+  }
+}
+
 .tabs {
   display: flex;
   flex-direction: row;

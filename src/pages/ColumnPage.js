@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+<<<<<<< HEAD
 import ReactPaginate from "react-paginate";
+=======
+>>>>>>> 5aaff138393b12d129648083495864c5199bcf0e
 import SearchBar from "../components/SearchBar";
 import EntryTable from "../components/EntryTable";
 import MappingsArea from "../components/MappingsArea";
@@ -62,7 +65,11 @@ export default function ColumnPage({ match }) {
     setPageNum(newPageNum);
   };
 
+<<<<<<< HEAD
   const toggleEntrySelection = (entry) => {
+=======
+  const toggleEnrtySelection = (entry) => {
+>>>>>>> 5aaff138393b12d129648083495864c5199bcf0e
     const entryName = typeof entry == "string" ? entry : entry.name;
 
     if (entrySelection.includes(entryName)) {
@@ -188,12 +195,19 @@ export default function ColumnPage({ match }) {
           {...entries}
         />
 
+<<<<<<< HEAD
         <ReactPaginate
           pageCount={numPages}
           marginPagesDisplayed={2}
           pageRangeDisplayed={2}
           onPageChange={(data) => setPageNum(data.selected)}
           containerClassName={"page-select-buttons"}
+=======
+        <EntryPageSelector
+          pageNum={pageNum}
+          numPages={numPages}
+          onChange={setPage}
+>>>>>>> 5aaff138393b12d129648083495864c5199bcf0e
         />
 
         <div className="stats-and-actions">
