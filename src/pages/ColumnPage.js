@@ -62,11 +62,7 @@ export default function ColumnPage({ match }) {
     setPageNum(newPageNum);
   };
 
-<<<<<<< HEAD
   const toggleEntrySelection = (entry) => {
-=======
-  const toggleEnrtySelection = (entry) => {
->>>>>>> 5aaff138393b12d129648083495864c5199bcf0e
     const entryName = typeof entry == "string" ? entry : entry.name;
 
     if (entrySelection.includes(entryName)) {
