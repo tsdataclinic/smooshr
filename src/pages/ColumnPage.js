@@ -58,10 +58,6 @@ export default function ColumnPage({ match }) {
 
   let numPages = Math.ceil(filteredEntries.length / PAGE_LENGTH);
 
-  const setPage = (newPageNum) => {
-    setPageNum(newPageNum);
-  };
-
   const toggleEntrySelection = (entry) => {
     const entryName = typeof entry == "string" ? entry : entry.name;
 
