@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
 import SearchBar from "../components/SearchBar";
 import EntryTable from "../components/EntryTable";
 import MappingsArea from "../components/MappingsArea";
@@ -17,9 +18,8 @@ import {
   requestEmbedingsForEntries,
 } from "../contexts/actions";
 import { useStateValue, useMetaColumn } from "../contexts/app_context";
-import EntryPageSelector from "../components/EntryPageSelector";
 
-const PAGE_LENGTH = 100;
+const PAGE_LENGTH = 50;
 
 export default function ColumnPage({ match }) {
   const [searchTerm, setSearchTerm] = useState(null);
@@ -62,7 +62,7 @@ export default function ColumnPage({ match }) {
     setPageNum(newPageNum);
   };
 
-  const toggleEnrtySelection = (entry) => {
+  const toggleEntrySelection = (entry) => {
     const entryName = typeof entry == "string" ? entry : entry.name;
 
     if (entrySelection.includes(entryName)) {
@@ -122,6 +122,7 @@ export default function ColumnPage({ match }) {
   const updateSearch = (text) => {
     setSearchTerm(text);
     search(text);
+    setPageNum(0);
   };
 
   const suggestionsAvaliable = embeddings && selectedMapping;
@@ -181,16 +182,18 @@ export default function ColumnPage({ match }) {
             width: "100%",
             height: "100%",
           }}
-          onToggleSelection={toggleEnrtySelection}
+          onToggleSelection={toggleEntrySelection}
           selection={entrySelection}
           onClearSelection={clearSelection}
           {...entries}
         />
 
-        <EntryPageSelector
-          pageNum={pageNum}
-          numPages={numPages}
-          onChange={setPage}
+        <ReactPaginate
+          pageCount={numPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={2}
+          onPageChange={(data) => setPageNum(data.selected)}
+          containerClassName={"page-select-buttons"}
         />
 
         <div className="stats-and-actions">
