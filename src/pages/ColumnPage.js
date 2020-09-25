@@ -47,7 +47,10 @@ export default function ColumnPage({ match }) {
     },
   });
 
-  const filteredEntries = result;
+  let filteredEntries = result;
+  if(result[0] && result[0].item){
+    filteredEntries = result.map(r=>r.item)
+  }
 
   const toggleEnrtySelection = entry => {
     const entryName = typeof entry == 'string' ? entry : entry.name;
