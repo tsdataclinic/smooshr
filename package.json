@@ -26,7 +26,6 @@
     "typeface-lato": "^0.0.75",
     "uuid": "^3.3.2"
   },
-  "homepage": "https://tsdataclinic.github.io/smooshr",
   "scripts": {
     "start": "react-scripts start",
     "build": "CI=\"\" react-scripts build",
