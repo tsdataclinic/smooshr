@@ -34,6 +34,15 @@ export default function FileSnapshot({file, onAddDataset}) {
     }
   };
 
+  const toggleSelectAll = () => {
+    // If all selected, de-select all. Otherwise select all.
+    if(includedCols.length == columns.length) {
+      setIncludedCols([])
+    } else {
+      setIncludedCols(columns.map(c => c.id))
+    }
+  }
+
   const displayEntries = useMemo(
     () =>
       columns.reduce((res, col) => {
@@ -62,27 +71,37 @@ export default function FileSnapshot({file, onAddDataset}) {
   return (
     <div className="file-snapshot">
       <div className="file-snapshot-header">
-        <h3>{file.type === 'url' ? file.ref : file.ref.name}</h3>
-        {status === 'loading' && (
-          <React.Fragment>
+        <div className="file-snapshot-header-text">
+          <h3>{file.type === 'url' ? file.ref : file.ref.name}</h3>
+          {status === 'loading' && (
+            <React.Fragment>
+              <p>
+                Loading, parsed{' '}
+                {progress.rows_read ? progress.rows_read.toLocaleString() : 0}{' '}
+                rows
+              </p>
+              <ProgressBar
+                total={progress.total_size ? progress.total_size : 0}
+                value={progress.bytes_read}
+                style={{width: '500px'}}
+              />
+            </React.Fragment>
+          )}
+          {status === 'selecting' && (
             <p>
-              Loading, parsed{' '}
-              {progress.rows_read ? progress.rows_read.toLocaleString() : 0}{' '}
-              rows
+              Has a total of {dataset.row_count} rows and {columns.length}{' '}
+              columns. Select the columns you want to work with
             </p>
-            <ProgressBar
-              total={progress.total_size ? progress.total_size : 0}
-              value={progress.bytes_read}
-              style={{width: '500px'}}
-            />
-          </React.Fragment>
-        )}
-        {status === 'selecting' && (
-          <p>
-            Has a total of {dataset.row_count} rows and {columns.length}{' '}
-            columns. Select the columns you want to work with
-          </p>
-        )}
+          )}
+        </div>
+        <div className="file-snapshot-header-buttons">
+          <h3>Select All</h3>
+          <input
+            type="checkbox"
+            checked={includedCols.length == columns.length}
+            onChange={toggleSelectAll}
+          />
+        </div>
       </div>
       {status === 'selecting' && (
         <React.Fragment>
