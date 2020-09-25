@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-<<<<<<< HEAD
 import ReactPaginate from "react-paginate";
-=======
->>>>>>> 5aaff138393b12d129648083495864c5199bcf0e
 import SearchBar from "../components/SearchBar";
 import EntryTable from "../components/EntryTable";
 import MappingsArea from "../components/MappingsArea";
@@ -195,19 +192,12 @@ export default function ColumnPage({ match }) {
           {...entries}
         />
 
-<<<<<<< HEAD
         <ReactPaginate
           pageCount={numPages}
           marginPagesDisplayed={2}
           pageRangeDisplayed={2}
           onPageChange={(data) => setPageNum(data.selected)}
           containerClassName={"page-select-buttons"}
-=======
-        <EntryPageSelector
-          pageNum={pageNum}
-          numPages={numPages}
-          onChange={setPage}
->>>>>>> 5aaff138393b12d129648083495864c5199bcf0e
         />
 
         <div className="stats-and-actions">
