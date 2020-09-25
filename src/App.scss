@@ -398,6 +398,8 @@ footer {
 
 .file-snapshot .file-snapshot-header {
     grid-area: header;
+    display: flex;
+    justify-content: space-between;
 }
 
 .file-snapshot ul.column-summary-list {
