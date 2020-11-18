@@ -10,6 +10,7 @@
     "dexie": "^3.0.2",
     "fast-levenshtein": "^2.0.6",
     "file-saver": "^2.0.2",
+    "fuse": "^0.4.0",
     "fuse.js": "^6.4.1",
     "jszip": "^3.2.2",
     "papaparse": "^5.0.1",
@@ -52,6 +53,6 @@
   },
   "devDependencies": {
     "gh-pages": "^2.1.1",
-    "node-sass": "^4.13.0"
+    "node-sass": "^5.0.0"
   }
 }

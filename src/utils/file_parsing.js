@@ -12,7 +12,7 @@ export function parseFileForPreview(
   onProgress = null,
   report_progress_every = 200,
   sample_rows = 10,
-  max_unique = 500,
+  max_unique = 20000,
 ) {
   return new Promise((resolve, reject) => {
     let no_rows = 0;
