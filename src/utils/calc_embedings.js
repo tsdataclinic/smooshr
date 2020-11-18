@@ -9,9 +9,7 @@ const get_embedings_from_server = entries => {
   return Promise.all(
     Array.from(unique_words).map(entry =>
       fetch(
-        `${
-        process.env.REACT_APP_API_URL
-        }/embedding/${entry.toLowerCase().replace(/[\W_]+/g, '')}`,
+        `https://smooshr.stuartlynn.me/embedding/${entry.toLowerCase().replace(/[\W_]+/g, '')}`,
       )
         .then(r => r.json())
         .then(r => r[0]),
