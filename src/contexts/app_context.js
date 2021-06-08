@@ -224,6 +224,16 @@ const reducer = (state, action) => {
         ...state,
         storage_stats: payload,
       };
+    case 'RESTORE_PROJECT':
+      return{
+        ...state,
+        projects: [...state.projects, payload.project],
+        datasets:[...state.datasets, ...payload.datasets],
+        entries: [...state.entries , ...payload.entries],
+        columns: [...state.columns, ...payload.columns],
+        mappings:[...state.mappings, ...payload.mappings],
+        metaColumns:[...state.metaColumns, ...payload.meta_columns]
+      }
     default:
       return state;
   }

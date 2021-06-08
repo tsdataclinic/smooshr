@@ -29,54 +29,12 @@ export function renameMapping(mapping, newName, dispatch) {
 }
 
 export function loadProject(projectDetails, dispatch) {
-  const {
-    project,
-    datasets,
-    entries,
-    columns,
-    mappings,
-    meta_columns,
-  } = projectDetails;
-
+  
   dispatch({
-    type: 'ADD_OR_REPLACE_PROJECT',
-    payload: project,
+    type: 'RESTORE_PROJECT',
+    payload: projectDetails,
   });
 
-  datasets.forEach(dataset => {
-    dispatch({
-      type: 'ADD_OR_REPLACE_DATASET',
-      payload: dataset,
-    });
-  });
-
-  columns.forEach(column => {
-    dispatch({
-      type: 'ADD_OR_REPLACE_COLUMN',
-      payload: column,
-    });
-  });
-
-  mappings.forEach(mapping => {
-    dispatch({
-      type: 'ADD_OR_REPLACE_MAPPING',
-      payload: mapping,
-    });
-  });
-
-  meta_columns.forEach(mc => {
-    dispatch({
-      type: 'ADD_OR_REPLACE_METACOLUMN',
-      payload: mc,
-    });
-  });
-
-  entries.forEach(entry => {
-    dispatch({
-      type: 'ADD_OR_REPLACE_ENTRY',
-      payload: entry,
-    });
-  });
 }
 
 export function removeEntryFromMapping(mapping, entry, dispatch) {
