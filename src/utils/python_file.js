@@ -39,8 +39,11 @@ for column,mapping in project['mappings'].items():
     for key, values in mapping.items():
         for value in values:
             map_dict[value] = key 
-            
-    all_data[column] = all_data[column].map(lambda x: map_dict[x] if x in mapping else 'unknown')
+    try:
+        mapped_data = all_data[column].apply(lambda x: map_dict[x] if x in map_dict else 'unknown')
+        all_data[column+"_smooshed"] = mapped_data 
+    except:
+        print("issue mapping column ", column)
 
 print('Writing out results')
 all_data.to_csv('results/${output_file}')
