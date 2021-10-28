@@ -6,9 +6,15 @@ export default function Footer() {
   return (
     <footer>
       <TwoSigmaLogo />
-      <p className="copyright">
-        © 2019 Two Sigma Investments, LP. All rights reserved.
-      </p>
+      <span>
+        <p className="copyright">
+          © 2019 Two Sigma Investments, LP. All rights reserved. { }
+
+          <a href='/terms' style={{color:'white'}}>Legal</a>  | { } 
+          <a href='/privacy' style={{color:'white'}}>Privacy</a>
+
+        </p>
+      </span>
       <Social />
     </footer>
   );
