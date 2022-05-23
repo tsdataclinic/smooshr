@@ -8,7 +8,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.11.2",
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "@fortawesome/react-fontawesome": "0.1.8",
-    "dexie": "^3.0.2",
+    "dexie": "^3.2.2",
     "fast-levenshtein": "^2.0.6",
     "file-saver": "^2.0.2",
     "fuse": "^0.4.0",
