@@ -1,4 +1,4 @@
-**This project is no longer maintained by Two Sigma. We continue to encourage independent development.**
+**This project and corresponding website are no longer maintained by Two Sigma. We continue to encourage independent development.**
 
 ## smooshr
 
