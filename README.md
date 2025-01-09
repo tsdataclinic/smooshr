@@ -1,3 +1,5 @@
+**This project is no longer maintained by Two Sigma. We continue to encourage independent development.**
+
 ## smooshr
 
 Introducing smooshr, a quick and user-friendly way to clean messy datasets.
